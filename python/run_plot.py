@@ -86,6 +86,7 @@ class PlotHelper(object):
         self.dataSamples = self.samplesInfo.get_samples(self.data)
         self.mcSamples = self.samplesInfo.get_samples(self.mc)
 
+
         # filter samples used in the plot
         if self.sampleIdentifiers:
             self.dataSamples = [x for x in self.dataSamples if x.identifier in self.sampleIdentifiers]
@@ -127,7 +128,11 @@ class PlotHelper(object):
                 sampleCuts.append(self.config.get(self.configSection, 'Datacut'))
             if self.addBlindingCut:
                 sampleCuts.append(self.addBlindingCut)
-            
+           
+
+	
+	    print(">>>>>>>>>>>>>>>>> ",sample, sample.name)
+ 
             # get sample tree from cache
             tc = TreeCache.TreeCache(
                     sample=sample,
@@ -197,7 +202,7 @@ if __name__ == "__main__":
     regions = opts.regions.split(',')
     vars = opts.vars.split(',')
     for region in regions:
-        plotter = PlotHelper(config=config, region=region, vars=vars, title=opts.title, sampleIdentifier=opts.sampleIdentifier)
+	plotter = PlotHelper(config=config, region=region, vars=vars, title=opts.title, sampleIdentifier=opts.sampleIdentifier)
         plotter.prepare()
         plotter.run()
 

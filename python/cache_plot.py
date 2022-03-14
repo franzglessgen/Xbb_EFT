@@ -118,6 +118,7 @@ class CachePlot(object):
                     # arbitrary (optional) name for the output tree, used for print-out (the TreeCache object has no idea what it is doing, e.g. dc, plot etc.)
                     cacheName = 'plot:{region}_{sample}'.format(region=region, sample=sample.name)
 
+
                     # add cache object
                     tc = TreeCache.TreeCache(
                         name=cacheName,

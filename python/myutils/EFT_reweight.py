@@ -33,7 +33,7 @@ class EFT_reweight(AddCollectionsModule):
         #self.addBranch(self.branchName + '_chi2_ndof')
         #self.addBranch(self.branchName + '_nWC')
 
-        reweight_pkl = "/work/vperovic/CMSSW_10_1_0/src/Xbb/python/myutils/SMEFTsim_VH_reweight_card.pkl"        # this has the information on WCs written in the reweight card (particularly, which WCs are used and in what combination)
+        reweight_pkl = "/work/fglessge/CMSSW_10_1_0/src/Xbb_EFT/python/myutils/SMEFTsim_VH_reweight_card.pkl"        # this has the information on WCs written in the reweight card (particularly, which WCs are used and in what combination)
         weightInfo = WeightInfo( reweight_pkl )
         ref_point_coordinates = [ weightInfo.ref_point_coordinates[var] for var in weightInfo.variables ]
 

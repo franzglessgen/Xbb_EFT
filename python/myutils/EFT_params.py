@@ -5,7 +5,7 @@ from HyperPoly                    import HyperPoly
 
 #from ROOT import TVector3, TLorentzVector
 #from math import pi, sqrt, cos, sin, sinh, log, cosh, acos, acosh
-#import numpy
+import numpy as np
 #import array
 import os
 from BranchTools import Collection
@@ -23,7 +23,7 @@ class EFT_params(AddCollectionsModule):
         self.sample = initVars['sample']
         self.config = initVars['config']
        
-     
+        self.addVectorBranch(self.branchName + '_weight', length=255)
         self.addVectorBranch(self.branchName + '_coeff', length=255)
         self.addIntegerBranch(self.branchName + '_np')
         self.addBranch(self.branchName + '_chi2_ndof')
@@ -46,9 +46,13 @@ class EFT_params(AddCollectionsModule):
 
 
     def processEvent(self, tree):
-        # if current entry has not been processed yet
+
+
+        
+	# if current entry has not been processed yet
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
+            self._b(self.branchName + '_weight')[0] = -99997.0
             self._b(self.branchName + '_coeff')[0] = -99997.0
             self._b(self.branchName + '_np')[0] = -99997
             self._b(self.branchName + '_chi2_ndof')[0] = -99997.0
@@ -60,8 +64,6 @@ class EFT_params(AddCollectionsModule):
 
             weights  = [ tree.LHEReweightingWeight[i] for i in range(tree.nLHEReweightingWeight) ]
             
-	    print(weights)
-	    print(">>>>>>>>>>>> Starting Fit")
 
 
 	    coeff     = self.hyperPoly.get_parametrization( weights )
@@ -69,12 +71,19 @@ class EFT_params(AddCollectionsModule):
             chi2_ndof = self.hyperPoly.chi2_ndof( coeff, weights )          # chi^2/ndof of the polynomial fit
             nWC       = self.hyperPoly.nvar                                 # no. of Wilson coefficients
 
-	    print(">>>>>>>>>>>> Finished Fit")
             
 	    for i in range(np): self._b(self.branchName + '_coeff')[i] = coeff[i]
             self._b(self.branchName + '_np')[0] = np
             self._b(self.branchName + '_chi2_ndof')[0] = chi2_ndof
             self._b(self.branchName + '_nWC')[0] = nWC
+            
+            WCs = []
+            for ic in range(nWC):
+                WCs.append(0)
+            for n in range(len(WCs)):
+                WCs[n] = 1
+                self._b(self.branchName + '_weight')[n] = self.hyperPoly.eval(coeff, *WCs)
+		WCs[n] = 0
 
 
     def interpret_weight(self, weight_id):

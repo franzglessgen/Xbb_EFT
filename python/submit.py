@@ -1298,6 +1298,8 @@ if opts.task.startswith('runplot'):
         sampleIdentifiers = None
 
     regions = XbbTools.parseList(config.get('Plot_general', 'List'), separator=',')
+
+
     if opts.regions:
         defaultRegions = regions
         if len(opts.regions.strip()) > 0:
@@ -1324,6 +1326,8 @@ if opts.task.startswith('runplot'):
             plotVarChunks = [plotVars[i:i + int(opts.parallel)] for i in xrange(0, len(plotVars), int(opts.parallel))]
         else:
             plotVarChunks = [plotVars]
+                
+
 
         # if --regions is given, only plot those regions
         #regionMatched = any([fnmatch.fnmatch(region, enabledRegion) for enabledRegion in opts.regions.split(',')]) if opts.regions else True
@@ -1341,7 +1345,8 @@ if opts.task.startswith('runplot'):
                     })
                 if sampleIdentifiers:
                     jobDict['arguments']['sampleIdentifier'] = ','.join(sampleIdentifiers)
-                jobName = 'plot_run_{region}_{chunk}'.format(region=region, chunk=j)
+
+		jobName = 'plot_run_{region}_{chunk}'.format(region=region, chunk=j)
                 submit(jobName, jobDict)
     if nRegionsMatched < 1:
         print "WARNING: no plot regions found - nothing to do."
