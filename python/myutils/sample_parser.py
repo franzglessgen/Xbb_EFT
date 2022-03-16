@@ -36,7 +36,7 @@ class ParseInfo:
             
         for sample in configSamples:
             sampleName = config.get(sample, 'sampleName')
-            sampleType = config.get(sample,'sampleType')
+	    sampleType = config.get(sample,'sampleType')
             cut = config.get(sample, 'cut') if config.has_option(sample, 'cut') else '1'
 
             specialweight = config.get(sample, 'specialweight') if config.has_option(sample, 'specialweight') else "1"
@@ -96,11 +96,12 @@ class ParseInfo:
 
                 try:
                     subspecialweights = eval((config.get(sample, 'specialweight')))
-                    if len(subspecialweights) < 2:
+		    if len(subspecialweights) < 2:
                         subspecialweights = []
                         print "\x1b[31mWARNING: specialweight not defined for subsamples but for full sample only!\x1b[0m"
                 except:
                     subspecialweights = []
+
 
                 subindices = None
                 newsamples = []
@@ -115,8 +116,7 @@ class ParseInfo:
                         newsubsample.xsec = float(subxsecs[i])
                     if len(subspecialweights) == len(subcuts):
                         newsubsample.specialweight = subspecialweights[i] 
-
-                    if type(newsample.index) == list:
+		    if type(newsample.index) == list:
                         newsubsample.index = newsample.index[i]
                     if config.has_option(sample, 'offsets'):
                         sampleIndexOffsets = eval(config.get(sample, 'offsets'))
@@ -156,7 +156,8 @@ class ParseInfo:
         samples = []
         thenames = []
         #for splitted samples use the identifier. There is always only one. if list, they are all true
-        if (len(samplenames)>0 and self.checkSplittedSampleName(samplenames[0])):
+        
+	if (len(samplenames)>0 and self.checkSplittedSampleName(samplenames[0])):
           print "The samples is splitted"
           for sample in self._samplelist:
                   if (sample.subsample): continue #avoid multiple submissions from subsamples
@@ -233,7 +234,7 @@ class ParseInfo:
             # if there is an underscore in the filename
             if ( filename.rfind('_') > 0. ) :
                     try:
-                            return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+			    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
                     except:
                             return False
             else:

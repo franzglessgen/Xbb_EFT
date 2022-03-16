@@ -1297,6 +1297,8 @@ if opts.task.startswith('runplot'):
     else:
         sampleIdentifiers = None
 
+
+
     regions = XbbTools.parseList(config.get('Plot_general', 'List'), separator=',')
 
 

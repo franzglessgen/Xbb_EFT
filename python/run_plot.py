@@ -85,7 +85,7 @@ class PlotHelper(object):
 
         self.dataSamples = self.samplesInfo.get_samples(self.data)
         self.mcSamples = self.samplesInfo.get_samples(self.mc)
-
+	
 
         # filter samples used in the plot
         if self.sampleIdentifiers:
@@ -115,6 +115,8 @@ class PlotHelper(object):
 
         fileLocator = FileLocator(config=self.config, useDirectoryListingCache=True)
 
+
+
         # add DATA + MC samples
         for sample in self.dataSamples + self.mcSamples:
             
@@ -131,7 +133,6 @@ class PlotHelper(object):
            
 
 	
-	    print(">>>>>>>>>>>>>>>>> ",sample, sample.name)
  
             # get sample tree from cache
             tc = TreeCache.TreeCache(
@@ -142,6 +143,7 @@ class PlotHelper(object):
                     fileLocator=fileLocator
                 )
             sampleTree = tc.getTree()
+	
 
             if sampleTree:
                 groupName = self.getSampleGroup(sample) 
@@ -151,7 +153,8 @@ class PlotHelper(object):
                 
                 # add the sample tree for all the variables
                 for var in self.vars:
-                    self.histogramStacks[var].addSampleTree(sample=sample, sampleTree=sampleTree, groupName=groupName, cut=self.subcut if self.subcut else '1')
+		    self.histogramStacks[var].addSampleTree(sample=sample, sampleTree=sampleTree, groupName=groupName, cut=self.subcut if self.subcut else '1')
+            
             else:
                 print ("\x1b[31mERROR: sampleTree not available for ", sample,", run caching again!!\x1b[0m")
                 raise Exception("CachedTreeMissing")

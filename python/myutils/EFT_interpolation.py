@@ -38,13 +38,14 @@ class EFT_interpolation(AddCollectionsModule):
 	self.polyfeatures = PolynomialFeatures(2)		
 	self.WCtoeval = self.polyfeatures.fit_transform(np.diag(np.ones(self.nWC)))
 
-	#print(">>>>>>>>>>>>>>>>>>>>>>>> PARAMS : ")
-
+	self.NbEvents = 0
         self.sampleTree = initVars['sampleTree']
 
     def processEvent(self, tree):
 
 
+	self.NbEvents+=1
+	print("Event ", self.NbEvents, " out of ", 2*tree.GetEntries())
 
         # if current entry has not been processed yet
         if not self.hasBeenProcessed(tree):
@@ -55,9 +56,6 @@ class EFT_interpolation(AddCollectionsModule):
             #self._b(self.branchName + '_chi2_ndof')[0] = -99997.0
             self._b(self.branchName + '_nWC')[0] = -99997
 
-            #fl = ROOT.TFile.Open("NanoAOD_ZH.root")
-            #tree = fl.Get("Events")
-            #tree.GetEntry(0)
 
             weights  = np.array([ tree.LHEReweightingWeight[i] for i in range(tree.nLHEReweightingWeight) ]).reshape(tree.nLHEReweightingWeight,1)
             
