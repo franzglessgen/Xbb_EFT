@@ -68,7 +68,9 @@ class CacheDatacards(object):
                     isData = (sample.type == 'DATA')
                     systematicsCuts = sorted(list(set([x['cachecut'] for x in dcMaker.getSystematicsList(isData=isData)])))
                     sampleCuts = {'AND': [sample.subcut, {'OR': systematicsCuts}]}
-                    if self.verbose:
+                    
+
+		    if self.verbose:
                         print (json.dumps(sampleCuts, sort_keys=True, indent=8, default=str))
 
                     # make list of branches to keep in root file
@@ -83,7 +85,9 @@ class CacheDatacards(object):
 
                     # arbitrary (optional) name for the output tree, used for print-out (the TreeCache object has no idea what it is doing, e.g. dc, plot etc.)
                     cacheName = 'dc:{region}_{sample}'.format(region=dcMaker.getRegion(), sample=sample.name) 
-                    
+                   
+
+ 
                     # add cache object
                     tc = TreeCache.TreeCache(
                         name=cacheName,

@@ -109,6 +109,8 @@ class Datacard(object):
            if self.UseTrainSample:
                self.ROOToutname += '_Train'
         self.RCut = config.get('dc:%s'%self.region, 'cut') if config.has_option('dc:%s'%self.region, 'cut') else self.region
+
+
         self.signals = eval('['+config.get('dc:%s'%self.region, 'signal')+']') #TODO
         self.Datacardbin = config.get('dc:%s'%self.region, 'dcBin') if config.has_option('dc:%s'%self.region, 'dcBin') else self.region
         self.anType = config.get('dc:%s'%self.region, 'type')
@@ -137,7 +139,8 @@ class Datacard(object):
                 'bdt': 'sys_BDT',
                 'mjj': 'sys_Mjj',
                 'cr': 'sys_cr',
-                }
+                'eft':'sys_eft',
+		}
         if self.anType.lower() in analysisSystematics:
             self.systematics = eval(config.get('LimitGeneral', analysisSystematics[self.anType.lower()]))
         else:
@@ -177,6 +180,7 @@ class Datacard(object):
                 print ('NOT Passed config')
 
         self.treecut = config.get('Cuts', self.RCut)
+
 
         # checks on read options
         #on control region cr never blind. Overwrite whatever is in the config
@@ -315,6 +319,7 @@ class Datacard(object):
         # contains all systematicDictionaries, first entry will be nominal
         self.systematicsList = [self.systematicsDictionaryNominal]
 
+
         # MC stats
         mcStatsDict = deepcopy(self.systematicsDictionaryNominal)
         mcStatsDict['sysType'] = 'unweighted'
@@ -326,6 +331,8 @@ class Datacard(object):
         mcStatsDict['sysType'] = 'sumw2'
         mcStatsDict['systematicsName'] = 'sumw2'
         self.systematicsList.append(mcStatsDict)
+
+
 
         if self.verbose or self.debug:
             print ('Assign the systematics')
@@ -383,6 +390,7 @@ class Datacard(object):
                     })
                 self.systematicsList.append(systematicsDictionary)
 
+        
         # sample systematics
         if self.sysOptions['sample_sys_info']:
             for sampleSystematicName, sampleSystematicSamples in self.sysOptions['sample_sys_info'].iteritems(): #loop over the systematics
@@ -408,7 +416,6 @@ class Datacard(object):
                                     systematicsDictionary['sample_sys_dic'][sampleName] = value
 
                     self.systematicsList.append(systematicsDictionary)
-        
         if self.debug:
             print ('systematics dict')
             print ('===================\n')
@@ -670,7 +677,8 @@ class Datacard(object):
         # nominal cut is still the original one, to ensure all nominal events are kept if approximations are used for systematics
         # therefore the list systematicsCuts also contains the nominal cut string
         sampleCuts = {'AND': [sample.subcut, {'OR': systematicsCuts}]}
-        return sampleCuts
+        
+	return sampleCuts
 
     def getUniqueHistogramName(self, sampleName, systName):
         histogramName = "{sampleName}_{systName}_c{counter}".format(sampleName=sampleName, systName=systName, counter=self.histogramCounter)

@@ -1428,6 +1428,7 @@ if opts.task.startswith('cachedc'):
         for sampleType in ['data', 'signal', 'background']:
             sampleNames += eval(config.get('dc:%s'%region, sampleType))
 
+
     # get samples info
     sampleFolder = config.get('Directories', 'dcSamples')
     info = ParseInfo(samples_path=sampleFolder, config=config)

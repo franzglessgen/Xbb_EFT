@@ -696,7 +696,7 @@ class SampleTree(object):
     def addCutDictRecursive(self, cutDict):
         if type(cutDict) == str:
             if cutDict not in self.formulas:
-                self.addFormula(cutDict, cutDict)
+		self.addFormula(cutDict, cutDict)
         elif 'OR' in cutDict and 'AND' in cutDict:
             raise Exception("BadTreeTypeCutDict")
         elif 'OR' in cutDict:
