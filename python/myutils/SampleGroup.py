@@ -23,11 +23,12 @@ class SampleGroup(AddCollectionsModule):
         self.sampleTree = initVars['sampleTree']
         self.config = initVars['config']
         self.samplesInfo = ParseInfo(samples_path=self.config.get('Directories', 'dcSamples'), config=self.config)
-        self.subsamples = [x for x in self.samplesInfo if x.identifier == self.sample.identifier and x.subsample]
+	self.subsamples = [x for x in self.samplesInfo if x.identifier == self.sample.identifier and x.subsample]
         print("INFO: subsamples/cut")
         for s in self.subsamples:
             print(" >", s.name, s.subcut)
             self.sampleTree.addFormula(s.subcut)
+
 
         if not self.groupDict:
             self.groupDict = eval(self.config.get('LimitGeneral','Group'))
@@ -37,6 +38,7 @@ class SampleGroup(AddCollectionsModule):
 
         for groupName, sampleNames in self.groups.iteritems():
             self.branches.append({'name': self.prefix + groupName, 'formula': self.isInGroup, 'arguments': groupName}) 
+
 
         self.branches.append({'name': 'sampleIndex', 'formula': self.getSampleIndex, 'type': 'i'})
 

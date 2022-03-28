@@ -29,7 +29,7 @@ class EWKweights(AddCollectionsModule):
             self.applyEWK = any([x in self.sample.identifier for x in ['DY', 'WJet', 'WBJet', 'ZJet', 'ZBJet']])
             self.sys_sample = None
 
-            if 'ZH_HToBB_ZToLL' in self.sample.identifier and not 'ggZH_HToBB_ZToLL' in self.sample.identifier:
+            if ('ZH_HToBB_ZToLL' in self.sample.identifier or 'WH_1j_SMEFTsim' in self.sample.identifier)  and not 'ggZH_HToBB_ZToLL' in self.sample.identifier:
                 self.sys_sample = 'Zll'
             elif 'WminusH' in self.sample.identifier:
                 self.sys_sample = 'Wlvm'
