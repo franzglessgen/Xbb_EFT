@@ -800,6 +800,76 @@ if opts.task == 'count':
         ofile.write('%r'%eventNumberOffsetDict)
 
 
+
+# -----------------------------------------------------------------------------
+# MC normalization factor computed by hand if the files were produced by lumi splitting
+# -----------------------------------------------------------------------------
+if opts.task == 'genEvtcount':
+
+    #Set the input path after the merging step
+    pathIN = config.get("Directories", opts.input if opts.input else "SYSin")
+    samplefiles = config.get('Directories','samplefiles')
+    info = ParseInfo(samples_path=pathIN, config=config)
+    sampleIdentifiers = filterSampleList(info.getSampleIdentifiers(), samplesList)
+
+    haddTargetNumEvents = int(config.get('Configuration', 'haddTargetNumEvents')) if config.has_option('Configuration', 'haddTargetNumEvents') else 30000
+    print "INFO: target number of events after merge:", haddTargetNumEvents
+
+    # process all sample identifiers (correspond to folders with ROOT files)
+    eventNumberOffsetDict = {}
+    chunkSizes = []
+    numOutputTrees = []
+    badSamples = []
+    for sampleIdentifier in sampleIdentifiers:
+        try:
+            sampleFileList = filelist(samplefiles, sampleIdentifier)
+        except:
+            print "\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m"
+            continue
+        offset = 0
+	MCnorm = 0
+
+        if sampleIdentifier not in eventNumberOffsetDict:
+            eventNumberOffsetDict[sampleIdentifier] = {}
+
+        try:
+            for fileName in sampleFileList:
+                localFileName = fileLocator.getFilenameAfterPrep(fileName)
+                inputFileName = "{path}/{subfolder}/{filename}".format(path=pathIN, subfolder=sampleIdentifier, filename=localFileName)
+                eventNumberOffsetDict[sampleIdentifier][inputFileName] = offset
+
+                sampleTree = SampleTree([inputFileName], config=config)
+                nEvents = sampleTree.tree.GetEntries()
+		#sampleTree.tree.SetBranchStatus("*", 0)
+		#sampleTree.tree.SetBranchStatus("genWeight", 1)
+
+		#for entry in sampleTree.tree:
+        	#	MCnorm += sampleTree.tree.genWeight
+			
+                offset += nEvents
+		print fileName, nEvents, MCnorm
+            numberOfTrees = len(sampleFileList)
+            numOutputTrees.append([sampleIdentifier, numberOfTrees, offset, MCnorm])
+        except Exception as e:
+            print "\x1b[31mERROR:",e,"\x1b[0m"
+            badSamples.append(sampleIdentifier)
+    for sampleIdentifier, numTrees, nbevents, MC in numOutputTrees:
+        print "{s}: {c}, number of events {d}".format(s=sampleIdentifier, c=int(numTrees), d = int(offset))
+    print "---"
+    print "add the section below to your config !"
+    print "---"
+    print "[EventCounts]"
+    for sampleIdentifier, numTrees, nbevents, MC in numOutputTrees:
+        print "{s}: {c}".format(s=sampleIdentifier, c=int(MC))
+    print "---"
+    if len(badSamples) > 0:
+        print "FAILED for:", ",".join(badSamples)
+
+
+
+
+
+
 # -----------------------------------------------------------------------------
 # SYSNEW: add additional branches and branches for sys variations
 # -----------------------------------------------------------------------------

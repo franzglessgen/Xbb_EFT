@@ -93,7 +93,8 @@ class PlotHelper(object):
             self.mcSamples =   [x for x in self.mcSamples   if x.identifier in self.sampleIdentifiers]
 
         self.groupDict = eval(self.config.get('Plot_general', 'Group'))
-        self.subcutPlotName = ''
+
+	self.subcutPlotName = ''
         self.histogramStacks = {}
 
     def getSampleGroup(self, sample):

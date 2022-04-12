@@ -117,7 +117,7 @@ class BatchSystemSLURM(BatchSystem):
                 timeLimit = '0-03:00'
             elif repDict['queue'] == 'veryshort.q':
                 timeLimit = '0-00:59'
-                partitionAuto = "quick"
+                partitionAuto = "short"
             elif repDict['queue'] == 'espresso.q':
                 timeLimit = '0-00:05'
                 partitionAuto = "quick"

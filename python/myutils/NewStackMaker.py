@@ -649,7 +649,11 @@ class NewStackMaker:
             self.legends['left'].AddEntry(groupedHistograms[self.dataGroupName], self.dataTitle, 'P')
             nLeft += 1
         groupNames = list(set([groupName for groupName, groupHistogram in groupedHistograms.iteritems()]))
+
         groupNamesOrdered = self.setup + sorted([x for x in groupNames if x not in self.setup])
+
+	
+	print(">>>>>>>>>>>>>>>>>>>>>>>>>> Ordered ", groupNamesOrdered)
 
         numLegendEntries = len(groupNames) + 2
         if self.config.has_option('Plot_general', '__modNumLegentries'):
@@ -896,13 +900,19 @@ class NewStackMaker:
         # group ("sum") MC+DATA histograms 
         groupedHistograms = {}
         histogramGroups = list(set([histogram['group'] for histogram in self.histograms]))
-        for histogramGroup in histogramGroups:
+        
+	print(">>>>>>>>>>>>>>>>>>>>>>>>>> Hist groups ", histogramGroups)
+
+	for histogramGroup in histogramGroups:
             histogramsInGroup = [histogram['histogram'] for histogram in self.histograms if histogram['group'] == histogramGroup]
             groupedHistograms[histogramGroup] = NewStackMaker.sumHistograms(histograms=histogramsInGroup, outputName="group_" + histogramGroup)
             try:
                 groupedHistograms[histogramGroup].SetStats(0)
             except:
                 pass
+
+	
+	print(">>>>>>>>>>>>>>>>>>>>>>>>>> groups ", groupedHistograms)
 
         # [histogram['histogram'] for histogram in self.histograms if histogram['group'] in mcHistogramGroupsToPlot]
 
