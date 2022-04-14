@@ -36,6 +36,10 @@ class NewHistoMaker:
     def create2Dhistogram(self, histogramName, histogramOptions):
         return ROOT.TH2F(histogramName, histogramName, histogramOptions['nBinsX'], histogramOptions['minX'], histogramOptions['maxX'], histogramOptions['nBinsY'], histogramOptions['minY'], histogramOptions['maxY'])
 
+    def createProfilehistogram(self, histogramName, histogramOptions):
+        return ROOT.TProfile(histogramName, histogramName, histogramOptions['nBins'], histogramOptions['minX'], histogramOptions['maxX'])
+    
+
     def getHistogramName(self):
         histogramName = (self.histogramOptions['name']+'_') if 'name' in self.histogramOptions else ''
         histogramName += self.sample.name + ('_' + self.histogramOptions['var'] if 'var' in self.histogramOptions else '')
@@ -49,7 +53,17 @@ class NewHistoMaker:
         self.histogramName = self.getHistogramName()
 
         is2D = ':' in self.histogramOptions['treeVar'].replace('::', '')
-        self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) if is2D else self.create1Dhistogram(self.histogramName, self.histogramOptions)
+        isProfile = 'customProfile' in self.histogramOptions and self.histogramOptions['customProfile']
+
+	#self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) if is2D else self.create1Dhistogram(self.histogramName, self.histogramOptions)
+       
+	if is2D:
+		self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) 
+	elif isProfile: 
+		self.histogram = self.createProfilehistogram(self.histogramName, self.histogramOptions) 
+	else:
+		self.histogram = self.create1Dhistogram(self.histogramName, self.histogramOptions) 
+		
 
         self.histogram.Sumw2()
         self.histogram.SetTitle(self.sample.name)
@@ -135,8 +149,17 @@ class NewHistoMaker:
                     nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=weightF, histogramName=self.histogramName), cut)
             else:
                 selection = "({weight})*({cut})".format(weight=weightF, cut=cut) 
-                nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'], histogramName=self.histogramName), selection)
-                self.scaleHistogram()
+                
+        	if 'customProfile' in self.histogramOptions and self.histogramOptions['customProfile']:
+			print(">>>>>>>>>>>>>>> CUSTOMPROFILE")
+
+			nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'] + "[]:" + self.histogramOptions['treeVar']+"_index[]", histogramName=self.histogramName), selection, "prof")
+			
+		
+
+		else:
+			nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'], histogramName=self.histogramName), selection)
+                	self.scaleHistogram()
             if nEvents < 0:
                 print ("\x1b[31mERROR: error in TTree:Draw! returned {nEvents}\x1b[0m".format(nEvents=nEvents))
             if self.debug:

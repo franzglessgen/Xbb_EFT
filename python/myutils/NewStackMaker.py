@@ -78,7 +78,8 @@ class NewStackMaker:
                 self.log = eval(self.config.get(self.plotVarSection, 'log'))
 
         self.is2D = True if self.yAxis else False
-        self.typLegendDict = self.readConfig('Plot_general','typLegendDict', {})
+        self.isProfile = True if self.readConfigStr(self.plotVarSection, 'customProfile', '') else False
+	self.typLegendDict = self.readConfig('Plot_general','typLegendDict', {})
         self.legendEntries = []
         self.plotLabels = {}
         if setup is None:
@@ -133,7 +134,9 @@ class NewStackMaker:
                     'nBinsY': ['nBinsY', 'nBins'],
                     'fractions': 'fractions',
                     'postproc': 'postproc',
-                }
+                    'customProfile':'customProfile',
+
+		}
         numericOptions = ['rebin', 'min', 'minX', 'minY', 'maxX', 'maxY', 'nBins', 'nBinsX', 'nBinsY', 'minZ', 'maxZ']
         evalOptions = ['binList', 'plotEqualSize','fractions','rebinFlat','ratioRange']
         for optionName, configKeys in optionNames.iteritems():
@@ -146,7 +149,7 @@ class NewStackMaker:
                     break
                 elif self.config.has_option('plotDef:%s'%var, configKey):
                     self.histogramOptions[optionName] = self.config.get('plotDef:%s'%var, configKey)
-                    #print('plotDef:%s'%var, configKey,self.histogramOptions[optionName])
+                    print('plotDef:%s'%var, configKey,self.histogramOptions[optionName])
                     break
             # convert numeric options to float/int
             if optionName in numericOptions and optionName in self.histogramOptions and type(self.histogramOptions[optionName]) == str:
@@ -784,7 +787,10 @@ class NewStackMaker:
                 ratioRange = self.histogramOptions['ratioRange']
 
         self.is2D = any([isinstance(h['histogram'], ROOT.TH2) for h in self.histograms])
-        self.outputFolder = outputFolder
+        self.isProfile = any([isinstance(h['histogram'], ROOT.TProfile) for h in self.histograms])
+        print(">>>>>>>>>>>>>>> is PROFILE", self.isProfile)
+
+	self.outputFolder = outputFolder
         self.prefix = prefix
 
         # MC histograms, defined in setup
@@ -918,7 +924,7 @@ class NewStackMaker:
 
         mcHistogramList = [histogram['histogram'] for histogram in self.histograms if histogram['group'] in mcHistogramGroupsToPlot]
 
-        self.useSplitCanvas = not (normalize or self.is2D or dataGroupName not in histogramGroups or len(mcHistogramList) < 1)
+        self.useSplitCanvas = not (normalize or self.is2D or self.isProfile or dataGroupName not in histogramGroups or len(mcHistogramList) < 1)
         c = self.initializeSplitCanvas() if self.useSplitCanvas else self.initializeCanvas()
 
         # add summed MC histograms to stack
@@ -1085,9 +1091,9 @@ class NewStackMaker:
         if allStack and allStack.GetXaxis():
             allStack.GetYaxis().SetTitle(self.yTitle if self.yTitle else '-')
             allStack.GetXaxis().SetRangeUser(self.histogramOptions['minX'], self.histogramOptions['maxX'])
-            if not self.is2D:
+            if not self.is2D and not self.isProfile:
                 allStack.GetYaxis().SetRangeUser(0,90000)
-        if not self.is2D:
+        if not self.is2D and not self.isProfile:
             if normalize:
                 Ymax = maximumNormalized * 1.5
             else:
@@ -1100,7 +1106,7 @@ class NewStackMaker:
             else:
                 ROOT.gPad.SetLogy(0)
             allStack.SetMaximum(Ymax)
-        if (not normalize and dataGroupName in groupedHistograms) and not self.is2D:
+        if (not normalize and dataGroupName in groupedHistograms) and not self.is2D and not self.isProfile:
             if allStack and allStack.GetXaxis():
                 allStack.GetXaxis().SetLabelOffset(999)
                 allStack.GetXaxis().SetLabelSize(0)
@@ -1113,7 +1119,7 @@ class NewStackMaker:
                 allStack.GetZaxis().SetRangeUser(self.histogramOptions['minZ'], self.histogramOptions['maxZ'])
 
         # draw DATA
-        if dataGroupName in groupedHistograms and not self.is2D:
+        if dataGroupName in groupedHistograms and not self.is2D and not self.isProfile:
             drawOption = self.histogramOptions['drawOptionData'] if 'drawOptionData' in self.histogramOptions else 'PE'
             if allStack and allStack.GetXaxis():
                 drawOption += ',SAME'
@@ -1135,7 +1141,7 @@ class NewStackMaker:
                 dataHistogram.GetYaxis().SetTitle(self.yTitle)
 
         # draw total entry number
-        if not self.is2D and 'drawOption' in self.histogramOptions and 'TEXT' in self.histogramOptions['drawOption'].upper():
+        if not self.is2D and not self.isProfile and 'drawOption' in self.histogramOptions and 'TEXT' in self.histogramOptions['drawOption'].upper():
             mcHistogram0 = NewStackMaker.sumHistograms(histograms=[histogram['histogram'] for histogram in self.histograms if histogram['group'] in mcHistogramGroupsToPlot], outputName='summedMcHistograms0')
             try:
                 mcHistogram0.SetLineColor(ROOT.kBlack)
@@ -1153,7 +1159,7 @@ class NewStackMaker:
         # draw ratio plot
         theErrorGraph = None
         mcHistogram   = None
-        if not normalize and not self.is2D:
+        if not normalize and not self.is2D and not self.isProfile:
             if dataGroupName in groupedHistograms:
 
                 if self.asimovData:
@@ -1257,7 +1263,7 @@ class NewStackMaker:
                 self.errorGraphs.append(theErrorGraph)
 
         # draw legend
-        if not self.is2D:
+        if not self.is2D and not self.isProfile:
             self.drawSampleLegend(groupedHistograms, theErrorGraph, normalize=normalize)
 
         # plot labels
