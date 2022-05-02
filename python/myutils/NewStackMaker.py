@@ -149,7 +149,7 @@ class NewStackMaker:
                     break
                 elif self.config.has_option('plotDef:%s'%var, configKey):
                     self.histogramOptions[optionName] = self.config.get('plotDef:%s'%var, configKey)
-                    print('plotDef:%s'%var, configKey,self.histogramOptions[optionName])
+                    #print('plotDef:%s'%var, configKey,self.histogramOptions[optionName])
                     break
             # convert numeric options to float/int
             if optionName in numericOptions and optionName in self.histogramOptions and type(self.histogramOptions[optionName]) == str:
@@ -954,6 +954,9 @@ class NewStackMaker:
         drawOption = "hist" if not normalize else "histnostack"
         if self.is2D:
             drawOption = self.histogramOptions['drawOption'] if 'drawOption' in self.histogramOptions else 'colz'
+        
+	if self.isProfile:
+            drawOption = ""
 
         # draw stack/sum
         if self.is2D:

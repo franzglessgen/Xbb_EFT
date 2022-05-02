@@ -149,9 +149,9 @@ class NewHistoMaker:
                     nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=weightF, histogramName=self.histogramName), cut)
             else:
                 selection = "({weight})*({cut})".format(weight=weightF, cut=cut) 
-                
+ 
         	if 'customProfile' in self.histogramOptions and self.histogramOptions['customProfile']:
-			print(">>>>>>>>>>>>>>> CUSTOMPROFILE")
+			print(">>>>>>>>>>>>>>> CUSTOMPROFILE", weightF)
 
 			nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'] + "[]:" + self.histogramOptions['treeVar']+"_index[]", histogramName=self.histogramName), selection, "prof")
 			
