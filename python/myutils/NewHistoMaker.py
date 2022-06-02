@@ -103,6 +103,23 @@ class NewHistoMaker:
                 weightF = "(({weight})*({specialweight}))".format(weight=weightF, specialweight=specialweight)
                 print ("INFO: use specialweight: {specialweight}".format(specialweight=specialweight))
 
+
+	    #Add custom weight to a histogram
+
+
+
+            if self.config.has_option('plotDef:%s'%self.histogramOptions['var'], 'addweight'):
+	               
+ 		addweight = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addweight')
+                weightF = "(({weight})*({addweight}))".format(weight=weightF, addweight=addweight)
+                print ("INFO: use additional weight: {addweight}".format(addweight=addweight))
+
+            if self.config.has_option('plotDef:%s'%self.histogramOptions['var'], 'addcut'):
+	               
+ 		addcut = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addcut')
+                cut = '(({cut1})&&({cut2}))'.format(cut1=cut, cut2=addcut)
+                print ("INFO: use additional cut: {addcut}".format(addcut=addcut))
+
             # (deprecated) additional blinding cut applied to DATA only in BDT plots
             if 'BDT' in self.histogramOptions['treeVar'] and self.sample.type == 'DATA':
                 if self.config.has_section('Blinding') and self.config.has_option('Blinding', 'BlindBDTinSR'):

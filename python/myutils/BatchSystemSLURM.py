@@ -101,7 +101,7 @@ class BatchSystemSLURM(BatchSystem):
         runscript = self.getRunScriptCommand(repDict)
         logPaths = self.getLogPaths(repDict)
 
-        memoryLimit = '3000M'
+        memoryLimit = '6000M'
         partitionAuto = None
         if 'queue' in repDict:
             if repDict['queue'] == 'all.q':

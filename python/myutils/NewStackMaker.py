@@ -788,7 +788,6 @@ class NewStackMaker:
 
         self.is2D = any([isinstance(h['histogram'], ROOT.TH2) for h in self.histograms])
         self.isProfile = any([isinstance(h['histogram'], ROOT.TProfile) for h in self.histograms])
-        print(">>>>>>>>>>>>>>> is PROFILE", self.isProfile)
 
 	self.outputFolder = outputFolder
         self.prefix = prefix
@@ -907,7 +906,6 @@ class NewStackMaker:
         groupedHistograms = {}
         histogramGroups = list(set([histogram['group'] for histogram in self.histograms]))
         
-	print(">>>>>>>>>>>>>>>>>>>>>>>>>> Hist groups ", histogramGroups)
 
 	for histogramGroup in histogramGroups:
             histogramsInGroup = [histogram['histogram'] for histogram in self.histograms if histogram['group'] == histogramGroup]
@@ -918,7 +916,6 @@ class NewStackMaker:
                 pass
 
 	
-	print(">>>>>>>>>>>>>>>>>>>>>>>>>> groups ", groupedHistograms)
 
         # [histogram['histogram'] for histogram in self.histograms if histogram['group'] in mcHistogramGroupsToPlot]
 

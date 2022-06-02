@@ -111,8 +111,44 @@ class PlotHelper(object):
             print ("  > {var}".format(var=var))
 
         self.histogramStacks = {}
+	WilsonVars = []
         for var in self.vars:
             self.histogramStacks[var] = StackMaker(self.config, var, self.region, self.signalRegion, None, '_'+self.subcutPlotName, title=self.title)
+
+
+            print(" VARNAME ", var)	
+            if self.config.has_option('plotDef:%s'%var,'WilsonWeights') or self.config.has_option('Plot_general','WilsonWeights'):
+		configstring = None
+
+		if self.config.has_option('plotDef:%s'%var,'WilsonWeights'):
+			configstring = 'plotDef:%s'%var
+		else:
+			configstring = 'Plot_general'
+	
+			
+ 	    	WilsonWeights = self.config.get(configstring,'WilsonWeights').split(',') 
+		WilsonCoeff = self.config.get(configstring,'WilsonCoefficient').split(',')
+
+ 	    	#WilsonWeights = self.config.get('plotDef:%s'%var,'WilsonWeights').split(',') 
+		#WilsonCoeff = self.config.get('plotDef:%s'%var,'WilsonCoefficient') 
+		#WilsonPath = self.config.get('plotDef:%s'%var,'WilsonPath') + WilsonCoeff  
+		for c in WilsonCoeff:
+			WilsonPath = self.config.get(configstring,'WilsonPath') + c
+			print("WilsonPath",WilsonPath)
+			for w in WilsonWeights:
+				#WilsonVar = var+"_"+WilsonCoeff+"_i"+w
+				WilsonVar = var+"_"+c+"_i"+w
+				print(WilsonVar)
+				WilsonVars.append(WilsonVar)
+				self.histogramStacks[WilsonVar] = StackMaker(self.config, var, self.region, self.signalRegion, None, '_'+self.subcutPlotName, title=self.title)
+				self.histogramStacks[WilsonVar].histogramOptions['weight'] =  '(({weight1})*({weight2}))'.format(weight1=self.histogramStacks[WilsonVar].histogramOptions['weight'], weight2=WilsonPath+"[" + w + "]")
+				self.histogramStacks[WilsonVar].histogramOptions['var'] = WilsonVar
+
+	
+
+	for w in WilsonVars:
+		self.vars.append(w)
+
 
         fileLocator = FileLocator(config=self.config, useDirectoryListingCache=True)
 
@@ -155,7 +191,19 @@ class PlotHelper(object):
                 # add the sample tree for all the variables
                 for var in self.vars:
 		    self.histogramStacks[var].addSampleTree(sample=sample, sampleTree=sampleTree, groupName=groupName, cut=self.subcut if self.subcut else '1')
-            
+           
+		    #print(" VARNAME ", var)	
+        	    #if self.config.has_option('plotDef:%s'%var,'WilsonWeights'):
+    		    #	WilsonWeights = self.config.get('plotDef:%s'%var,'WilsonWeights').split(',') 
+		    #	print(" WWeight ", WilsonWeights)	
+    		    #	WilsonCoeff = self.config.get('plotDef:%s'%var,'WilsonCoefficient') 
+		    #	print(" WCoeff ", WilsonCoeff)	
+		    #    for w in in WilsonWeights:
+		    #    	WilsonVar = var+"_"+WilsonCoeff+"_i"+w
+		    #		print(" WilsonVar ", WilsonVar)	
+		    #		self.histogramStacks[WilsonVar].addSampleTree(sample=sample, sampleTree=sampleTree, groupName=groupName, cut=self.subcut if self.subcut else '1')
+					
+ 
             else:
                 print ("\x1b[31mERROR: sampleTree not available for ", sample,", run caching again!!\x1b[0m")
                 raise Exception("CachedTreeMissing")
