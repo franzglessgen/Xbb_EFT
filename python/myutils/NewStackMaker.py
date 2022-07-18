@@ -716,7 +716,7 @@ class NewStackMaker:
             posY -= 0.05
         print ('self.lumi is', self.lumi)
         try:
-            self.addObject(self.myText("#sqrt{s} = %s, L = %.2f fb^{-1}"%(self.anaTag, (float(self.lumi)/1000.0)), self.plotTextMarginLeft+(0.03 if self.is2D else 0), posY, 0.75))
+            self.addObject(self.myText("#sqrt{s} = %s, L = %.2f fb^{-1}"%(self.anaTag, (float(self.lumi)/1000.0)), self.plotTextMarginLeft+(0.03 if self.is2D else 0), posY, 0.5))
         except Exception as e:
             print ("WARNING: exception while adding text: ", e)
             pass

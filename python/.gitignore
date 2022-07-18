@@ -1,6 +1,7 @@
 *.root
 */*
 *.swo
+*.sw*
 *.pyc
 */*.pyc
 *.swp
