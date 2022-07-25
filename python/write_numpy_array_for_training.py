@@ -37,6 +37,8 @@ class SampleTreesToNumpyConverter(object):
             self.samplesPath = config.get('Directories', 'MVAin')
         self.samplesInfo = ParseInfo(samples_path=self.samplesPath, config=self.config) 
 
+	print("INPUT PATH", self.samplesPath)
+
         # region
         self.treeCutName = config.get(mvaName, 'treeCut') if config.has_option(mvaName, 'treeCut') else mvaName
         self.treeCut = config.get('Cuts', self.treeCutName)
@@ -180,6 +182,8 @@ class SampleTreesToNumpyConverter(object):
                         print('nFeatures:', nFeatures)
                         inputData = np.zeros((nSamples, nFeatures), dtype=np.float32)
                         #inputData_sys = {x: np.zeros((nSamples, nFeatures), dtype=np.float32) for x in systematics}
+
+                         
 
                         sampleIndex = sample.index
 

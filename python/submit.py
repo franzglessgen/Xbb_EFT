@@ -1673,13 +1673,37 @@ if opts.task.startswith('rundc'):
                     jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
                     submit(jobName, jobDict)
 
+
+
+# -----------------------------------------------------------------------------
+# MERGEDC: merge DC .root files for all samples per region and produce combined
+# .root and .txt files. Needs rundc before.
+# -----------------------------------------------------------------------------
+if opts.task.startswith('mergeEFTcomponents'):
+    regions = Datacard.getRegions(config=config)
+    print(regions)   
+    pathtoshapes = "logs_Zll2018/" + opts.ftag
+    signalsample = "WH_1j_SMEFTsim_v1"
+
+    for i in regions:
+	
+    	os.system(('hadd %(pathtoshapes)s/vhbb_TH_%(i)s.root %(pathtoshapes)s/tmp_vhbb_TH_%(i)s.root %(pathtoshapes)s/%(i)s_%(signalsample)s.root' %vars()))
+
+
+
+
+
+
 # -----------------------------------------------------------------------------
 # MERGEDC: merge DC .root files for all samples per region and produce combined
 # .root and .txt files. Needs rundc before.
 # -----------------------------------------------------------------------------
 if opts.task.startswith('mergedc'):
     regions = Datacard.getRegions(config=config)
-    
+   
+    print(regions)
+
+ 
     printInputOutputInfo(config.get('Directories', 'logpath') + '/Limits/*/*', config.get('Directories', 'logpath') + '/Limits', config=config, opts=opts)
 
     # submit all the DC regions as separate jobs

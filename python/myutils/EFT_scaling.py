@@ -23,30 +23,30 @@ class EFT_scaling(AddCollectionsModule):
         self.config = initVars['config']
       
 
-	self.nWC = int(self.config.get('WCGeneral', 'nbofWC'))
-	self.ndof = 2*self.nWC + self.nWC*(self.nWC -1)/2 + 1        
+        self.nWC = int(self.config.get('WCGeneral', 'nbofWC'))
+        self.ndof = 2*self.nWC + self.nWC*(self.nWC -1)/2 + 1        
 
-	#This hold the inverse Vandermonde matrix for computation of the interpolation
-	self.VandermondePath = self.config.get('WCGeneral', 'SimWC')
-	self.invVandermonde = np.load(self.VandermondePath)
-
-
+        #This hold the inverse Vandermonde matrix for computation of the interpolation
+        self.VandermondePath = self.config.get('WCGeneral', 'SimWC')
+        self.invVandermonde = np.load(self.VandermondePath)
 
 
-	self.polyfeatures = PolynomialFeatures(2)		
-			
-	self.ScalingParam = self.config.get('Scaling', 'Range').split(",")
-	
 
-	self.RangeStep = int(self.config.get('Scaling', 'NbofPoints'))
+
+        self.polyfeatures = PolynomialFeatures(2)		
+                
+        self.ScalingParam = self.config.get('Scaling', 'Range').split(",")
+        
+
+        self.RangeStep = int(self.config.get('Scaling', 'NbofPoints'))
         self.ScalingRange = np.linspace(int(self.ScalingParam[0]), int(self.ScalingParam[1]), self.RangeStep) 
-	self.NbEvents = 0
+        self.NbEvents = 0
         self.sampleTree = initVars['sampleTree']
-	self.WCtoeval = 0
+        self.WCtoeval = 0
 
-	for i in range(self.nWC):
-        	self.addVectorBranch(self.branchName + '_weight_c' + str(i), length=self.RangeStep)
-        	self.addVectorBranch(self.branchName + '_weight_c' + str(i) +"_index", length=self.RangeStep)
+        for i in range(self.nWC):
+                self.addVectorBranch(self.branchName + '_weight_c' + str(i), length=self.RangeStep)
+                self.addVectorBranch(self.branchName + '_weight_c' + str(i) +"_index", length=self.RangeStep)
 
 
     def processEvent(self, tree):
