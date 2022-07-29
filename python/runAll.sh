@@ -199,7 +199,11 @@ elif [ $task = "cachedc" ]; then
 
 elif [ $task = "rundc" ]; then
     if [ -z "$chunkNumber" ]; then
-        runCommand="python ./run_dc.py --regions ${regions}"
+        if [ -z "$runEFTcomponent" ]; then
+            runCommand="python ./run_dc.py --regions ${regions}"
+        else
+            runCommand="python ./run_dc.py --regions ${regions} --runEFTcomponent ${runEFTcomponent} --EFTcomponent ${EFTcomponent} --EFTcomponentname ${EFTcomponentname}";
+        fi
     else
         runCommand="python ./run_dc.py --regions ${regions}  --chunkNumber ${chunkNumber}";
     fi

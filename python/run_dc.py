@@ -14,14 +14,14 @@ from myutils.Datacard import Datacard
 # ------------------------------------------------------------------------------
 class RunDatacards(object):
 
-    def __init__(self, config, region, chunkNumber=-1, useSampleIdentifiers=None, verbose=False, forceRedo=True):
+    def __init__(self, config, region, chunkNumber=-1, useSampleIdentifiers=None, verbose=False, forceRedo=True, runEFTcomponent = False, EFTcomponent = None, EFTcomponentname = None):
         self.verbose = verbose
         self.forceRedo = forceRedo
         self.config = config
         self.region = region
         self.chunkNumber = chunkNumber
         self.useSampleIdentifiers = useSampleIdentifiers
-        self.dcMaker = Datacard(config=self.config, region=region)
+        self.dcMaker = Datacard(config=self.config, region=region, runEFTcomponent = runEFTcomponent, EFTcomponent = EFTcomponent, EFTcomponentname = EFTcomponentname)
 
     def run(self):
         if self.dcMaker:
@@ -48,6 +48,12 @@ if __name__ == "__main__":
                           help="force overwriting of already existing datacards")
     parser.add_option("-i", "--chunkNumber", dest="chunkNumber", default='-1',
                           help="number of part to cache")
+    parser.add_option("-E", "--runEFTcomponent", dest="runEFTcomponent", default=False,
+                          help="Used if the sample has to be run multiple times for different EFT weights")
+    parser.add_option("-W", "--EFTcomponent", dest="EFTcomponent", default=None,
+                          help="Index of the EFT component to process")
+    parser.add_option("-N", "--EFTcomponentname", dest="EFTcomponentname", default=None,
+                          help="Datacard name of the EFT process")
     (opts, args) = parser.parse_args(argv)
     if opts.config == "":
             opts.config = "config"
@@ -66,6 +72,6 @@ if __name__ == "__main__":
     print("regions:", regions)
     for region in regions:
         print("init...", opts.chunkNumber)
-        runDC = RunDatacards(config=config, region=region, chunkNumber=int(opts.chunkNumber), useSampleIdentifiers=useSampleIdentifiers, forceRedo=opts.force)
+        runDC = RunDatacards(config=config, region=region, chunkNumber=int(opts.chunkNumber), useSampleIdentifiers=useSampleIdentifiers, forceRedo=opts.force, runEFTcomponent = opts.runEFTcomponent, EFTcomponent = opts.EFTcomponent, EFTcomponentname = opts.EFTcomponentname)
         print("run...", opts.chunkNumber)
         runDC.run()

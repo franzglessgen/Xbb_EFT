@@ -54,6 +54,21 @@ class SampleTreesToNumpyConverter(object):
         self.treeVarSet = config.get(mvaName, 'treeVarSet')
         self.MVA_Vars = {'Nominal': [x for x in config.get(self.treeVarSet, 'Nominal').strip().split(' ') if len(x.strip()) > 0]}
 
+        #FOR BIT training
+        nWC = int(self.config.get('WCGeneral', 'nbofWC'))
+        self.ndofWC = 2*nWC + nWC*(nWC -1)/2 + 1        
+        print("NDOF", self.ndofWC)
+        #Branchname
+        self.coeffbranchname = self.config.get('WCGeneral', 'BITweights')
+        print("COEFF branch", self.coeffbranchname)
+        self.includeEFTweights = 0
+
+        if self.config.has_option(mvaName, 'includeEFTweights'):
+            self.includeEFTweights = eval(self.config.get(mvaName, 'includeEFTweights'))
+
+        
+        print("INclude EGFT", self.includeEFTweights)
+
         self.weightSYS = []
         self.weightSYSweights = {}
 
@@ -134,6 +149,8 @@ class SampleTreesToNumpyConverter(object):
 
         systematics = self.systematics
         arrayLists = {datasetName:[] for datasetName in datasetParts.iterkeys()}
+        if self.includeEFTweights:
+            arrayEFTweights = {datasetName:[] for datasetName in datasetParts.iterkeys()}
         #arrayLists_sys = {x: {datasetName:[] for datasetName in datasetParts.iterkeys()} for x in systematics}
         weightLists = {datasetName:[] for datasetName in datasetParts.iterkeys()}
         targetLists = {datasetName:[] for datasetName in datasetParts.iterkeys()}
@@ -182,13 +199,16 @@ class SampleTreesToNumpyConverter(object):
                         print('nFeatures:', nFeatures)
                         inputData = np.zeros((nSamples, nFeatures), dtype=np.float32)
                         #inputData_sys = {x: np.zeros((nSamples, nFeatures), dtype=np.float32) for x in systematics}
-
-                         
-
+                          
                         sampleIndex = sample.index
+                        
+
+                        #Array for holding coefficients of the EFT polynomial 
+                        inputEFTweights = np.zeros((nSamples, self.ndofWC), dtype=np.float32)
 
                         # initialize formulas for ROOT tree
                         for feature in features:
+                            print(feature)
                             sampleTree.addFormula(feature)
                         #for k, features_s in features_sys.iteritems():
                         #    for feature in features_s:
@@ -204,6 +224,26 @@ class SampleTreesToNumpyConverter(object):
                         if useSpecialWeight:
                             sampleTree.addFormula(sample.specialweight)
 
+
+                         
+                        if self.includeEFTweights:
+                            #Only do this for signal samples with EFT weights
+                            if not (categories.index(category)):
+                                for s in range(self.ndofWC):
+                                    formula = self.coeffbranchname + "[" + str(s) + "]"
+                                    sampleTree.addFormula(formula)
+                    
+                            #Fill the EFT coefficients, just zeros for background 
+                            for i, event in enumerate(sampleTree):
+                                for s in range(self.ndofWC):
+                                    formula = self.coeffbranchname + "[" + str(s) + "]"
+                                    try:
+                                        inputEFTweights[i,s] = sampleTree.evaluate(formula)
+                                    except:
+                                        #for BG samples, the SM weight is still 1
+                                        inputEFTweights[i,0] = 1.0
+                                        break 
+
                         sumOfWeights = 0.0
                         nMCevents = 0
                         # fill numpy array from ROOT tree
@@ -211,6 +251,7 @@ class SampleTreesToNumpyConverter(object):
                             for j, feature in enumerate(features):
                                 inputData[i, j] = sampleTree.evaluate(feature)
                             # total weight comes from weightF (btag, lepton sf, ...) and treeScale to scale MC to x-section
+
                             eventWeight = sampleTree.evaluate(weightF)
                             specialWeight =  sampleTree.evaluate(sample.specialweight) if useSpecialWeight else 1.0 
                             totalWeight = treeScale * eventWeight * specialWeight 
@@ -220,6 +261,8 @@ class SampleTreesToNumpyConverter(object):
                             sumOfWeights += totalWeight
                             nMCevents    += 1
                             
+                             
+
                             # add weights varied by (btag) systematics
                             #for syst in self.weightSYS:
                             #    weightListsSYS[syst][datasetName].append(treeScale * sampleTree.evaluate(self.weightSYSweights[syst]))
@@ -241,12 +284,19 @@ class SampleTreesToNumpyConverter(object):
                         print("\x1b[43mINFO:", sample, ":", nMCevents, "MC events ->", sumOfWeights, "\x1b[0m")
                         eventNumberStat.append([sample, nMCevents, sumOfWeights])
                         arrayLists[datasetName].append(inputData)
+                                        
+                        if self.includeEFTweights:
+                            arrayEFTweights[datasetName].append(inputEFTweights)
+
                         #for sys in systematics:
                         #    arrayLists_sys[sys][datasetName].append(inputData_sys[sys])
 
                     else:
                         print ("\x1b[31mERROR: TREE NOT FOUND:", sample.name, " -> not cached??\x1b[0m")
                         raise Exception("CachedTreeMissing")
+
+
+
 
         if self.includeData:
             arrayListsData = []
@@ -339,6 +389,11 @@ class SampleTreesToNumpyConverter(object):
 
         if self.includeData:
             self.data['data'] = {'X': np.concatenate(arrayListsData, axis=0)}
+
+        if self.includeEFTweights:
+            self.data['train']['EFTweights'] =  np.concatenate(arrayEFTweights["train"], axis=0)
+            self.data['test']['EFTweights'] =  np.concatenate(arrayEFTweights["test"], axis=0)
+        
 
         ## add systematics variations
         #for sys in systematics:

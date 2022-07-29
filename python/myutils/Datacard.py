@@ -17,9 +17,10 @@ import array
 import re
 import itertools
 import math
+import numpy as np
 
 class Datacard(object):
-    def __init__(self, config, region, verbose=True, fileLocator=None, systematics=None):
+    def __init__(self, config, region, verbose=True, fileLocator=None, systematics=None, runEFTcomponent = False, EFTcomponent = None, EFTcomponentname = None):
         self.reshapeBins = True
         self.debug = 'XBBDEBUG' in os.environ 
         self.verbose = verbose
@@ -56,6 +57,10 @@ class Datacard(object):
         self.outpath = config.get('Directories', 'limits')
         self.optimisation = "" #TODO: opts.optimisation
         self.optimisation_training = False
+        self.runEFTcomponent = runEFTcomponent
+        self.EFTcomponent = EFTcomponent
+        self.EFTcomponentname = EFTcomponentname
+
         try:
             self.UseTrainSample = eval(config.get('Analysis', 'UseTrainSample'))
         except:
@@ -549,6 +554,37 @@ class Datacard(object):
         if self.verbose:
             print("INFO: new bins boundaries:", self.variableBins)
 
+    
+    def getWCcomponents(self, EFTcomponents, nbWC = 16):
+        #Returns the position in the correlation (see EFT_correlation.py) vector of the considered WC   
+        #SM component 
+        component_indices = [0]
+        #Name of the datacard process
+        component_name = ["_SM"]
+        EFTcomponents = np.array(EFTcomponents).astype(int)
+       
+        for i_ind,i in enumerate(EFTcomponents):
+            #Lin index
+            component_indices.append(i + 1)
+            component_name.append("_SM_LIN_QUAD_c" + str(i))
+            #Quad index
+            component_indices.append(i + nbWC + 1)      
+            component_name.append("_QUAD_c" + str(i))
+            
+            #Mixed indices
+            for j in EFTcomponents[i_ind+1:]:
+                WC1 = max(i,j)
+                WC2 = min(i,j)
+                
+                index = WC1 - WC2 -1 + 2*nbWC + (nbWC - 1)*WC2 - WC2*(WC2 -1)/2 + 1
+                
+                component_indices.append(index)      
+                component_name.append("_MIXED_c" + str(WC2) + "c" + str(WC1))
+
+        return component_indices, component_name
+
+
+
     def getSystematicsList(self, isData=False):
         if isData:
             return [x for x in self.systematicsList if x['sysType'] == 'nominal']
@@ -730,6 +766,12 @@ class Datacard(object):
                     print("DEBUG: > %s (%s)"%(x.name, x.identifier))
 
             sampleHistogramName = sampleGroup
+
+            if self.runEFTcomponent:
+                sampleHistogramName = sampleGroup + self.EFTcomponentname 
+                print("EFT sample name", sampleHistogramName)
+
+
             self.histograms[sampleHistogramName] = {}
 
             for sample in samplesInGroup:
@@ -834,9 +876,19 @@ class Datacard(object):
                 useSpecialweight = False
                 if self.config.has_option('Weights', 'useSpecialWeight') and eval(self.config.get('Weights', 'useSpecialWeight')):
                     useSpecialweight = True
-                    sampleTree.addFormula('specialweight', sample.specialweight)
-                    usedBranchList.addCut(sample.specialweight)
-                    print("INFO: use specialweight: {specialweight}".format(specialweight=sample.specialweight))
+                    
+                    if self.runEFTcomponent:
+                        EFTprocessweight = 'EFT_correlation[' + str(self.EFTcomponent) + ']'  
+                        print("PROCESS WEIGHT", EFTprocessweight)
+                        sampleTree.addFormula('specialweight', EFTprocessweight)
+                        usedBranchList.addCut(EFTprocessweight)
+                        print("INFO: use specialweight: {specialweight}".format(specialweight=EFTprocessweight))
+                    else:    
+                        sampleTree.addFormula('specialweight', sample.specialweight)
+                        usedBranchList.addCut(sample.specialweight)
+                        print("INFO: use specialweight: {specialweight}".format(specialweight=sample.specialweight))
+            
+
                 else:
                     print("INFO: don't use specialweight, weight:", systematicsList[0]['weight'])
 

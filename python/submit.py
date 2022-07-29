@@ -1491,6 +1491,9 @@ if opts.task.startswith('cachedc'):
         if '*' in opts.regions:
             regions = XbbTools.filterList(defaultRegions, regions)
 
+
+    print "regions: (", regions, ")"
+
     if config.has_option('LimitGeneral', 'addSample_sys'):
         addSample_sys = eval(config.get('LimitGeneral', 'addSample_sys'))
         sampleNames += [addSample_sys[key] for key in addSample_sys]
@@ -1535,6 +1538,8 @@ if opts.task.startswith('cachedc'):
         # if file existence has already been checked, check if it exists for all the regions 
         if opts.skipExisting:
             sampleNames = sorted(list(set([sample.name for sample in samples if sample.identifier == sampleIdentifier])))
+            
+            print "sample names: (", sampleNames, ")"
             filesMissing = False
             for sampleName in sampleNames:
                 for region in regions:
@@ -1615,7 +1620,7 @@ if opts.task.startswith('rundc'):
         if regionMatched:
             # submit separate jobs for either sampleIdentifiers
             for sampleIdentifier in sampleIdentifiers:
-               
+                
                 datacard = None
                 # check if shape files exist already and skip
                 if opts.skipExisting:
@@ -1658,6 +1663,37 @@ if opts.task.startswith('rundc'):
                             jobDict['arguments']['force'] = ''
                         jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
                         submit(jobName, jobDict)
+
+                elif config.has_option(sampleIdentifier, 'RunEFTcomponents'):
+                    datacard  = Datacard(config=config, region=region, verbose=False, fileLocator=fileLocator, systematics=[]) if datacard is None else datacard
+
+                    EFTcomponents = config.get(sampleIdentifier, 'RunEFTcomponents').split(",")
+                    print("EFTcomponents", EFTcomponents)  
+                    WCindices,WCnames = datacard.getWCcomponents(EFTcomponents)
+                    print("WCindices", WCindices)
+                    print("WCnames", WCnames)
+
+                    for component_ind, component in enumerate(WCindices):
+                        jobDict = repDict.copy()
+                        jobDict.update({
+                            'arguments':
+                                {
+                                    'regions': region,
+                                    'sampleIdentifier': sampleIdentifier,
+                                    'EFTcomponent': '%d'%component,
+                                    'EFTcomponentname': WCnames[component_ind],
+                                    'runEFTcomponent': "True",
+                                },
+                            'batch': opts.task + '_' + sampleIdentifier,
+                            })
+                        if opts.force:
+                            jobDict['arguments']['force'] = ''
+                        jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+                        submit(jobName, jobDict)
+
+
+
+
                 else:
                     jobDict = repDict.copy()
                     jobDict.update({
