@@ -61,6 +61,8 @@ class Datacard(object):
         self.EFTcomponent = EFTcomponent
         self.EFTcomponentname = EFTcomponentname
 
+        print("Run on EFT component", self.EFTcomponentname)
+
         try:
             self.UseTrainSample = eval(config.get('Analysis', 'UseTrainSample'))
         except:
@@ -878,8 +880,7 @@ class Datacard(object):
                     useSpecialweight = True
                     
                     if self.runEFTcomponent:
-                        EFTprocessweight = 'EFT_correlation[' + str(self.EFTcomponent) + ']'  
-                        print("PROCESS WEIGHT", EFTprocessweight)
+                        EFTprocessweight = 'EFT_correlation_weight[' + str(self.EFTcomponent) + ']' 
                         sampleTree.addFormula('specialweight', EFTprocessweight)
                         usedBranchList.addCut(EFTprocessweight)
                         print("INFO: use specialweight: {specialweight}".format(specialweight=EFTprocessweight))
@@ -1069,6 +1070,11 @@ class Datacard(object):
 
                 # in every ROOT file samples for several groups can be present if split into subsamples
                 sampleGroups      = list(set([self.getSampleGroup(sample) for sample in allSamples if sample.identifier==sampleIdentifier]))
+                 
+                if self.config.has_option(sampleIdentifier,'RunEFTcomponents'):
+                    EFTcomponents = self.config.get(sampleIdentifier, 'RunEFTcomponents').split(",")
+                    WCindices,WCnames = self.getWCcomponents(EFTcomponents)
+                    sampleGroups      = list(set([self.getSampleGroup(sample) + EFTprocessname for EFTprocessname in WCnames for sample in allSamples if sample.identifier==sampleIdentifier ]))
 
                 # loop over datacard processes 
                 for sampleGroup in sampleGroups:
@@ -1149,6 +1155,7 @@ class Datacard(object):
             pass
 
         outfile = ROOT.TFile(histogramFileName, 'RECREATE')
+
         if not outfile or outfile.IsZombie():
             print("\x1b[31mERROR: unable to open output file", histogramFileName,"\x1b[0m")
             raise Exception("FileIOError")
@@ -1156,6 +1163,29 @@ class Datacard(object):
 
         # sample groups for datacard, all samples of each group will be added in a single column (datacard process)
         sampleGroups = list(set([self.getSampleGroup(sample) for sample in samples]))
+        
+
+        #if self.runEFTcomponent:
+        #    sampleGroups = list(set([self.getSampleGroup(sample) + self.EFTcomponentname for sample in samples]))
+
+        
+
+        sampleGroups = []
+        for sample in samples:
+            if self.config.has_option(sample.identifier,'RunEFTcomponents'):
+                EFTcomponents = self.config.get(sample.identifier, 'RunEFTcomponents').split(",")
+                WCindices,WCnames = self.getWCcomponents(EFTcomponents)
+                for ind in WCnames:
+                    sampleGroups.append(self.getSampleGroup(sample) + ind)
+
+            else:
+                sampleGroups.append(self.getSampleGroup(sample))     
+
+        sampleGroups = list(set(sampleGroups))
+
+
+
+
         if self.debug:
             print("\x1b[31mDEBUG: groups=", sampleGroups,"\x1b[0m")
 
@@ -1395,6 +1425,8 @@ class Datacard(object):
             # temporary
             if chunkNumber>0:
                 subPartName += '_%d'%chunkNumber
+            if self.EFTcomponent:
+                subPartName += "_EFT_" + self.EFTcomponent
             baseFileName = '{path}/vhbb_{dcType}_{rootName}/{rootName}_{part}{ext}'.format(dcType=dcType, path=self.outpath, rootName=self.ROOToutname, part=subPartName, ext=ext)
         else:
             # final

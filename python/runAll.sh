@@ -131,6 +131,15 @@ while [ $# -gt 0 ]; do
     --configFile=*)
       configFile="${1#*=}"
       ;;
+    --runEFTcomponent=*)
+      runEFTcomponent="${1#*=}"
+      ;;
+    --EFTcomponent=*)
+      EFTcomponent="${1#*=}"
+      ;;
+    --EFTcomponentname=*)
+      EFTcomponentname="${1#*=}"
+      ;;
     *)
       ;;
   esac

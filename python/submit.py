@@ -1682,13 +1682,14 @@ if opts.task.startswith('rundc'):
                                     'sampleIdentifier': sampleIdentifier,
                                     'EFTcomponent': '%d'%component,
                                     'EFTcomponentname': WCnames[component_ind],
-                                    'runEFTcomponent': "True",
+                                    'runEFTcomponent': '%d'%1,
                                 },
                             'batch': opts.task + '_' + sampleIdentifier,
                             })
                         if opts.force:
                             jobDict['arguments']['force'] = ''
                         jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+                        print(jobName)
                         submit(jobName, jobDict)
 
 
@@ -1718,12 +1719,18 @@ if opts.task.startswith('rundc'):
 if opts.task.startswith('mergeEFTcomponents'):
     regions = Datacard.getRegions(config=config)
     print(regions)   
-    pathtoshapes = "logs_Zll2018/" + opts.ftag
+    pathtoshapes = "logs_Zll2018/" + opts.ftag + "/Limits/"
     signalsample = "WH_1j_SMEFTsim_v1"
+    targetdir = "logs_Zll2018/rundc-EFT-all/Limits/"
+
+
+    print(pathtoshapes, signalsample)
+
+    #for i in regions:
+    #	os.system(('hadd %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(pathtoshapes)s/vhbb_TH_%(i)s/*' %vars()))
 
     for i in regions:
-	
-    	os.system(('hadd %(pathtoshapes)s/vhbb_TH_%(i)s.root %(pathtoshapes)s/tmp_vhbb_TH_%(i)s.root %(pathtoshapes)s/%(i)s_%(signalsample)s.root' %vars()))
+        os.system(('cp %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(targetdir)s/vhbb_TH_%(i)s/' %vars()))
 
 
 
