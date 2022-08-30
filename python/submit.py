@@ -1651,7 +1651,7 @@ if opts.task.startswith('rundc'):
                             })
                         if opts.force:
                             jobDict['arguments']['force'] = ''
-                        jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+                        jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].items()])
                         submit(jobName, jobDict)
 
                 elif config.has_option(sampleIdentifier, 'RunEFTcomponents'):
@@ -1678,7 +1678,7 @@ if opts.task.startswith('rundc'):
                             })
                         if opts.force:
                             jobDict['arguments']['force'] = ''
-                        jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+                        jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].items()])
                         print(jobName)
                         submit(jobName, jobDict)
 
@@ -1697,7 +1697,7 @@ if opts.task.startswith('rundc'):
                         })
                     if opts.force:
                         jobDict['arguments']['force'] = ''
-                    jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+                    jobName = 'dc_run_' + '_'.join([v for k,v in jobDict['arguments'].items()])
                     submit(jobName, jobDict)
 
 
@@ -1751,7 +1751,7 @@ if opts.task.startswith('mergedc'):
                         'regions': region,
                     }
                 })
-            jobName = 'dc_merge_' + '_'.join([v for k,v in jobDict['arguments'].iteritems()])
+            jobName = 'dc_merge_' + '_'.join([v for k,v in jobDict['arguments'].items()])
             submit(jobName, jobDict)
 
 # -----------------------------------------------------------------------------
@@ -1883,7 +1883,7 @@ if opts.task == 'summary':
         if addTreeCut not in cutDict:
             cutDict[addTreeCut] = []
         cutDict[addTreeCut].append(sample.identifier)
-    for preselectionCut, listOfSamples in cutDict.iteritems():
+    for preselectionCut, listOfSamples in cutDict.items():
         print("SAMPLES: \x1b[34m", ','.join(listOfSamples), "\x1b[0m")
         print("CUT: \x1b[32m", preselectionCut,"\x1b[0m")
         print("-"*40)

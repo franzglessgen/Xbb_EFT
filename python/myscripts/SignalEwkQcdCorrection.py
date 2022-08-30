@@ -40,7 +40,7 @@ class TreeCopierWithCorrectionFromFile:
         corr = {}
 
         # select corresponding line from the table with correct Vpt
-        for correctionName, correctionFile in self.correctionFiles.iteritems():
+        for correctionName, correctionFile in self.correctionFiles.items():
             index = self.correctionFileIndexColumns[correctionName].searchsorted(v)
             index -= 1
             if index < 0:

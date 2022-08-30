@@ -40,7 +40,7 @@ class EFT_reweight(AddCollectionsModule):
         interpolationOrder = int(2)                              # because we're using a second-order polynomial
         self.hyperPoly       = HyperPoly( interpolationOrder )
 
-        weightInfo_data = list(weightInfo.data.iteritems())
+        weightInfo_data = list(weightInfo.data.items())
         weightInfo_data.sort( key = lambda w: w[1] )
         basepoint_coordinates = map( lambda d: [d[v] for v in weightInfo.variables] , map( lambda w: self.interpret_weight(w[0]), weightInfo_data) )
 

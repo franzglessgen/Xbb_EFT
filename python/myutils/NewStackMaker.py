@@ -139,7 +139,7 @@ class NewStackMaker:
 		}
         numericOptions = ['rebin', 'min', 'minX', 'minY', 'maxX', 'maxY', 'nBins', 'nBinsX', 'nBinsY', 'minZ', 'maxZ']
         evalOptions = ['binList', 'plotEqualSize','fractions','rebinFlat','ratioRange']
-        for optionName, configKeys in optionNames.iteritems():
+        for optionName, configKeys in optionNames.items():
             # use the first available option from the config, first look in region definition, afterwards in plot definition
             configKeysList = configKeys if type(configKeys) == list else [configKeys]
             for configKey in configKeysList:
@@ -651,7 +651,7 @@ class NewStackMaker:
         if self.dataGroupName in groupedHistograms:
             self.legends['left'].AddEntry(groupedHistograms[self.dataGroupName], self.dataTitle, 'P')
             nLeft += 1
-        groupNames = list(set([groupName for groupName, groupHistogram in groupedHistograms.iteritems()]))
+        groupNames = list(set([groupName for groupName, groupHistogram in groupedHistograms.items()]))
 
         groupNamesOrdered = self.setup + sorted([x for x in groupNames if x not in self.setup])
 
@@ -744,7 +744,7 @@ class NewStackMaker:
         #self.addObject(self.myText(addFlag, self.plotTextMarginLeft+(0.03 if self.is2D else 0), 0.78))
 
         try:
-            for labelName, label in self.plotLabels.iteritems():
+            for labelName, label in self.plotLabels.items():
                 self.addObject(self.myText(label['text'], label['x'], label['y'], label['size']))
         except:
             pass

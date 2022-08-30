@@ -52,7 +52,7 @@ class DatacardReader(object):
         namesTranslated = []
         for name in names:
             nameTranslated = name
-            for k,v in translationDict.iteritems():
+            for k,v in translationDict.items():
                 nameTranslatedNew = nameTranslated.replace(k,v)
                 if nameTranslatedNew != nameTranslated:
                     nameTranslated = nameTranslatedNew

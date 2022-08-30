@@ -246,11 +246,11 @@ class SampleTree(object):
                 # TODO: per run if possible, sum LHE weights if present
 
                 # sum the contributions from the subtrees
-                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.iteritems() if len(values) > 0 and type(values[0]) in [int, float, long]}
+                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.items() if len(values) > 0 and type(values[0]) in [int, float, long]}
                 # print summary table
                 countBranches = self.totalNanoTreeCounts.keys()
                 depth = None
-                for key,values in self.nanoTreeCounts.iteritems():
+                for key,values in self.nanoTreeCounts.items():
                     if values and len(values)>1 and type(values[0]) in [int, float, long]:
                         depth = len(values)
                         break
@@ -271,7 +271,7 @@ class SampleTree(object):
                 #keys are different branches and values are corresponding summed values of all tree printed just above. You fill them in a new TTree 'Runs' in dictonary self.histogram with same bracnhes and their summed values.
                 self.histograms['Runs'] = ROOT.TTree('Runs', 'count histograms for nano')
                 nanoTreeCountBuffers = {}
-                for key, value in self.totalNanoTreeCounts.iteritems():
+                for key, value in self.totalNanoTreeCounts.items():
                     if type(value) == int:
                         # 64 bit signed int 
                         typeCode = 'L'
@@ -302,7 +302,7 @@ class SampleTree(object):
                 del outputTree['file']
         try:
             if hasattr(self, "formulas"):
-                for formulaName, formula in self.formulas.iteritems():
+                for formulaName, formula in self.formulas.items():
                     if formula:
                         del formula
                         formula = None
@@ -647,7 +647,7 @@ class SampleTree(object):
                 sys.stdout.flush()
             self.oldTreeNum = treeNum
             # update TTreeFormula's
-            for formulaName, treeFormula in self.formulas.iteritems():
+            for formulaName, treeFormula in self.formulas.items():
                 treeFormula.UpdateFormulaLeaves()
         return self.tree
 
@@ -664,7 +664,7 @@ class SampleTree(object):
             else:
                 return 0
         else:
-            existingFormulas = [x for x,y in self.formulas.iteritems()]
+            existingFormulas = [x for x,y in self.formulas.items()]
             print ("existing formulas are: ", existingFormulas)
             raise Exception("SampleTree::evaluate: formula '%s' not found!"%formulaName)
 
@@ -676,7 +676,7 @@ class SampleTree(object):
                 destinationArray[i] = self.formulas[formulaName].EvalInstance(i)
             return nData
         else:
-            existingFormulas = [x for x, y in self.formulas.iteritems()]
+            existingFormulas = [x for x, y in self.formulas.items()]
             print("existing formulas are: ", existingFormulas)
             raise Exception("SampleTree::evaluate: formula '%s' not found!" % formulaName)
 
@@ -880,7 +880,7 @@ class SampleTree(object):
                     cutString = cutString[0:50] + '...(%s more chars)'%(len(cutString)-50)
                 print (' > ', outputTree['fileName'], ' <== ', outputTree['name'] if 'name' in outputTree else outputTree['hash'], ' cut: ', cutString)
             print ('FORMULAS:')
-            for formulaName, formula in self.formulas.iteritems():
+            for formulaName, formula in self.formulas.items():
                 print (' > \x1b[35m', formulaName, '\x1b[0m ==> ', formula)
 
         # find common set of branches which needs to be enabled for cuts and desired variables in all of the output trees
@@ -925,7 +925,7 @@ class SampleTree(object):
         
             # copy count histograms to output files
             outputTree['histograms'] = {}
-            for histogramName, histogram in self.histograms.iteritems():
+            for histogramName, histogram in self.histograms.items():
                     outputTree['histograms'][histogramName] = histogram.Clone(histogram.GetName())
                     outputTree['histograms'][histogramName].SetDirectory(outputTree['file'])
 
@@ -1047,7 +1047,7 @@ class SampleTree(object):
 
             # evaluate all formulas
             self.formulaResults = {}
-            for formulaName, formula in self.formulas.iteritems():
+            for formulaName, formula in self.formulas.items():
                 self.formulaResults[formulaName] = self.evaluate(formulaName)
 
             # evaluate cuts for all output trees

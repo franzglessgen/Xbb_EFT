@@ -56,7 +56,7 @@ config_updates = {}
 sig = 0
 sig_old = 0
 
-for region,df_dict in dfs.iteritems():
+for region,df_dict in dfs.items():
     print("\n_______________________________________________________\nComputing bin edges for region: %s"%region)
     bin_list = None
     dc = converter.dcMakers[region]
@@ -95,9 +95,9 @@ print(" *** relative difference: %s %% ***"%str(np.round(100*(np.sqrt(sig)-np.sq
 
 #TODO: automatic update
 print("\n================================\n\nupdate your config!\n")
-for region, update_dict in config_updates.iteritems():
+for region, update_dict in config_updates.items():
     print("[dc:%s]"%region)
-    for key, val in update_dict.iteritems():
+    for key, val in update_dict.items():
         print("%s: %s"%(key,val))
     print("")
 

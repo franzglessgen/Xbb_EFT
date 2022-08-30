@@ -219,7 +219,7 @@ class LeptonWeights(object):
                     wdir+'/python/json/V25/DiEleLeg1AfterIDISO_out.json' : ['DiEleLeg1AfterIDISO', 'eta_pt_ratio'],
                     wdir+'/python/json/V25/DiEleLeg2AfterIDISO_out.json' : ['DiEleLeg2AfterIDISO', 'eta_pt_ratio']
                     }
-                for j, name in jsons.iteritems():
+                for j, name in jsons.items():
 
                     self.weight = []
                     lepCorrIdentifier = j + '_' + name[0] + '_' + name[1]
@@ -431,7 +431,7 @@ class LeptonWeights(object):
                         wdir+'/python/json/V25/Tight27AfterIDISO_out.json' : ['Tight27AfterIDISO', 'eta_pt_ratio']
                         }
 
-                    for j, name in jsons.iteritems():
+                    for j, name in jsons.items():
 
                         self.weight = []
                         lepCorrIdentifier = j + '_' + name[0] + '_' + name[1]

@@ -106,13 +106,13 @@ class SampleTreesToNumpyConverter(object):
             self.sampleNames = eval(self.config.get(mvaName, 'classDict'))
             #print('checking.........',eval(self.config.get(mvaName, 'classDict')))
             #print('checking.........',self.config.get(mvaName, 'classDict'))
-            self.samples = {category: self.samplesInfo.get_samples(samples) for category,samples in self.sampleNames.iteritems()} 
+            self.samples = {category: self.samplesInfo.get_samples(samples) for category,samples in self.sampleNames.items()} 
             self.categories = self.samples.keys()
             print("classes dict:", self.sampleNames)
         elif self.config.has_option(mvaName, 'classes'):
             self.sampleNames = dict(eval(self.config.get(mvaName, 'classes')))
             self.categories = [x[0] for x in eval(self.config.get(mvaName, 'classes'))]
-        self.samples = {category: self.samplesInfo.get_samples(samples) for category,samples in self.sampleNames.iteritems()}
+        self.samples = {category: self.samplesInfo.get_samples(samples) for category,samples in self.sampleNames.items()}
         if not self.categories:
             self.categories = self.samples.keys()
 
@@ -169,7 +169,7 @@ class SampleTreesToNumpyConverter(object):
                 self.samples[category] = self.samples[category][0:1]
             for j,sample in enumerate(self.samples[category]):
                 print ('*'*80,'\n%s (category %d/%d sample %d/%d)\n'%(sample, iCat+1, len(categories), j+1, len(self.samples[category])),'*'*80)
-                for datasetName, additionalCut in datasetParts.iteritems():
+                for datasetName, additionalCut in datasetParts.items():
                     # cuts
                     sampleCuts = [sample.subcut]
                     if additionalCut:
@@ -210,7 +210,7 @@ class SampleTreesToNumpyConverter(object):
                         for feature in features:
                             print(feature)
                             sampleTree.addFormula(feature)
-                        #for k, features_s in features_sys.iteritems():
+                        #for k, features_s in features_sys.items():
                         #    for feature in features_s:
                         #        sampleTree.addFormula(feature)
                         sampleTree.addFormula(weightF)
@@ -278,7 +278,7 @@ class SampleTreesToNumpyConverter(object):
                             weightListSYStotal[datasetName].append(treeScale * totalDelta * specialWeight)
 
                             # fill systematics 
-                            #for k, feature_s in features_sys.iteritems():
+                            #for k, feature_s in features_sys.items():
                             #    for j, feature in enumerate(feature_s):
                             #        inputData_sys[k][i,j] = sampleTree.evaluate(feature)
                         print("\x1b[43mINFO:", sample, ":", nMCevents, "MC events ->", sumOfWeights, "\x1b[0m")

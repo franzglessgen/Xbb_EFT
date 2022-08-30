@@ -74,7 +74,7 @@ class CacheTraining(object):
     
     def printInfo(self):
         print ("REGION:".ljust(24),"CUT:")
-        for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.iteritems():
+        for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.items():
             print (" > ",trainingRegion.ljust(20), trainingRegionInfo['cut'])
 
     def run(self):
@@ -95,7 +95,7 @@ class CacheTraining(object):
             # list of branches to keep for use as MVA input variables
             branchListOfMVAVars = BranchList()
             for sample in subsamples:
-                for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.iteritems():
+                for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.items():
                     for additionalCut in [self.TrainCut, self.EvalCut]:
                         branchListOfMVAVars.addCut(trainingRegionInfo['vars'])
                     for weightVar in trainingRegionInfo['weightVars']:
@@ -107,7 +107,7 @@ class CacheTraining(object):
             for sample in subsamples:
 
                 # add cuts for all training regions
-                for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.iteritems():
+                for trainingRegion,trainingRegionInfo in self.trainingRegionsDict.items():
 
                     # add cuts for training and evaluation
                     additionalCuts = [None] if sample.isData() else [self.TrainCut, self.EvalCut]
