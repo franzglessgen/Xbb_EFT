@@ -715,8 +715,8 @@ class Datacard(object):
         # nominal cut is still the original one, to ensure all nominal events are kept if approximations are used for systematics
         # therefore the list systematicsCuts also contains the nominal cut string
         sampleCuts = {'AND': [sample.subcut, {'OR': systematicsCuts}]}
-        
-	return sampleCuts
+
+        return sampleCuts
 
     def getUniqueHistogramName(self, sampleName, systName):
         histogramName = "{sampleName}_{systName}_c{counter}".format(sampleName=sampleName, systName=systName, counter=self.histogramCounter)

@@ -1,4 +1,5 @@
-import os,re,ConfigParser
+import os,re
+import configparser as ConfigParser
 
 ConfigParser.SafeConfigParser.readOld = ConfigParser.SafeConfigParser.read
 
@@ -14,13 +15,16 @@ class BetterConfigParser(ConfigParser.SafeConfigParser):
       os.environ['TERM'] = 'dumb'
 
     # allow string interpolation with environment variables
-    def __init__(self, recursiveReplace=True):
+    def __init__(self, recursiveReplace=True, raw = False):
         self.recursiveReplace = recursiveReplace
-        ConfigParser.SafeConfigParser.__init__(self, os.environ)
+        self.raw = raw
+        ConfigParser.SafeConfigParser.__init__(self, os.environ, strict = False)
+        #super().__init__(os.environ)
 
-    def get(self, section, option, raw=False):
-        result = ConfigParser.SafeConfigParser.get(self, section, option, raw=False)
-        if not raw:
+    def get(self, section, option, **kwargs):
+        result = ConfigParser.SafeConfigParser.get(self, section, option, **kwargs)
+        #result = super(BetterConfigParser, self).get(section, option)
+        if not self.raw:
             result = self.__replaceSectionwideTemplates(result, section=section)
         return result
 

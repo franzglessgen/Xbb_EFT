@@ -57,16 +57,16 @@ class NewHistoMaker:
 
 	#self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) if is2D else self.create1Dhistogram(self.histogramName, self.histogramOptions)
        
-	if is2D:
-		self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) 
-	elif isProfile: 
-		self.histogram = self.createProfilehistogram(self.histogramName, self.histogramOptions) 
-	else:
-		self.histogram = self.create1Dhistogram(self.histogramName, self.histogramOptions) 
-		
+        if is2D:
+            self.histogram = self.create2Dhistogram(self.histogramName, self.histogramOptions) 
+        elif isProfile: 
+            self.histogram = self.createProfilehistogram(self.histogramName, self.histogramOptions) 
+        else:
+            self.histogram = self.create1Dhistogram(self.histogramName, self.histogramOptions) 
+            
 
-        self.histogram.Sumw2()
-        self.histogram.SetTitle(self.sample.name)
+            self.histogram.Sumw2()
+            self.histogram.SetTitle(self.sample.name)
 
         return self.histogram
 
@@ -105,20 +105,15 @@ class NewHistoMaker:
 
 
 	    #Add custom weight to a histogram
-
-
-
             if self.config.has_option('plotDef:%s'%self.histogramOptions['var'], 'addweight'):
-	               
- 		addweight = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addweight')
+                addweight = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addweight')
                 weightF = "(({weight})*({addweight}))".format(weight=weightF, addweight=addweight)
-                print ("INFO: use additional weight: {addweight}".format(addweight=addweight))
-
+                print("INFO: use additional weight: {addweight}".format(addweight=addweight))
+            
             if self.config.has_option('plotDef:%s'%self.histogramOptions['var'], 'addcut'):
-	               
- 		addcut = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addcut')
+                addcut = self.config.get('plotDef:%s'%self.histogramOptions['var'], 'addcut')
                 cut = '(({cut1})&&({cut2}))'.format(cut1=cut, cut2=addcut)
-                print ("INFO: use additional cut: {addcut}".format(addcut=addcut))
+                print("INFO: use additional cut: {addcut}".format(addcut=addcut))
 
             # (deprecated) additional blinding cut applied to DATA only in BDT plots
             if 'BDT' in self.histogramOptions['treeVar'] and self.sample.type == 'DATA':
@@ -167,16 +162,14 @@ class NewHistoMaker:
             else:
                 selection = "({weight})*({cut})".format(weight=weightF, cut=cut) 
  
-        	if 'customProfile' in self.histogramOptions and self.histogramOptions['customProfile']:
-			print(">>>>>>>>>>>>>>> CUSTOMPROFILE", weightF)
-
-			nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'] + "[]:" + self.histogramOptions['treeVar']+"_index[]", histogramName=self.histogramName), selection, "prof")
+            if 'customProfile' in self.histogramOptions and self.histogramOptions['customProfile']:
+                print(">>>>>>>>>>>>>>> CUSTOMPROFILE", weightF)
+                nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'] + "[]:" + self.histogramOptions['treeVar']+"_index[]", histogramName=self.histogramName), selection, "prof")
 			
 		
-
-		else:
-			nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'], histogramName=self.histogramName), selection)
-                	self.scaleHistogram()
+            else:
+                nEvents = self.sampleTree.tree.Draw('{var}>>{histogramName}'.format(var=self.histogramOptions['treeVar'], histogramName=self.histogramName), selection)
+                self.scaleHistogram()
             if nEvents < 0:
                 print ("\x1b[31mERROR: error in TTree:Draw! returned {nEvents}\x1b[0m".format(nEvents=nEvents))
             if self.debug:

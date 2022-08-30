@@ -79,7 +79,7 @@ class NewStackMaker:
 
         self.is2D = True if self.yAxis else False
         self.isProfile = True if self.readConfigStr(self.plotVarSection, 'customProfile', '') else False
-	self.typLegendDict = self.readConfig('Plot_general','typLegendDict', {})
+        self.typLegendDict = self.readConfig('Plot_general','typLegendDict', {})
         self.legendEntries = []
         self.plotLabels = {}
         if setup is None:
@@ -656,7 +656,7 @@ class NewStackMaker:
         groupNamesOrdered = self.setup + sorted([x for x in groupNames if x not in self.setup])
 
 	
-	print(">>>>>>>>>>>>>>>>>>>>>>>>>> Ordered ", groupNamesOrdered)
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>> Ordered ", groupNamesOrdered)
 
         numLegendEntries = len(groupNames) + 2
         if self.config.has_option('Plot_general', '__modNumLegentries'):
@@ -789,7 +789,7 @@ class NewStackMaker:
         self.is2D = any([isinstance(h['histogram'], ROOT.TH2) for h in self.histograms])
         self.isProfile = any([isinstance(h['histogram'], ROOT.TProfile) for h in self.histograms])
 
-	self.outputFolder = outputFolder
+        self.outputFolder = outputFolder
         self.prefix = prefix
 
         # MC histograms, defined in setup
@@ -907,7 +907,7 @@ class NewStackMaker:
         histogramGroups = list(set([histogram['group'] for histogram in self.histograms]))
         
 
-	for histogramGroup in histogramGroups:
+        for histogramGroup in histogramGroups:
             histogramsInGroup = [histogram['histogram'] for histogram in self.histograms if histogram['group'] == histogramGroup]
             groupedHistograms[histogramGroup] = NewStackMaker.sumHistograms(histograms=histogramsInGroup, outputName="group_" + histogramGroup)
             try:
@@ -952,7 +952,7 @@ class NewStackMaker:
         if self.is2D:
             drawOption = self.histogramOptions['drawOption'] if 'drawOption' in self.histogramOptions else 'colz'
         
-	if self.isProfile:
+        if self.isProfile:
             drawOption = ""
 
         # draw stack/sum

@@ -13,7 +13,6 @@ import array
 import resource
 import gc
 from XbbConfig import XbbConfigReader, XbbConfigTools
-import BetterConfigParser
 from sample_parser import ParseInfo
 import hashlib
 import subprocess
@@ -97,7 +96,7 @@ class SampleTree(object):
             print("\x1b[31mERROR: wrong chunk number ", self.chunkNumber, "\x1b[0m")
             raise Exception("InvalidChunkNumber")
         if self.verbose:
-            print ("INFO: reading part ", self.chunkNumber, " of ", self.numParts)
+            print("INFO: reading part ", self.chunkNumber, " of ", self.numParts)
 
         self.status = 0
         if not treeName:
@@ -507,7 +506,7 @@ class SampleTree(object):
     def getSampleFileNameChunks(self):
         sampleFileNames = self.getAllSampleFileNames()
         if self.splitFilesChunkSize > 0 and len(sampleFileNames) > self.splitFilesChunkSize:
-            sampleFileNamesParts = [sampleFileNames[i:i + self.splitFilesChunkSize] for i in xrange(0, len(sampleFileNames), self.splitFilesChunkSize)]
+            sampleFileNamesParts = [sampleFileNames[i:i + self.splitFilesChunkSize] for i in range(0, len(sampleFileNames), self.splitFilesChunkSize)]
         else:
             sampleFileNamesParts = [sampleFileNames]
         self.numParts = len(sampleFileNamesParts)
@@ -696,7 +695,7 @@ class SampleTree(object):
     def addCutDictRecursive(self, cutDict):
         if type(cutDict) == str:
             if cutDict not in self.formulas:
-		self.addFormula(cutDict, cutDict)
+                self.addFormula(cutDict, cutDict)
         elif 'OR' in cutDict and 'AND' in cutDict:
             raise Exception("BadTreeTypeCutDict")
         elif 'OR' in cutDict:
@@ -1297,22 +1296,23 @@ if __name__ == '__main__':
     str_sample = 'ZZ_TuneCP5_13TeV-pythia8'
     str_sample2 = 'WW_TuneCP5_13TeV-pythia8'
     config = XbbConfigReader.read('Zll2018')
-    directory = config.get('Directories', 'sysOUT')
+    print(config.get('Directories', 'vhbbpath'))
+    directory = config.get('Directories', 'scratch')
     #config = XbbConfigReader.read('Zll2018')
     
     path = 'xyz'
     sampleInfo = ParseInfo(config,path,config=config)
     sample = [x for x in sampleInfo if x.identifier==str_sample and x.subsample==False]
-     
+    print(sample) 
 
-    sampleTree = SampleTree({'sample': sample[0], 'folder': directory}, config=config) 
-    
-    scaleXStoLumi = sampleTree.getScale(sample[0])
+    #sampleTree = SampleTree({'sample': sample[0], 'folder': directory}, config=config) 
+    #
+    #scaleXStoLumi = sampleTree.getScale(sample[0])
 
-    weightExpression = config.get('Weights','weightF')
-    signalRegionSelection = config.get('Cuts', 'ZllBDT_lowpt')
+    #weightExpression = config.get('Weights','weightF')
+    #signalRegionSelection = config.get('Cuts', 'ZllBDT_lowpt')
  
-    sampleTree.enableBranches(BranchList([weightExpression,signalRegionSelection]).getListOfBranches())
+    #sampleTree.enableBranches(BranchList([weightExpression,signalRegionSelection]).getListOfBranches())
 
-    sampleTree.addFormula(weightExpression)
+    #sampleTree.addFormula(weightExpression)
 

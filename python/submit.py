@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 from optparse import OptionParser
 import sys
+sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 import time
 import os
 import shutil
@@ -27,9 +28,9 @@ from myutils.XbbConfig import XbbConfigTools,XbbConfigReader
 
 try:
     if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-        print "\x1b[31mWARNING: unsupported Python version! Python 2.7+ is needed!\x1b[0m"
+        print("\x1b[31mWARNING: unsupported Python version! Python 2.7+ is needed!\x1b[0m")
 except:
-    print "unable to detect python version!"
+    print("unable to detect python version!")
 
 parser = OptionParser()
 parser.add_option("-b", "--addCollections", "--modules", dest="addCollections", default=None, help="collections to add in sysnew step")
@@ -94,11 +95,11 @@ debugPrintOUts = opts.verbose
 submitTimestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 
 if opts.tag == "":
-    print "Please provide tag to run the analysis with, example '-T 8TeV' uses config8TeV and pathConfig8TeV to run the analysis."
+    print("Please provide tag to run the analysis with, example '-T 8TeV' uses config8TeV and pathConfig8TeV to run the analysis.")
     sys.exit(123)
 
 if opts.task == "":
-    print "Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards"
+    print("Please provide a task.\n-J prep:\tpreparation of Trees\n-J sys:\t\twrite regression and systematics\n-J eval:\tcreate MVA output\n-J plot:\tproduce Plots\n-J dc:\t\twrite workspaces and datacards")
     sys.exit(123)
 
 #if opts.task == "run":
@@ -126,8 +127,8 @@ samplesList = [x.strip() for x in opts.samples.strip().split(',') if len(x.strip
 timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
 
 if debugPrintOUts:
-    print 'samplesList', samplesList
-    print 'timestamp', timestamp
+    print('samplesList', samplesList)
+    print('timestamp', timestamp)
 
 
 # ------------------------------------------------------------------------------
@@ -145,8 +146,8 @@ if opts.ftag == '':
     opts.ftag = opts.task.replace(':','').replace('.','')
 
 if debugPrintOUts:
-    print 'configs', opts.tag
-    print 'opts.ftag', opts.ftag
+    print('configs', opts.tag)
+    print('opts.ftag', opts.ftag)
 
 # ------------------------------------------------------------------------------
 # COPY CONFIG files to log output folder
@@ -156,7 +157,7 @@ combinedConfigFileName = None
 if configurationNeeded:
     tagDir = config.get('Directories', 'tagDir')
     if debugPrintOUts:
-        print 'tagDir', tagDir
+        print('tagDir', tagDir)
     DirStruct={
         'tagDir': tagDir,
         'ftagdir': '%s/%s/'%(tagDir, opts.ftag),
@@ -167,7 +168,7 @@ if configurationNeeded:
     }
 
     if debugPrintOUts:
-        print 'DirStruct', DirStruct
+        print('DirStruct', DirStruct)
 
     # create output folders
     for keys in ['tagDir', 'ftagdir', 'logpath', 'plotpath', 'limitpath', 'confpath']:
@@ -197,16 +198,16 @@ if configurationNeeded:
                 elif '=' in optValue:
                     splitParts = optValue.split('=')
                     if len(splitParts) > 2:
-                        print "\x1b[31mWARNING: more than one equal sign found in expression, split at the first one! use ':=' to force split at another position!\x1b[0m"
+                        print("\x1b[31mWARNING: more than one equal sign found in expression, split at the first one! use ':=' to force split at another position!\x1b[0m")
                     opt = optValue.split('=')[0]
                     value = '='.join(optValue.split('=')[1:])
                 elif optValue:
                     opt = optValue.split(':')[0]
                     value = optValue.split(':')[1]
             except Exception as e:
-                print "ERROR:",e
-                print "ERROR: syntax error in:", optValue
-                print "ERROR: use ; to separate options and use \; to escape semicolons in case they are inside the value. Use := for assignment."
+                print("ERROR:",e)
+                print("ERROR: syntax error in:", optValue)
+                print("ERROR: use ; to separate options and use \; to escape semicolons in case they are inside the value. Use := for assignment.")
                 syntaxOk = False
                 raise
 
@@ -230,9 +231,9 @@ if configurationNeeded:
                     newOption = True
 
                 if not newOption:
-                    print "\x1b[31mCONFIG: SET", "{s}.{o}".format(s=configSection, o=configOption), "=", value, "\x1b[0m"
+                    print("\x1b[31mCONFIG: SET", "{s}.{o}".format(s=configSection, o=configOption), "=", value, "\x1b[0m")
                 else:
-                    print "\x1b[31mCONFIG: ADD", "{s}.{o}".format(s=configSection, o=configOption), "=", value, "\x1b[0m"
+                    print("\x1b[31mCONFIG: ADD", "{s}.{o}".format(s=configSection, o=configOption), "=", value, "\x1b[0m")
                 config.set(configSection, configOption, value)
 
     # combined config
@@ -246,7 +247,7 @@ if configurationNeeded:
                 raise Exception("UnknownError")
     with open(combinedConfigFileName, 'w') as combinedConfigFile:
         config.write(combinedConfigFile)
-        print 'wrote config to:', combinedConfigFileName
+        print('wrote config to:', combinedConfigFileName)
     config = BetterConfigParser()
     config.read(combinedConfigFileName)
 
@@ -262,16 +263,16 @@ whereToLaunch = config.get('Configuration', 'whereToLaunch')
 run_locally = str(config.get('Configuration', 'run_locally'))
 
 if opts.override_to_run_locally and opts.override_to_run_in_batch:
-    print 'both override_to_run_locally and override_to_run_in_batch ativated, using str(config.get("Configuration","run_locally")) instead'
+    print('both override_to_run_locally and override_to_run_in_batch ativated, using str(config.get("Configuration","run_locally")) instead')
 elif opts.override_to_run_locally:
     run_locally = 'True'
-    print 'using override_to_run_locally to override str(config.get("Configuration","run_locally"))'
+    print('using override_to_run_locally to override str(config.get("Configuration","run_locally"))')
 elif opts.override_to_run_in_batch:
     run_locally = 'False'
-    print 'using override_to_run_in_batch to override str(config.get("Configuration","run_locally"))'
+    print('using override_to_run_in_batch to override str(config.get("Configuration","run_locally"))')
 
-print 'whereToLaunch', whereToLaunch
-print 'run_locally', run_locally
+print('whereToLaunch', whereToLaunch)
+print('run_locally', run_locally)
 
 # ------------------------------------------------------------------------------
 # CREATE DIRECTORIES
@@ -284,17 +285,17 @@ if 'PSI' in whereToLaunch:
                 fileLocator.makedirs(config.get('Directories', dirName))
 if 'condor' in whereToLaunch:
     if 'X509_USER_PROXY' not in os.environ:
-        print '\x1b[41m\x1b[97mX509 proxy certificate not set, run:\x1b[0m'
-        print '--------------'
-        print 'voms-proxy-init -voms cms -rfc -out ${HOME}/.x509up_${UID} -valid 192:00'
-        print 'export X509_USER_PROXY=${HOME}/.x509up_${UID}'
-        print '--------------'
+        print('\x1b[41m\x1b[97mX509 proxy certificate not set, run:\x1b[0m')
+        print('--------------')
+        print('voms-proxy-init -voms cms -rfc -out ${HOME}/.x509up_${UID} -valid 192:00')
+        print('export X509_USER_PROXY=${HOME}/.x509up_${UID}')
+        print('--------------')
 
 # check if the logPath exist. If not exit
 if not os.path.isdir(logPath):
-    print '@ERROR : ' + logPath + ': dir not found.'
-    print '@ERROR : Create it before submitting '
-    print 'Exit'
+    print('@ERROR : ' + logPath + ': dir not found.')
+    print('@ERROR : Create it before submitting ')
+    print('Exit')
     sys.exit(-1)
 
 # ------------------------------------------------------------------------------
@@ -367,7 +368,7 @@ def waitFor(jobNameList):
             jobQueue = getJobQueue()
             for jobName in jobNames:
                 matches += len([jobName for job in jobQueue if jobName in job])
-                print "\x1b[44m\x1b[97mwaiting for \x1b[92m", matches, "\x1b[97m jobs of type \x1b[93m", jobName, "\x1b[97m to finish....\x1b[0m"
+                print("\x1b[44m\x1b[97mwaiting for \x1b[92m", matches, "\x1b[97m jobs of type \x1b[93m", jobName, "\x1b[97m to finish....\x1b[0m")
                 if matches > 0:
                     break
         if matches > 0:
@@ -395,7 +396,7 @@ def submit(job, repDict):
 def printSamplesStatus(samples, regions, status):
     print("regions:")
     for i,region in enumerate(regions):
-        print ('  %02d: %s'%(i, region))
+        print(('  %02d: %s'%(i, region)))
 
     print("-"*80)
     header = ' '*40 + ' '.join(['%02d'%x for x in range(len(regions))])
@@ -415,7 +416,7 @@ def printSamplesStatus(samples, regions, status):
                     nNotFound += 1
             else:
                 line += '\x1b[45m[?]\x1b[0m'
-        print line
+        print(line)
     print('summary:\n----------\nfound: %d\nnot found:%d'%(nFound, nNotFound))
     return nFound, nNotFound
 
@@ -426,18 +427,18 @@ def getCachingChunkSize(sample, config):
         chunkSize = sample.mergeCachingSize
     if int(opts.nevents_split_nfiles_single) > 0:
         chunkSize = int(opts.nevents_split_nfiles_single)
-        print "\x1b[31mINFO: chunk size overwritten with -N parameter!\x1b[0m"
+        print("\x1b[31mINFO: chunk size overwritten with -N parameter!\x1b[0m")
     return chunkSize
 
 def printInputOutputInfo(inputPathName, outputPathName, config=None, opts=None):
-    print "#"*160
-    print "-"*160
+    print("#"*160)
+    print("-"*160)
     if opts is not None:
-        print " TASK:   \x1b[33m{task}\x1b[0m".format(task=opts.task)
+        print(" TASK:   \x1b[33m{task}\x1b[0m".format(task=opts.task))
     if inputPathName is not None:
         if config is not None and config.has_option('Directories', inputPathName):
-            print " INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName)
-            print " ------> \x1b[32m{input}\x1b[0m".format(input=config.get('Directories', inputPathName))
+            print(" INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName))
+            print(" ------> \x1b[32m{input}\x1b[0m".format(input=config.get('Directories', inputPathName)))
         elif config is not None:
             optionKeys = []
             for k in config.options('Directories'): 
@@ -447,18 +448,18 @@ def printInputOutputInfo(inputPathName, outputPathName, config=None, opts=None):
                 except:
                     pass
             if len(optionKeys) > 0:
-                print " INPUT:  \x1b[32m{input}\x1b[0m".format(input='/'.join(optionKeys))
-                print " ------> \x1b[32m{input}\x1b[0m".format(input=inputPathName)
+                print(" INPUT:  \x1b[32m{input}\x1b[0m".format(input='/'.join(optionKeys)))
+                print(" ------> \x1b[32m{input}\x1b[0m".format(input=inputPathName))
             else:
-                print " INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName)
+                print(" INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName))
         else:
-            print " INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName)
+            print(" INPUT:  \x1b[32m{input}\x1b[0m".format(input=inputPathName))
 
     if outputPathName is not None:
         if config is not None and config.has_option('Directories', outputPathName):
-            print " OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName)
+            print(" OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName))
             if config is not None and config.has_option('Directories', outputPathName):
-                print " ------> \x1b[35m{output}\x1b[0m".format(output=config.get('Directories', outputPathName))
+                print(" ------> \x1b[35m{output}\x1b[0m".format(output=config.get('Directories', outputPathName)))
         elif config is not None:
             optionKeys = []
             for k in config.options('Directories'): 
@@ -468,26 +469,26 @@ def printInputOutputInfo(inputPathName, outputPathName, config=None, opts=None):
                 except:
                     pass
             if len(optionKeys) > 0:
-                print " OUTPUT: \x1b[35m{output}\x1b[0m".format(output='/'.join(optionKeys))
-                print " ------> \x1b[35m{output}\x1b[0m".format(output=outputPathName)
+                print(" OUTPUT: \x1b[35m{output}\x1b[0m".format(output='/'.join(optionKeys)))
+                print(" ------> \x1b[35m{output}\x1b[0m".format(output=outputPathName))
             else:
-                print " OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName)
+                print(" OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName))
         else:
-            print " OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName)
+            print(" OUTPUT: \x1b[35m{output}\x1b[0m".format(output=outputPathName))
 
     if config is not None and config.has_option('General','trackedOptions'):
         trackedOptions = eval(config.get('General','trackedOptions'))
-        print " OPTIONS:"
+        print(" OPTIONS:")
         for sectionName,optionName in trackedOptions:
             try:
                 if config.has_option(sectionName,optionName):
-                    print "  - {sectionName}.\x1b[34m{optionName}\x1b[0m = \x1b[32m{value}\x1b[0m".format(sectionName=sectionName,optionName=optionName,value=config.get(sectionName,optionName))
+                    print("  - {sectionName}.\x1b[34m{optionName}\x1b[0m = \x1b[32m{value}\x1b[0m".format(sectionName=sectionName,optionName=optionName,value=config.get(sectionName,optionName)))
                 elif optionName.endswith('(raw)') and config.has_option(sectionName,optionName[:-5]):
-                    print "  - {sectionName}.\x1b[35m{optionName}\x1b[0m(raw) = \x1b[32m{value}\x1b[0m".format(sectionName=sectionName,optionName=optionName[:-5],value=config.get(sectionName,optionName[:-5],True))
+                    print("  - {sectionName}.\x1b[35m{optionName}\x1b[0m(raw) = \x1b[32m{value}\x1b[0m".format(sectionName=sectionName,optionName=optionName[:-5],value=config.get(sectionName,optionName[:-5],raw = True)))
             except Exception as e:
-                print " > exception in tracked options:", e
-    print "-"*160
-    print "#"*160
+                print(" > exception in tracked options:", e)
+    print("-"*160)
+    print("#"*160)
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -521,12 +522,12 @@ if opts.task == 'datasets':
     with open(datasetsFileName, 'r') as datasetsFile:
         datasets = datasetsFile.readlines()
     for dataset in datasets:
-        print "DATASET:", dataset
+        print("DATASET:", dataset)
         getDatasetFilesComand = [dasQuery.format(dataset=dataset.strip())]
         p = subprocess.Popen(getDatasetFilesComand, stdout=subprocess.PIPE, shell=True)
         out, err = p.communicate()
-        print "command:", getDatasetFilesComand
-        print "root files:\n", out
+        print("command:", getDatasetFilesComand)
+        print("root files:\n", out)
         datasetName = dataset.strip().strip('/').split('/')[0]
         with open(samplefiles + '/' + datasetName + '.txt', 'w') as datasetFile:
             datasetFile.write(out)
@@ -545,7 +546,7 @@ def PrintProcessedFiles(path, subfolder, sampleFileList, prepOUT = None):
         #if step == sys:
         filename=fileLocator.getFilenameAfterPrep(sampleFile)
         FileExist = fileLocator.isValidRootFile("{path}/{subfolder}/{filename}".format(path=pathOUT, subfolder=subfolder, filename=filename))
-        #print 'yeah'
+        #print('yeah')
         #FileExist = fileLocator.remoteFileExists("{path}/{subfolder}/{filename}".format(path=pathOUT, subfolder=subfolder, filename=filename))
 
         if not FileExist:
@@ -560,9 +561,9 @@ def PrintProcessedFiles(path, subfolder, sampleFileList, prepOUT = None):
                 n_missing_files += 1
 
     #if n_missing_files == 0:
-    #    print "\x1b[32m All files for",  subfolder, "were already produced. Nothing to submit \x1b[0m.."
+    #    print("\x1b[32m All files for",  subfolder, "were already produced. Nothing to submit \x1b[0m..")
     #else:
-    #    print "\x1b[36m", n_missing_files,"/", len(sampleFileList), "\x1b[0m missing files for sample \x1b[36m", subfolder, " \x1b[0m.."
+    #    print("\x1b[36m", n_missing_files,"/", len(sampleFileList), "\x1b[0m missing files for sample \x1b[36m", subfolder, " \x1b[0m..")
 
     return [n_missing_files, n_total_files]
 
@@ -584,21 +585,21 @@ if opts.task == 'prep' or opts.task == 'checkprep':
     # process all sample identifiers (correspond to folders with ROOT files)
     for sampleIdentifier in sampleIdentifiers:
         try:
-	    sampleFileList = filelist(samplefiles, sampleIdentifier)
+	        sampleFileList = filelist(samplefiles, sampleIdentifier)
         except:
-            print "\x1b[31mERROR:", sampleIdentifier, " could not be found!\x1b[0m"
+            print("\x1b[31mERROR:", sampleIdentifier, " could not be found!\x1b[0m")
             continue
         if opts.limit and len(sampleFileList) > int(opts.limit):
             sampleFileList = sampleFileList[0:int(opts.limit)]
         splitFilesChunks = [sampleFileList[i:i+chunkSize] for i in range(0, len(sampleFileList), chunkSize)]
 
-        # for checksysnew step: only list of missing files are printed. No jobs are submited
+        # for checksysnew step: only list of missing files are printed. No jobs are submited)
         if opts.task == 'checkprep':
-            print "going to check \x1b[36m", len(sampleFileList), "\x1b[0m files for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+            print("going to check \x1b[36m", len(sampleFileList), "\x1b[0m files for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
             missingFiles[sampleIdentifier] =  PrintProcessedFiles(pathOUT, sampleIdentifier, sampleFileList)
             continue
 
-        print "going to submit \x1b[36m", len(splitFilesChunks), "\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+        print("going to submit \x1b[36m", len(splitFilesChunks), "\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
         # submit a job for a chunk of N files
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks):
 
@@ -621,20 +622,20 @@ if opts.task == 'prep' or opts.task == 'checkprep':
                 jobName = 'prep_{sample}_part{part}'.format(sample=sampleIdentifier, part=chunkNumber)
                 submit(jobName, jobDict)
             else:
-                print "SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber
+                print("SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber)
 
-    # printing the content of missingFiles
+    # printing the content of missingFiles)
     if opts.task == 'checkprep':
-        print '\n================'
-        print 'SUMMARY: checkprep'
-        print '==================\n'
+        print('\n================')
+        print('SUMMARY: checkprep')
+        print('==================\n')
         for sampleIdentifier in sampleIdentifiers:
             n_missing_files = missingFiles[sampleIdentifier][0]
             n_total_files = missingFiles[sampleIdentifier][1]
             if n_missing_files == 0:
-                print "\x1b[32m All files for \x1b[36m", sampleIdentifier, "\x1b[32m were already produced. Nothing to submit \x1b[0m.."
+                print("\x1b[32m All files for \x1b[36m", sampleIdentifier, "\x1b[32m were already produced. Nothing to submit \x1b[0m..")
             else:
-                print "\x1b[31m WARNING:", n_missing_files,"/", n_total_files, "missing or broken root files for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+                print("\x1b[31m WARNING:", n_missing_files,"/", n_total_files, "missing or broken root files for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
 
 # -----------------------------------------------------------------------------
 # HADD: this can merge files partially to avoid too many small trees
@@ -662,7 +663,7 @@ if opts.task == 'hadd':
             chunkSize = -1
             if config.has_section('Hadd') and config.has_option('Hadd', sampleIdentifier):
                 chunkSize = int(config.get('Hadd', sampleIdentifier).strip())
-                print "INFO: chunkSize read from config => ", chunkSize
+                print("INFO: chunkSize read from config => ", chunkSize)
             else:
                 #raise Exception("HaddChunkSizeUndefined")
                 print("WARNING: no number of files to hadd found, using default")
@@ -674,7 +675,7 @@ if opts.task == 'hadd':
             splitFilesChunks = [sampleFileList[i:i+chunkSize] for i in range(0, len(sampleFileList), chunkSize)]
 
             mergedFileNames = []
-            print "INFO:hadd \x1b[32m",sampleIdentifier," from ", len(sampleFileList), " to ", len(splitFilesChunks),"\x1b[0m"
+            print("INFO:hadd \x1b[32m",sampleIdentifier," from ", len(sampleFileList), " to ", len(splitFilesChunks),"\x1b[0m")
             for i, splitFilesChunk in enumerate(splitFilesChunks):
 
                 # only give good files to hadd
@@ -684,10 +685,10 @@ if opts.task == 'hadd':
                     #if fileLocator.isValidRootFile(fileNameAfterPrep):
                     if fileLocator.exists(fileNameAfterPrep):
                         fileNames.append(fileName)
-                        print ".",
+                        print(".",)
                     else:
-                        print "x",
-                print "INFO: #files=", len(splitFilesChunk), ", good=", len(fileNames)
+                        print("x",)
+                print("INFO: #files=", len(splitFilesChunk), ", good=", len(fileNames))
 
                 if len(fileNames) > 0:
                     # 'fake' filenames to write into text file for merged files
@@ -715,9 +716,9 @@ if opts.task == 'hadd':
                         jobName = 'hadd_{sample}_part{part}'.format(sample=sampleIdentifier, part=i)
                         submit(jobName, jobDict)
                     else:
-                        print "output file exists:", outputFileName
+                        print("output file exists:", outputFileName)
                 else:
-                    print "\x1b[31mERROR: no good files for this sample available:",sampleIdentifier,"!\x1b[0m"
+                    print("\x1b[31mERROR: no good files for this sample available:",sampleIdentifier,"!\x1b[0m")
 
             # write text file for merged files
             if len(mergedFileNames) > 0:
@@ -725,12 +726,12 @@ if opts.task == 'hadd':
                 with open(mergedFileListFileName, 'w') as mergedFileListFile:
                     mergedFileListFile.write('\n'.join(mergedFileNames))
             else:
-                print "\x1b[31mERROR: merged file list empty! .txt file has not been written!!\x1b[0m"
+                print("\x1b[31mERROR: merged file list empty! .txt file has not been written!!\x1b[0m")
 
-            print "INFO: hadd {sample}: {a} => {b}".format(sample=sampleIdentifier, a=len(sampleFileList), b=len(splitFilesChunks))
-            print "INFO:  > {mergedFileListFileName}".format(mergedFileListFileName=mergedFileListFileName)
+            print("INFO: hadd {sample}: {a} => {b}".format(sample=sampleIdentifier, a=len(sampleFileList), b=len(splitFilesChunks)))
+            print("INFO:  > {mergedFileListFileName}".format(mergedFileListFileName=mergedFileListFileName))
         except Exception as e:
-            print "\x1b[31mERROR: hadd failed for sample", sampleIdentifier, ": ", e, "\x1b[0m"
+            print("\x1b[31mERROR: hadd failed for sample", sampleIdentifier, ": ", e, "\x1b[0m")
 
 
 
@@ -746,7 +747,7 @@ if opts.task == 'count':
     sampleIdentifiers = filterSampleList(info.getSampleIdentifiers(), samplesList)
 
     haddTargetNumEvents = int(config.get('Configuration', 'haddTargetNumEvents')) if config.has_option('Configuration', 'haddTargetNumEvents') else 30000
-    print "INFO: target number of events after merge:", haddTargetNumEvents
+    print("INFO: target number of events after merge:", haddTargetNumEvents)
 
     # process all sample identifiers (correspond to folders with ROOT files)
     eventNumberOffsetDict = {}
@@ -757,7 +758,7 @@ if opts.task == 'count':
         try:
             sampleFileList = filelist(samplefiles, sampleIdentifier)
         except:
-            print "\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m"
+            print("\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m")
             continue
         offset = 0
 
@@ -772,7 +773,7 @@ if opts.task == 'count':
 
                 sampleTree = SampleTree([inputFileName], config=config)
                 nEvents = sampleTree.tree.GetEntries()
-                print fileName, nEvents
+                print(fileName, nEvents)
                 offset += nEvents
             numberOfTrees = len(sampleFileList)
             totalEvents = offset
@@ -781,20 +782,20 @@ if opts.task == 'count':
             chunkSizes.append([sampleIdentifier, chunkSize])
             numOutputTrees.append([sampleIdentifier, int(numberOfTrees/chunkSize)])
         except Exception as e:
-            print "\x1b[31mERROR:",e,"\x1b[0m"
+            print("\x1b[31mERROR:",e,"\x1b[0m")
             badSamples.append(sampleIdentifier)
     for sampleIdentifier, numTrees in numOutputTrees:
-        print "{s}: {c}".format(s=sampleIdentifier, c=int(numTrees))
-    print "---"
-    print "add the section below to your config before running the 'hadd' step!"
-    print "---"
-    print "[Hadd]"
+        print("{s}: {c}".format(s=sampleIdentifier, c=int(numTrees)))
+    print("---")
+    print("add the section below to your config before running the 'hadd' step!")
+    print("---")
+    print("[Hadd]")
     chunkSizes.sort(key=lambda x: x[0])
     for sampleIdentifier, chunkSize in chunkSizes:
-        print "{s}: {c}".format(s=sampleIdentifier, c=int(chunkSize))
-    print "---"
+        print("{s}: {c}".format(s=sampleIdentifier, c=int(chunkSize)))
+    print("---")
     if len(badSamples) > 0:
-        print "FAILED for:", ",".join(badSamples)
+        print("FAILED for:", ",".join(badSamples))
     countsFileName = opts.tag + 'config/event_counts.dat'
     with open(countsFileName, 'w') as ofile:
         ofile.write('%r'%eventNumberOffsetDict)
@@ -813,7 +814,7 @@ if opts.task == 'genEvtcount':
     sampleIdentifiers = filterSampleList(info.getSampleIdentifiers(), samplesList)
 
     haddTargetNumEvents = int(config.get('Configuration', 'haddTargetNumEvents')) if config.has_option('Configuration', 'haddTargetNumEvents') else 30000
-    print "INFO: target number of events after merge:", haddTargetNumEvents
+    print("INFO: target number of events after merge:", haddTargetNumEvents)
 
     # process all sample identifiers (correspond to folders with ROOT files)
     eventNumberOffsetDict = {}
@@ -824,11 +825,11 @@ if opts.task == 'genEvtcount':
         try:
             sampleFileList = filelist(samplefiles, sampleIdentifier)
         except:
-            print "\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m"
+            print("\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m")
             continue
         offset = 0
-	MCnorm = 0
-
+        MCnorm = 0
+        
         if sampleIdentifier not in eventNumberOffsetDict:
             eventNumberOffsetDict[sampleIdentifier] = {}
 
@@ -840,30 +841,24 @@ if opts.task == 'genEvtcount':
 
                 sampleTree = SampleTree([inputFileName], config=config)
                 nEvents = sampleTree.tree.GetEntries()
-		#sampleTree.tree.SetBranchStatus("*", 0)
-		#sampleTree.tree.SetBranchStatus("genWeight", 1)
-
-		#for entry in sampleTree.tree:
-        	#	MCnorm += sampleTree.tree.genWeight
-			
                 offset += nEvents
-		print fileName, nEvents, MCnorm
+            
             numberOfTrees = len(sampleFileList)
             numOutputTrees.append([sampleIdentifier, numberOfTrees, offset, MCnorm])
         except Exception as e:
-            print "\x1b[31mERROR:",e,"\x1b[0m"
+            print("\x1b[31mERROR:",e,"\x1b[0m")
             badSamples.append(sampleIdentifier)
     for sampleIdentifier, numTrees, nbevents, MC in numOutputTrees:
-        print "{s}: {c}, number of events {d}".format(s=sampleIdentifier, c=int(numTrees), d = int(offset))
-    print "---"
-    print "add the section below to your config !"
-    print "---"
-    print "[EventCounts]"
+        print("{s}: {c}, number of events {d}".format(s=sampleIdentifier, c=int(numTrees), d = int(offset)))
+    print("---")
+    print("add the section below to your config !")
+    print("---")
+    print("[EventCounts]")
     for sampleIdentifier, numTrees, nbevents, MC in numOutputTrees:
-        print "{s}: {c}".format(s=sampleIdentifier, c=int(MC))
-    print "---"
+        print("{s}: {c}".format(s=sampleIdentifier, c=int(MC)))
+    print("---")
     if len(badSamples) > 0:
-        print "FAILED for:", ",".join(badSamples)
+        print("FAILED for:", ",".join(badSamples))
 
 
 
@@ -878,12 +873,12 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
     # check for empty list of collections to add
     addCollections = opts.addCollections
     if not addCollections or len(addCollections.strip())<1:
-        print "\x1b[31mERROR: No collections specified, to force adding nothing, use \x1b[32m--modules None\x1b[31m!\x1b[0m"
+        print("\x1b[31mERROR: No collections specified, to force adding nothing, use \x1b[32m--modules None\x1b[31m!\x1b[0m")
         raise Exception('NoModulesSpecified')
 
     isChained = ';' in addCollections
     if isChained and not batchSystem.supportsDependencies():
-        print "\x1b[31mERROR: job dependencies are not supported by current batch system.\x1b[0m"
+        print("\x1b[31mERROR: job dependencies are not supported by current batch system.\x1b[0m")
         raise Exception('NotImplemented')
 
     # need prepout to get list of file processed during the prep. Files missing in both the prepout and the sysout will not be considered as missing during the sys step
@@ -899,7 +894,7 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
         numInputDirs = len(inputDir.split(';'))
         numOutputDirs = len(outputDir.split(';'))
         if numSteps != numInputDirs or numInputDirs != numOutputDirs:
-            print "\x1b[31mERROR: for chained jobs, multiple input and output folders must be given\x1b[0m"
+            print("\x1b[31mERROR: for chained jobs, multiple input and output folders must be given\x1b[0m")
             raise Exception('ArgumentError')
 
     jobDependencyDict = {}
@@ -919,12 +914,12 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
         printInputOutputInfo(inputDir, outputDir, config=config, opts=opts)
 
         # module version table
-        print "INFO: module:version"
+        print("INFO: module:version")
         moduleVersionDict = {}
         for collection in addCollections.split(','):
             modulesInfo       = XbbTools.getModuleInfo(collection, config=config)
-	    modulesInfoString = ", ".join(["\x1b[32m{m}\x1b[0m:\x1b[35m{v}\x1b[0m".format(m=moduleName,v=version) for moduleObject, moduleName, version in modulesInfo])
-            print " > {c} ---> {m}".format(c=collection.ljust(32),m=modulesInfoString)
+            modulesInfoString = ", ".join(["\x1b[32m{m}\x1b[0m:\x1b[35m{v}\x1b[0m".format(m=moduleName,v=version) for moduleObject, moduleName, version in modulesInfo])
+            print(" > {c} ---> {m}".format(c=collection.ljust(32),m=modulesInfoString))
             for moduleObject, moduleName, version in modulesInfo:
                 if moduleName not in moduleVersionDict:
                     moduleVersionDict[moduleName] = -99
@@ -949,24 +944,24 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                         moduleVersionDict[moduleName] = version
                     else:
                         if moduleVersionDict[moduleName] > inputModuleVersions[moduleName]:
-                            print "\x1b[32mINFO: UPGRADE", moduleName, " from version", inputModuleVersions[moduleName], "to", moduleVersionDict[moduleName], "\x1b[0m"
+                            print("\x1b[32mINFO: UPGRADE", moduleName, " from version", inputModuleVersions[moduleName], "to", moduleVersionDict[moduleName], "\x1b[0m")
                         elif moduleVersionDict[moduleName] < inputModuleVersions[moduleName]:
-                            print "\x1b[31mWARNING: DOWNGRADE", moduleName, " from version", inputModuleVersions[moduleName], "to", moduleVersionDict[moduleName], "\x1b[0m"
+                            print("\x1b[31mWARNING: DOWNGRADE", moduleName, " from version", inputModuleVersions[moduleName], "to", moduleVersionDict[moduleName], "\x1b[0m")
 
                 # write version tree into output directory
                 infoFileName = pathOUT + "/" + moduleVersionFileName
                 XbbTools.writeDictToRootFile(infoFileName, moduleVersionTreeName, "module version numbers", "name", "version", moduleVersionDict, fileLocator)
                 if 'XBBDEBUG' in os.environ:
-                    print "DEBUG: version info file created:", infoFileName
-                print "-"*160
+                    print("DEBUG: version info file created:", infoFileName)
+                print("-"*160)
             except Exception as e:
-                print "ERROR: could not write version information:", e
+                print("ERROR: could not write version information:", e)
 
         # for checksysnew step: dic contains missing number of files for each sample
         missingFiles = {}
 
         # process all sample identifiers (correspond to folders with ROOT files)
-        print "INFO: going to submit jobs for", len(sampleIdentifiers), "samples."
+        print("INFO: going to submit jobs for", len(sampleIdentifiers), "samples.")
         for sampleIdentifier in sampleIdentifiers:
             try:
                 sampleFileList = filelist(samplefiles, sampleIdentifier)
@@ -975,10 +970,10 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                     fileListFilter = opts.files.split(",")
                     sampleFileList = [x for x in sampleFileList if x.strip() in fileListFilter]
                     if len(sampleFileList) < 1:
-                        print "=> no files match the criteria, skip this chunk"
+                        print("=> no files match the criteria, skip this chunk")
                         continue
             except:
-		print "\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m"
+                print("\x1b[31mERROR: sample", sampleIdentifier, " does not exist => skip.\x1b[0m")
                 continue
 
             # specified with -N option
@@ -989,7 +984,7 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                 minFilesPerJob = int(config.get(sampleIdentifier, 'minFilesPerJob'))
                 if minFilesPerJob > chunkSize:
                     chunkSize = minFilesPerJob
-                    print "\x1b[34mINFO: override chunk size given by -N with value from config:", chunkSize, "\x1b[0m"
+                    print("\x1b[34mINFO: override chunk size given by -N with value from config:", chunkSize, "\x1b[0m")
 
             # limit numebr of files per sample
             if opts.limit and len(sampleFileList) > int(opts.limit):
@@ -997,13 +992,13 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
 
             splitFilesChunks = [sampleFileList[i:i+chunkSize] for i in range(0, len(sampleFileList), chunkSize)]
 
-            # for checksysnew step: only list of missing files are printed. No jobs are submited
+            # for checksysnew step: only list of missing files are printed. No jobs are submited)
             if opts.task == 'checksysnew':
-                print "going to check \x1b[36m", len(sampleFileList), "\x1b[0m files for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+                print("going to check \x1b[36m", len(sampleFileList), "\x1b[0m files for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
                 missingFiles[sampleIdentifier] =  PrintProcessedFiles(pathOUT, sampleIdentifier, sampleFileList, prepOUT)
                 continue
 
-            print "going to submit \x1b[36m", len(splitFilesChunks), "\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+            print("going to submit \x1b[36m", len(splitFilesChunks), "\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
 
             # for sysnew
             # submit a job for a chunk of N files
@@ -1050,12 +1045,8 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                     # check for dependencies
                     if sampleIdentifier in jobDependencyDict and chunkNumber in jobDependencyDict[sampleIdentifier]:
                         jobDict['dependency'] = jobDependencyDict[sampleIdentifier][chunkNumber]
-
-                    
-
-		    # submit
-                    print(jobName)
-		    batchJob = submit(jobName, jobDict)
+		            # submit
+                    batchJob = submit(jobName, jobDict)
 
                     jobID = batchJob.jobID() if batchJob else -1
                     if jobID > -1:
@@ -1064,23 +1055,23 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                         jobDependencyDict[sampleIdentifier][chunkNumber] = jobID
                 else:
                     if allInputFilesMissing:
-                        print "\x1b[31mSKIP: chunk %d, all input files of this chunk are missing!\x1b[0m"%chunkNumber
+                        print("\x1b[31mSKIP: chunk %d, all input files of this chunk are missing!\x1b[0m"%chunkNumber)
                     else:
-                        print "SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber
+                        print("SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber)
 
         if opts.task == 'checksysnew':
-            # printing the content of missingFiles
-            print '\n=================='
-            print 'SUMMARY: checksysnew'
-            print '====================\n'
+            # printing the content of missingFiles)
+            print('\n==================')
+            print('SUMMARY: checksysnew')
+            print('====================\n')
             for sampleIdentifier in sampleIdentifiers:
-                #print 'sampleIdentifier is', sampleIdentifier
+                #print('sampleIdentifier is', sampleIdentifier)
                 n_missing_files = missingFiles[sampleIdentifier][0]
                 n_total_files = missingFiles[sampleIdentifier][1]
                 if n_missing_files == 0:
-                    print "\x1b[32m All files for \x1b[36m", sampleIdentifier, "\x1b[32m were already produced wrt the current prepOUT path \x1b[0m.."
+                    print("\x1b[32m All files for \x1b[36m", sampleIdentifier, "\x1b[32m were already produced wrt the current prepOUT path \x1b[0m..")
                 else:
-                    print "\x1b[31m WARNING:", n_missing_files,"/", n_total_files, "missing or broken root files wrt the current prepOUT path for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+                    print("\x1b[31m WARNING:", n_missing_files,"/", n_total_files, "missing or broken root files wrt the current prepOUT path for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
 
 
 # -----------------------------------------------------------------------------
@@ -1095,12 +1086,12 @@ if opts.task == 'efficiency':
     info              = ParseInfo(samples_path=pathIN, config=config)
     sampleIdentifiers = filterSampleList(info.getSampleIdentifiers(), samplesList)
 
-    print "INPUT:", pathIN
-    print "OUTPUT:", pathOUT
+    print("INPUT:", pathIN)
+    print("OUTPUT:", pathOUT)
 
     for sampleIdentifier in sampleIdentifiers:
          sampleFileList = filelist(samplefiles, sampleIdentifier)
-         print '---', sampleIdentifier, '---'
+         print('---', sampleIdentifier, '---')
          for fileName in sampleFileList:
             fileNameIn  = "{path}/{subfolder}/{filename}".format(path=pathIN,  subfolder=sampleIdentifier, filename=fileLocator.getFilenameAfterPrep(fileName))
             fileNameOut = "{path}/{subfolder}/{filename}".format(path=pathOUT, subfolder=sampleIdentifier, filename=fileLocator.getFilenameAfterPrep(fileName))
@@ -1115,8 +1106,8 @@ if opts.task == 'efficiency':
                 status = '\x1b[42m100%\x1b[0m'
             else:
                 status = '\x1b[41m%d > %d = %1.3f\x1b[0m'%(n1, n2, 100.0 * n2/n1)
-            print fileNameIn, fileNameOut
-            print fileName, n1, n2, status
+            print(fileNameIn, fileNameOut)
+            print(fileName, n1, n2, status)
 
             f1.Close()
             f2.Close()
@@ -1136,16 +1127,16 @@ if opts.task.startswith('cachetraining'):
     allSignals = list(set(sum([eval(config.get(trainingRegion, 'signals')) for trainingRegion in trainingRegions], [])))
     allData = list(set(sum([eval(config.get(trainingRegion, 'data')) for trainingRegion in trainingRegions if config.has_option(trainingRegion, 'data')], [])))
 
-    print "backgrounds:"
+    print("backgrounds:")
     for sampleName in sorted(allBackgrounds):
-        print " >", sampleName
-    print "signals:"
+        print(" >", sampleName)
+    print("signals:")
     for sampleName in sorted(allSignals):
-        print " >", sampleName
+        print(" >", sampleName)
     if len(allData) > 0:
-        print "data:"
+        print("data:")
         for sampleName in sorted(allData):
-            print " >", sampleName
+            print(" >", sampleName)
 
     # get samples info
     if config.has_option('Directories', 'trainingSamples'):
@@ -1159,9 +1150,9 @@ if opts.task.startswith('cachetraining'):
 
     # find all sample identifiers that have to be cached, if given list is empty, run it on all
     sampleIdentifiers = filterSampleList(list(set([sample.identifier for sample in samples])), samplesList)
-    print "sample identifiers: (", len(sampleIdentifiers), ")"
+    print("sample identifiers: (", len(sampleIdentifiers), ")")
     for sampleIdentifier in sorted(sampleIdentifiers):
-        print " >", sampleIdentifier
+        print(" >", sampleIdentifier)
 
     printInputOutputInfo(inputPath, tmpPath, config=config, opts=opts)
 
@@ -1180,10 +1171,10 @@ if opts.task.startswith('cachetraining'):
         splitFilesChunkSize = min([getCachingChunkSize(sample, config) for sample in samples if sample.identifier==sampleIdentifier])
         try:
             splitFilesChunks = SampleTree({'name': sampleIdentifier, 'folder': inputPath}, countOnly=True, splitFilesChunkSize=splitFilesChunkSize, config=config).getSampleFileNameChunks()
-            print "DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks)
+            print("DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks))
         except Exception as e:
             splitFilesChunks = []
-            print "\x1b[31mEXCEPTION:",e," => this sample will be skipped!\x1b[0m"
+            print("\x1b[31mEXCEPTION:",e," => this sample will be skipped!\x1b[0m")
 
         # submit all the single chunks for one sample
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks, start=1):
@@ -1268,7 +1259,7 @@ if opts.task.startswith('dnn'):
             jobName = 'dnn_run_{trainingRegions}'.format(trainingRegions=trainingRegion)
             submit(jobName, jobDict)
         else:
-            print "\x1b[31mERROR: DNN training region needs option 'h5' to specify location of .h5 file. This region will be skipped:", trainingRegion, "\x1b[0m"
+            print("\x1b[31mERROR: DNN training region needs option 'h5' to specify location of .h5 file. This region will be skipped:", trainingRegion, "\x1b[0m")
 
 
 
@@ -1295,9 +1286,9 @@ if opts.task.startswith('cacheplot'):
 
     # find all sample identifiers that have to be cached, if given list is empty, run it on all
     sampleIdentifiers = filterSampleList(sorted(list(set([sample.identifier for sample in samples]))), samplesList)
-    print "sample identifiers: (", len(sampleIdentifiers), ")"
+    print("sample identifiers: (", len(sampleIdentifiers), ")")
     for sampleIdentifier in sampleIdentifiers:
-        print " >", sampleIdentifier
+        print(" >", sampleIdentifier)
     
     # submit jobs, 1 to n separate jobs per sample
     for sampleIdentifier in sampleIdentifiers:
@@ -1318,9 +1309,9 @@ if opts.task.startswith('cacheplot'):
                     'folder': config.get('Directories', 'plottingSamples')
                 }, countOnly=True, splitFilesChunkSize=splitFilesChunkSize, config=config).getSampleFileNameChunks()
         except Exception as e:
-            print "\x1b[31mERROR:",e,"\x1b[0m"
+            print("\x1b[31mERROR:",e,"\x1b[0m")
             splitFilesChunks = []
-        print "DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks)
+        print("DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks))
             
         # submit all the single parts
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks, start=1):
@@ -1417,14 +1408,13 @@ if opts.task.startswith('runplot'):
                     })
                 if sampleIdentifiers:
                     jobDict['arguments']['sampleIdentifier'] = ','.join(sampleIdentifiers)
-
-		jobName = 'plot_run_{region}_{chunk}'.format(region=region, chunk=j)
+                jobName = 'plot_run_{region}_{chunk}'.format(region=region, chunk=j)
                 submit(jobName, jobDict)
     if nRegionsMatched < 1:
-        print "WARNING: no plot regions found - nothing to do."
+        print("WARNING: no plot regions found - nothing to do.")
 
 # -----------------------------------------------------------------------------
-# DCYIELDS: print yields table for data in datacar regions, without caching
+# DCYIELDS: print(yields table for data in datacar regions, without caching)
 # -----------------------------------------------------------------------------
 if opts.task.startswith('dcyields') or opts.task == 'yields':
     # get list of all sample names used in DC step
@@ -1442,15 +1432,15 @@ if opts.task.startswith('dcyields') or opts.task == 'yields':
 
     # find all sample identifiers that have to be cached, if given list is empty, run it on all
     sampleIdentifiers = filterSampleList(sorted(list(set([sample.identifier for sample in samples]))), samplesList)
-    print "sample identifiers: (", len(sampleIdentifiers), ")"
+    print("sample identifiers: (", len(sampleIdentifiers), ")")
     for sampleIdentifier in sampleIdentifiers:
-        print " >", sampleIdentifier
+        print(" >", sampleIdentifier)
     
     # submit jobs, 1 to n separate jobs per sample
     for sampleIdentifier in sampleIdentifiers:
         sampleObject = [x for x in samples if x.identifier == sampleIdentifier]
         if len(sampleObject) != 1:
-            print "ERROR: samples missing or not unique!!"
+            print("ERROR: samples missing or not unique!!")
             continue
         sample = sampleObject[0]
         sampleTree = SampleTree({
@@ -1474,7 +1464,7 @@ if opts.task.startswith('dcyields') or opts.task == 'yields':
             for region in regions:
                 if sampleTree.evaluate(cutDict[region]):
                     eventsPassed[region] += 1
-        print "events passed:", eventsPassed
+        print("events passed:", eventsPassed)
 
 # -----------------------------------------------------------------------------
 # CACHEDC: prepare skimmed trees for DC, which have looser cuts to include 
@@ -1492,7 +1482,7 @@ if opts.task.startswith('cachedc'):
             regions = XbbTools.filterList(defaultRegions, regions)
 
 
-    print "regions: (", regions, ")"
+    print("regions: (", regions, ")")
 
     if config.has_option('LimitGeneral', 'addSample_sys'):
         addSample_sys = eval(config.get('LimitGeneral', 'addSample_sys'))
@@ -1509,9 +1499,9 @@ if opts.task.startswith('cachedc'):
 
     # find all sample identifiers that have to be cached, if given list is empty, run it on all
     sampleIdentifiers = filterSampleList(sorted(list(set([sample.identifier for sample in samples]))), samplesList)
-    print "sample identifiers: (", len(sampleIdentifiers), ")"
+    print("sample identifiers: (", len(sampleIdentifiers), ")")
     for sampleIdentifier in sampleIdentifiers:
-        print " >", sampleIdentifier
+        print(" >", sampleIdentifier)
 
     # check existence of cached files before job submission, otherwise it will be checked at the beginning of the job
     if opts.skipExisting:
@@ -1519,7 +1509,7 @@ if opts.task.startswith('cachedc'):
         for i, region in enumerate(regions):
             dcMaker = Datacard(config=config, region=region, verbose=False)
             status[region] = dcMaker.getCacheStatus(useSampleIdentifiers=sampleIdentifiers)
-            print "INFO: done checking files for region\x1b[34m",region, "\x1b[0m(",i, "of", len(regions),")"
+            print("INFO: done checking files for region\x1b[34m",region, "\x1b[0m(",i, "of", len(regions),")")
         printSamplesStatus(samples=samples, regions=regions, status=status)
 
     # per job parallelization parameter can split regions into several jobs
@@ -1539,7 +1529,7 @@ if opts.task.startswith('cachedc'):
         if opts.skipExisting:
             sampleNames = sorted(list(set([sample.name for sample in samples if sample.identifier == sampleIdentifier])))
             
-            print "sample names: (", sampleNames, ")"
+            print("sample names: (", sampleNames, ")")
             filesMissing = False
             for sampleName in sampleNames:
                 for region in regions:
@@ -1548,10 +1538,10 @@ if opts.task.startswith('cachedc'):
                             filesMissing = True
                             break
             if not filesMissing:
-                print 'INFO: SKIP samples:', sampleNames,'files already exist!'
+                print('INFO: SKIP samples:', sampleNames,'files already exist!')
                 continue
             else:
-                print 'INFO: files do not exist yet!'
+                print('INFO: files do not exist yet!')
 
         # number of files to process per job
         # each entry in the array is for a subsample
@@ -1561,7 +1551,7 @@ if opts.task.startswith('cachedc'):
                 'name': sampleIdentifier,
                 'folder': sampleFolder
             }, countOnly=True, splitFilesChunkSize=splitFilesChunkSize, config=config).getSampleFileNameChunks()
-        print "DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks)
+        print("DEBUG: split after ", splitFilesChunkSize, " files => number of parts = ", len(splitFilesChunks))
 
         # submit all the single parts
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks, start=1):
@@ -1628,8 +1618,8 @@ if opts.task.startswith('rundc'):
                     shapeFileExists = [os.path.isfile(x) for x in datacard.getShapeFileNames(sampleIdentifier)]
                     # skip if all files exist or no shapes needed for this region/sample
                     if all(shapeFileExists) or len(shapeFileExists) == 0:
-                        print "INFO: shapes files:", datacard.getShapeFileNames(sampleIdentifier)
-                        print "INFO: > all files exist! => skip"
+                        print("INFO: shapes files:", datacard.getShapeFileNames(sampleIdentifier))
+                        print("INFO: > all files exist! => skip")
                         continue
 
                 # large samples can be split further
@@ -1645,7 +1635,7 @@ if opts.task.startswith('rundc'):
                         print('INFO: number of jobs is ', nJobs)
 
                     if nJobs < 1:
-                        print '\x1b[31mERROR: not cached:', sampleIdentifier, ", run cachedc again\x1b[0m"
+                        print('\x1b[31mERROR: not cached:', sampleIdentifier, ", run cachedc again\x1b[0m")
                         raise Exception("NotCached")
 
                     for chunkNumber in range(1, nJobs+1):
@@ -1789,7 +1779,7 @@ if opts.task == 'sys' or opts.task == 'syseval':
             sampleFileList = sampleFileList[0:int(opts.limit)]
         splitFilesChunks = [sampleFileList[i:i+chunkSize] for i in range(0, len(sampleFileList), chunkSize)]
         
-        print "going to submit \x1b[36m",len(splitFilesChunks),"\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m.." 
+        print("going to submit \x1b[36m",len(splitFilesChunks),"\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m.." )
         # submit a job for a chunk of N files
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks):
             jobDict = repDict.copy()
@@ -1817,10 +1807,10 @@ if opts.task == 'eval' or opts.task.startswith('eval_'):
         try:
             splitFilesChunks = partitionFileList(filelist(samplefiles, sampleIdentifier), chunkSize=chunkSize)
         except:
-            print "\x1b[31mERROR: missing ", sampleIdentifier, " => skip \x1b[0m"
+            print("\x1b[31mERROR: missing ", sampleIdentifier, " => skip \x1b[0m")
 
         # submit a job for each chunk of up to N files
-        print "going to submit \x1b[36m",len(splitFilesChunks),"\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m.."
+        print("going to submit \x1b[36m",len(splitFilesChunks),"\x1b[0m jobs for sample \x1b[36m", sampleIdentifier, " \x1b[0m..")
         for chunkNumber, splitFilesChunk in enumerate(splitFilesChunks):
             # check existence of OUTPUT files
             if opts.skipExisting:
@@ -1842,25 +1832,25 @@ if opts.task == 'eval' or opts.task.startswith('eval_'):
                 jobName = 'eval_{sample}_part{part}'.format(sample=sampleIdentifier, part=chunkNumber)
                 submit(jobName, jobDict)
             else:
-                print "SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber
+                print("SKIP: chunk #%d, all files exist and are valid root files!"%chunkNumber)
 
 # -----------------------------------------------------------------------------
-# summary: print list of cuts for CR+SR
+# summary: print(list of cuts for CR+SR)
 # TODO: this should also run some basic checks on the configuration
 # -----------------------------------------------------------------------------
 if opts.task == 'summary':
-    print "-"*80
-    print " paths"
-    print "-"*80
+    print("-"*80)
+    print(" paths")
+    print("-"*80)
     for path in ['PREPout', 'SYSin', 'SYSout', 'MVAin', 'MVAout', 'tmpSamples']:
         try:
-            print "%s:"%path, "\x1b[34m", config.get('Directories', path) ,"\x1b[0m"
+            print("%s:"%path, "\x1b[34m", config.get('Directories', path) ,"\x1b[0m")
         except:
-            print "\x1b[31mERROR: did not find path in config section [Directories]:",path,"\x1b[0m"
+            print("\x1b[31mERROR: did not find path in config section [Directories]:",path,"\x1b[0m")
 
-    print "-"*80
-    print " pre-selection ('prep')"
-    print "-"*80
+    print("-"*80)
+    print(" pre-selection ('prep')")
+    print("-"*80)
     
     _configs = [x for x in config.get('Configuration', 'List').split(" ") if len(x.strip()) > 0]
     configs = ['%sconfig/'%(opts.tag) + c for c in _configs]
@@ -1868,17 +1858,17 @@ if opts.task == 'summary':
     cumulativeConfig2 = BetterConfigParser()
 
     for addConfig in configs:
-        print "CONFIG:", addConfig
+        print("CONFIG:", addConfig)
         cumulativeConfig2.read(addConfig)
 
         for s in cumulativeConfig2.sections():
             for v in cumulativeConfig2.options(s):
                 try:
                     if cumulativeConfig.has_section(s) and cumulativeConfig.has_option(s, v) and cumulativeConfig.get(s, v) != cumulativeConfig2.get(s, v):
-                        print "\x1b[31mWARNING: overwrite config '", s, "' -> '", v , "'"
-                        print " from:", cumulativeConfig.get(s, v)
-                        print "   to:", cumulativeConfig2.get(s, v)
-                        print "\x1b[0m"
+                        print("\x1b[31mWARNING: overwrite config '", s, "' -> '", v , "'")
+                        print(" from:", cumulativeConfig.get(s, v))
+                        print("   to:", cumulativeConfig2.get(s, v))
+                        print("\x1b[0m")
                 except:
                     pass
         cumulativeConfig.read(addConfig)
@@ -1894,25 +1884,25 @@ if opts.task == 'summary':
             cutDict[addTreeCut] = []
         cutDict[addTreeCut].append(sample.identifier)
     for preselectionCut, listOfSamples in cutDict.iteritems():
-        print "SAMPLES: \x1b[34m", ','.join(listOfSamples), "\x1b[0m"
-        print "CUT: \x1b[32m", preselectionCut,"\x1b[0m"
-        print "-"*40
+        print("SAMPLES: \x1b[34m", ','.join(listOfSamples), "\x1b[0m")
+        print("CUT: \x1b[32m", preselectionCut,"\x1b[0m")
+        print("-"*40)
 
-    print "-"*80
-    print " plot samples"
-    print "-"*80
+    print("-"*80)
+    print(" plot samples")
+    print("-"*80)
     plotSamples = eval(config.get('Plot_general', 'samples'))
     samplesUsed = [x for x in info if x.name in plotSamples]
     sampleIdentifiersUsed = sorted(list(set([x.identifier for x in samplesUsed])))
     for sampleIdentifier in sampleIdentifiersUsed:
-        print sampleIdentifier
+        print(sampleIdentifier)
         for sample in samplesUsed:
             if sample.identifier == sampleIdentifier:
-                print " >>> ", sample.name
+                print(" >>> ", sample.name)
 
-    print "-"*80
-    print " CR and SR definitions:"
-    print "-"*80
+    print("-"*80)
+    print(" CR and SR definitions:")
+    print("-"*80)
     regions = [x.strip() for x in (config.get('Plot_general', 'List')).split(',')]
     # submit all the plot regions as separate jobs
     for region in regions:
@@ -1920,15 +1910,15 @@ if opts.task == 'summary':
             regionCut = config.get("Cuts", region)
         except:
             regionCut = "\x1b[31mregion cut missing in cuts.ini!\x1b[0m"
-        print " \x1b[33m",region,"\x1b[0m"
-        print "  - cut:\x1b[34m", regionCut, "\x1b[0m"
-    print "-"*80
-    print " weight "
-    print "-"*80
+        print(" \x1b[33m",region,"\x1b[0m")
+        print("  - cut:\x1b[34m", regionCut, "\x1b[0m")
+    print("-"*80)
+    print(" weight ")
+    print("-"*80)
     try:
-        print config.get('Weights', 'weightF')
+        print(config.get('Weights', 'weightF'))
     except:
-        print "\x1b[31mERROR: 'weightF' missing in section 'Weights'!\x1b[0m"
+        print("\x1b[31mERROR: 'weightF' missing in section 'Weights'!\x1b[0m")
 
 # check sample status for various steps
 if opts.task == 'samplestatus':
@@ -1951,7 +1941,7 @@ if opts.task == 'samplestatus':
                 status += "\x1b[43m\x1b[97m/\x1b[0m"
             else:
                 status += "\x1b[41m\x1b[97m-\x1b[0m"
-        print status
+        print(status)
 
 # checks file status for several steps/folders at once
 if opts.task.replace(':','.').split('.')[0] == 'status':
@@ -1975,7 +1965,7 @@ if opts.task.replace(':','.').split('.')[0] == 'status':
         jobs = {k: True for k in batchSystem.getJobNames()}
         jobsRunning = {k: True for k in batchSystem.getJobNamesRunning()}
     except Exception as e:
-        print "ERROR: could not get list of running jobs: ", e
+        print("ERROR: could not get list of running jobs: ", e)
 
     # process all sample identifiers (correspond to folders with ROOT files)
     fileStatus = {}
@@ -1996,7 +1986,7 @@ if opts.task.replace(':','.').split('.')[0] == 'status':
                 fileGood = fileLocator.exists(localFilePath) and (not opts.verify or fileLocator.isValidRootFile(localFilePath))
                 fileStatus[folder][sampleIdentifier].append([fileGood, partNumber])
    
-    # print the full sample name at the end so can resubmit them using -S sample1,sample2
+    # print(the full sample name at the end so can resubmit them using -S sample1,sample2)
     missing_samples_list = []
     good_samples_list = []
     completely_empty_samples_list = []
@@ -2004,7 +1994,7 @@ if opts.task.replace(':','.').split('.')[0] == 'status':
     nFilesDone = 0
     for folder in foldersToCheck:
         folderStatus = fileStatus[folder]
-        print "---",folder,"-"*100
+        print("---",folder,"-"*100)
         sampleStatusList = folderStatus.items()
         sampleStatusList.sort(key=lambda x: x[0])
         for sampleIdentifier, sampleStatus in sampleStatusList:
@@ -2030,25 +2020,25 @@ if opts.task.replace(':','.').split('.')[0] == 'status':
                 sampleShort = "\x1b[31m" + sampleShort + "\x1b[0m"
             elif len([x for x,n in sampleStatus if x])==len(sampleStatus):
                 sampleShort = "\x1b[32m" + sampleShort + "\x1b[0m"
-            print sampleShort, ("%03d/%03d"%(len([x for x,n in sampleStatus if x]),len(sampleStatus))).ljust(8), statusBar, "\x1b[0m "
+            print(sampleShort, ("%03d/%03d"%(len([x for x,n in sampleStatus if x]),len(sampleStatus))).ljust(8), statusBar, "\x1b[0m ")
             nFiles += len(sampleStatus)
             nFilesDone += len([x for x,n in sampleStatus if x])
-        print "total: %d/%d"%(nFilesDone, nFiles)
+        print("total: %d/%d"%(nFilesDone, nFiles))
     if len(missing_samples_list) > 0:
-        print 'Good samples:',','.join(good_samples_list)
-        print '-----'
-        print 'To submit missing sample only, used option -S', ','.join(missing_samples_list)
+        print('Good samples:',','.join(good_samples_list))
+        print('-----')
+        print('To submit missing sample only, used option -S', ','.join(missing_samples_list))
     if len(completely_empty_samples_list) > 0:
-        print 'Good samples:',','.join(good_samples_list)
-        print '-----'
-        print '\nTo submit empty samples, used option -S', ','.join(completely_empty_samples_list)
+        print('Good samples:',','.join(good_samples_list))
+        print('-----')
+        print('\nTo submit empty samples, used option -S', ','.join(completely_empty_samples_list))
     if len(failedJobs) > 0:
-        print "-"*20
-        print "failed jobs (%d):"%len(failedJobs)
+        print("-"*20)
+        print("failed jobs (%d):"%len(failedJobs))
         if len(failedJobs) > 20:
             failedJobs = failedJobs[:20]
-        print "\n".join(failedJobs)
-        print "(up to 20 jobs are printed)"
+        print("\n".join(failedJobs))
+        print("(up to 20 jobs are printed)")
 
 # outputs a simple python code to read the whole sample as chain
 if opts.task == 'sample':
@@ -2056,17 +2046,17 @@ if opts.task == 'sample':
     path = config.get("Directories", "SYSout")
     samplefiles = config.get('Directories','samplefiles')
     info = ParseInfo(samples_path=path, config=config)
-    print ">", info.getSampleIdentifiers()
-    print "filter by:", samplesList
+    print(">", info.getSampleIdentifiers())
+    print("filter by:", samplesList)
     sampleIdentifiers = filterSampleList(info.getSampleIdentifiers(), samplesList)
     foldersToCheck = ["SYSout"] if len(opts.folders.strip()) < 1 else opts.folders.split(',')
-    print "samples:", sampleIdentifiers
-    print "folders:", foldersToCheck
+    print("samples:", sampleIdentifiers)
+    print("folders:", foldersToCheck)
     basePaths = dict([(x, config.get("Directories", x)) for x in foldersToCheck])
 
     for folder in foldersToCheck:
         path = basePaths[folder]
-        print "check:", path
+        print("check:", path)
         for sampleIdentifier in sampleIdentifiers:
             matchingSamples = [x for x in info if x.identifier == sampleIdentifier]
             sampleObject = matchingSamples[0] if len(matchingSamples)>0 else None
@@ -2089,15 +2079,15 @@ if opts.task == 'sample':
             if opts.output:
                 with open(opts.output + '_' + sampleIdentifier + '.py','w') as outputFile:
                     outputFile.write(skimTemplate)
-                print "written to: \x1b[34m",opts.output,"\x1b[0m"
+                print("written to: \x1b[34m",opts.output,"\x1b[0m")
             else:
-                print "----",sampleIdentifier,"----"
-                print skimTemplate
+                print("----",sampleIdentifier,"----")
+                print(skimTemplate)
                 if opts.output:
                     with open(opts.output, "w") as outFile:
                         outFile.write(skimTemplate)
-                    print "----",sampleIdentifier,"----"
-                    print "written to:", opts.output
+                    print("----",sampleIdentifier,"----")
+                    print("written to:", opts.output)
 
 if opts.task.startswith('checklogs'):
     
@@ -2115,7 +2105,7 @@ if opts.task.startswith('checklogs'):
         with open(jsonFileName, 'r') as infile:
             lastSubmission = json.load(infile)
     except:
-        print "ERROR: nothing to check, there is no submission yet!"
+        print("ERROR: nothing to check, there is no submission yet!")
         exit(0)
     
     # check job status
@@ -2169,24 +2159,24 @@ if opts.task.startswith('checklogs'):
         if len(errorLines) > 0:
             errorStatus = True
         if not opts.unfinished or errorStatus or not status.startswith('success'):
-            print "-"*80
-            print " NAME:", job['jobName']
-            print " LOG:", job['log']
-            print " STATUS:", ("\x1b[31m"+status+"\x1b[0m" if errorStatus else status)
+            print("-"*80)
+            print(" NAME:", job['jobName'])
+            print(" LOG:", job['log'])
+            print(" STATUS:", ("\x1b[31m"+status+"\x1b[0m" if errorStatus else status))
             if 'host' in job and job['host'] is not None:
-                print " HOST:", job['host']
+                print(" HOST:", job['host'])
 
             if len(errorLines) > 0:
-                print " ERRORS:"
+                print(" ERRORS:")
                 for errorLine in errorLines:
-                    print "  \x1b[31m" + errorLine + "\x1b[0m"
+                    print("  \x1b[31m" + errorLine + "\x1b[0m")
             if errorStatus:
-                print " RESUBMIT: \x1b[34m" + job['submitCommand']  + "\x1b[0m"
+                print(" RESUBMIT: \x1b[34m" + job['submitCommand']  + "\x1b[0m")
                 nFailed += 1
                 if opts.resubmit:
                     subprocess.call([job['submitCommand']], shell=True)
                     nResubmitted += 1
-    print "%d jobs in total, %d complete, %d jobs failed, %d jobs resubmitted, %d retries"%(len(lastSubmission), nComplete, nFailed, nResubmitted, nRetries)
+    print("%d jobs in total, %d complete, %d jobs failed, %d jobs resubmitted, %d retries"%(len(lastSubmission), nComplete, nFailed, nResubmitted, nRetries))
 
 
 if opts.task.startswith('submissions'):
@@ -2195,11 +2185,11 @@ if opts.task.startswith('submissions'):
     statusDict = {-1: "\x1b[31mX\x1b[0m", 0: "\x1b[42m \x1b[0m", 1: "\x1b[43mR\x1b[0m", 2: "\x1b[45m\x1b[37mQ\x1b[0m", 3: "\x1b[45m\x1b[37mD\x1b[0m", 10: "\x1b[41m\x1b[37mE\x1b[0m", 11: "\x1b[41m\x1b[37mC\x1b[0m", 12: "\x1b[41m\x1b[37mU\x1b[0m", 100: "\x1b[44m\x1b[37mr\x1b[0m", 101: "\x1b[44m\x1b[37mC\x1b[0m", 110: "\x1b[44m\x1b[32mL\x1b[0m"}
     statusNamesDict = {-1: "error", 0: "done", 1: "running", 2: "queued", 3:"dependency", 10: "error", 11: "crashed", 12: "unknown", 100: "resubmitted", 101: "cancelled", 110: "not submitted/ran locally"}
     failureCodes = [-1, 10, 11, 12]
-    print "*"*printWidth
-    print " legend:"
+    print("*"*printWidth)
+    print(" legend:")
     for n in [0,1,2,3,-1,10,11,12,100]:
-        print "  ", statusDict[n], "  ", statusNamesDict[n]
-    print "*"*printWidth
+        print("  ", statusDict[n], "  ", statusNamesDict[n])
+    print("*"*printWidth)
 
     try:
         os.makedirs('submissions')
@@ -2217,7 +2207,7 @@ if opts.task.startswith('submissions'):
 
         if len(submissionLogs) > nSubmissions:
             submissionLogs = submissionLogs[:nSubmissions]
-        print "showing the latest", nSubmissions, "submissions, use --input to specify .json file to check an individual one"
+        print("showing the latest", nSubmissions, "submissions, use --input to specify .json file to check an individual one")
 
     # check job status
     batchSystem = BatchSystem.create(config)
@@ -2296,7 +2286,7 @@ if opts.task.startswith('submissions'):
                         hostFailures[job['host']] += 1
 
         jobType = '/'.join(list(set([str(job['repDict']['task']) for job in lastSubmission])))
-        print "\x1b[34m", submissionLog, "\x1b[0m of type \x1b[35m", jobType, "\x1b[0m log files saved to -> \x1b[34m", logfileDirectory, "\x1b[0m"
+        print("\x1b[34m", submissionLog, "\x1b[0m of type \x1b[35m", jobType, "\x1b[0m log files saved to -> \x1b[34m", logfileDirectory, "\x1b[0m")
 
         # try to use a different node if batch system supports it
         try:
@@ -2316,7 +2306,7 @@ if opts.task.startswith('submissions'):
                     try:
                         batchSystem.resubmit(job)
                     except Exception as e:
-                        print "ERROR: ",e
+                        print("ERROR: ",e)
                     nResubmitted += 1
                     nResubmittedPerFile += 1
                     job['status'] = 100
@@ -2329,26 +2319,26 @@ if opts.task.startswith('submissions'):
             else:
                 printJobs = jobStatus
                 jobStatus = []
-            print ''.join([statusDict[x] for x in printJobs])
-        print "-"*printWidth
+            print(''.join([statusDict[x] for x in printJobs]))
+        print("-"*printWidth)
 
         if nResubmittedPerFile > 0:
             with open(submissionLog, 'w') as outfile:
                 json.dump(lastSubmission, outfile)
 
-    # print logfiles of failed jobs
+    # print(logfiles of failed jobs)
     if len(failedJobs) > 0 and opts.verbose:
         for job in failedJobs:
-            print job['id'], statusDict[job['status']] if job['status'] in statusDict else job['status'], job['log']
+            print(job['id'], statusDict[job['status']] if job['status'] in statusDict else job['status'], job['log'])
 
     if nCancelFailed > 0:
-        print nCancelFailed, "jobs could not be cancelled"
+        print(nCancelFailed, "jobs could not be cancelled")
 
     if nCancelled > 0:
-        print nCancelled, "jobs cancelled"
+        print(nCancelled, "jobs cancelled")
 
     if nResubmitted > 0:
-        print nResubmitted, "jobs resubmitted!"
+        print(nResubmitted, "jobs resubmitted!")
 
     # summary of WNs of failed jobs
     if len(hostFailures.keys()) > 0:
@@ -2356,7 +2346,7 @@ if opts.task.startswith('submissions'):
         w = [[k,v] for k,v in hostFailures.items()]
         w.sort(key=lambda x: x[1], reverse=True)
         for x in w:
-            print " ",x[0],":",x[1]
+            print(" ",x[0],":",x[1])
 # -----------------------------------------------------------------------------
 # postfitplot 
 # -----------------------------------------------------------------------------
@@ -2394,18 +2384,18 @@ if opts.task.startswith('make_skims'):
             jobName = 'makeskims_{region}'.format(region=region)
             submit(jobName, jobDict)
     if nRegionsMatched < 1:
-        print "WARNING: no plot regions found - nothing to do."
+        print("WARNING: no plot regions found - nothing to do.")
 
 # -----------------------------------------------------------------------------
-# config: print single, fully parsed config setting 
+# config: print(single, fully parsed config setting )
 # -----------------------------------------------------------------------------
 if opts.task == 'config':
     section = opts.vars.split('.')[0]
     value   = opts.vars.split('.')[1] 
     if config.has_option(section, value):
-        print "RESULT: {section}.{value} = {result}".format(section=section, value=value, result=config.get(section, value))
+        print("RESULT: {section}.{value} = {result}".format(section=section, value=value, result=config.get(section, value)))
     else:
-        print "\x1b[31mERROR: not found: {section}.{value}\x1b[0m".format(section=section, value=value)
+        print("\x1b[31mERROR: not found: {section}.{value}\x1b[0m".format(section=section, value=value))
 
 
 # if there are still jobs in the local queue, submit them to the batch queue
@@ -2422,7 +2412,7 @@ if batchSystem.getNJobsSubmitted() > 0 and not opts.resubmit:
         for copyName in ['last-submission-' + submissionName + '.json', 'last-submission-' + submissionName + '_' + opts.task + '.json']:
             shutil.copyfile(fileName, copyName)
     except Exception as e:
-        print "ERROR: coudn't dump submitted jobs to json file ", fileName, "!", e
+        print("ERROR: coudn't dump submitted jobs to json file ", fileName, "!", e)
 
 
 
