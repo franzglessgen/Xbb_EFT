@@ -48,7 +48,7 @@ class LeptonSF:
 
         ptFound = False
 
-        for ptKey, result in sorted(self.res[self.lep_binning].iteritems()) :
+        for ptKey, result in sorted(self.res[self.lep_binning].items()) :
             ptL = float(((ptKey[ptKey.find(':')+2:]).rstrip(']').split(',')[0]))
             ptH = float(((ptKey[ptKey.find(':')+2:]).rstrip(']').split(',')[1]))
 
@@ -102,7 +102,7 @@ class LeptonSF:
         closestPt = 9999.
 
         etaFound = False
-        for etaKey, values in sorted(self.res[self.lep_binning].iteritems()) :
+        for etaKey, values in sorted(self.res[self.lep_binning].items()) :
             #print 'etaKey is', etaKey
             #print 'etaKey after strip is', etaKey[stripForEta:]
             #etaL = float(((etaKey[stripForEta:]).rstrip(']').split(',')[0]))
@@ -120,7 +120,7 @@ class LeptonSF:
                 closestEtaBin = etaKey
                 etaFound = True                
 
-            for ptKey, result in sorted(values.iteritems()) :
+            for ptKey, result in sorted(values.items()) :
                 #ptL = float(((ptKey[stripForPt:]).rstrip(']').split(',')[0]))
                 #ptH = float(((ptKey[stripForPt:]).rstrip(']').split(',')[1]))
                 ptL = float(((ptKey[ptKey.find('[')+1:]).rstrip(']').split(',')[0]))
@@ -221,7 +221,7 @@ class GetDoubleMuTriggWeight:
         #print 'eta2', eta2
         
         # read all per-eg efficiency
-        for j, name in jsons.iteritems():
+        for j, name in jsons.items():
             #print 'j is', j
             global weight
             weight = []

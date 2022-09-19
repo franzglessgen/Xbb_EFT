@@ -41,7 +41,7 @@ for inputTextFileName in inputTextFileNames:
     sampleFolderName = inputTextFileName.strip('/').split('/')[-1]
     print '-> '+sampleFolderName
     sampleName = sampleFolderName
-    for k,v in sampleNameReplacementRules.iteritems():
+    for k,v in sampleNameReplacementRules.items():
         sampleName = sampleName.replace(k, v)
     print '  -> name: ' + sampleName
 
@@ -52,7 +52,7 @@ for inputTextFileName in inputTextFileNames:
     filesToWrite = []
     for sampleFile in sampleFiles:
         sampleFileFinal = sampleFile
-        for k,v in sampleFileReplacementRules.iteritems():
+        for k,v in sampleFileReplacementRules.items():
             sampleFileFinal = sampleFileFinal.replace(k, v)
         print '      ',sampleFileFinal
         treeName = sampleFileFinal.split('/')[-2] + '/' + sampleFileFinal.split('/')[-1]

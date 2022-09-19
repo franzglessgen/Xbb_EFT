@@ -26,23 +26,23 @@ class RegressionTrainer():
         
     
     def train(self):
-        print "AAAAAAAA"
-        print "__title=",self.__title
-        print "__signals=",self.__signals
-        print "__info=",self.__info
-        print "__samples=",self.__samples
+        print("AAAAAAAA")
+        print("__title=",self.__title)
+        print("__signals=",self.__signals)
+        print("__info=",self.__info)
+        print("__samples=",self.__samples)
         
         signals = []
         signalsTest = []
         for job in self.__samples:
-            print '\tREADING IN %s AS SIG'%job.name,
-            print ' in ',job.identifier
+            print('\tREADING IN %s AS SIG'%job.name,)
+            print(' in ',job.identifier)
             signals.append(self.__tc.get_tree(job,'%s & %s' %(self.__cut,self.__trainCut)))
             signalsTest.append(self.__tc.get_tree(job,'%s & %s'%(self.__cut,self.__testCut)))
         
         sWeight = 1.
         fnameOutput='weights/training_Reg_%s.root' %(self.__title)
-        print "Opening ",fnameOutput
+        print("Opening ",fnameOutput)
         output = ROOT.TFile.Open(fnameOutput, "RECREATE")
 
         factory = ROOT.TMVA.Factory('MVA', output, '!V:!Silent:!Color:!DrawProgressBar:Transformations=I:AnalysisType=Regression')
@@ -56,9 +56,9 @@ class RegressionTrainer():
         for var in self.__vars:
             factory.AddVariable(var,'D') # add the variables
             self.__apply.append(p.sub(r'\g<0>[0]', var))
-            print (self.__apply)
+            print((self.__apply))
             
-        print "DEBUG1"
+        print("DEBUG1")
         factory.AddTarget( self.__target )
         mycut = ROOT.TCut( self.__cut )
         factory.BookMethod(ROOT.TMVA.Types.kBDT,'BDT_REG_%s'%(self.__title),self.__regOptions) # book an MVA method
@@ -77,5 +77,5 @@ class RegressionTrainer():
             self.__config.write(configfile)
         with open('weights/Config_BDT_REG_%s.ini'%self.__title, 'r') as configfile:
             for line in configfile:
-                print line.strip()
+                print(line.strip())
 

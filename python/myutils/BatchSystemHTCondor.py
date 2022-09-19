@@ -77,7 +77,7 @@ class BatchSystemHTCondor(BatchSystem):
         return self.run(command, runScript, repDict)
 
     def submitQueue(self):
-        for batchName, submitFileIdentifier in condorBatchGroups.iteritems():
+        for batchName, submitFileIdentifier in condorBatchGroups.items():
             submitFileName = 'condor_{identifier}.sub'.format(identifier=submitFileIdentifier)
             command = 'condor_submit {submitFileName}  -batch-name {batchName}'.format(submitFileName=submitFileName, batchName=batchName)
             if self.interactive:

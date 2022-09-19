@@ -144,7 +144,7 @@ def log_s_over_b(fileList):
 
     stack_log_s_over_b = ROOT.THStack("stack_log_s_over_b","stack_log_s_over_b")
 
-    for key, s_b_d in s_b_d_histos.iteritems():
+    for key, s_b_d in s_b_d_histos.items():
         for bin in range(0,s_b_d['b'].GetNbinsX()+1):
             s = s_b_d['s'].GetBinContent(bin)
             b = s_b_d['b'].GetBinContent(bin)

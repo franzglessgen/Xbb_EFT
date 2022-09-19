@@ -468,7 +468,7 @@ if options.plotsf and options.dc:
 
     # calculate the shift on the y position
     shift=0.
-    for channel,active in ch.iteritems(): shift+=active;
+    for channel,active in ch.items(): shift+=active;
     shift=1./(shift+1)
 
     #shift the elements in the array
@@ -524,7 +524,7 @@ if options.plotsf and options.dc:
     graphs={}
     latex={}
     j=1
-    for channel,active in ch.iteritems():
+    for channel,active in ch.items():
         print channel
         print active
         if active > 0.:
@@ -584,7 +584,7 @@ if options.plotsf and options.dc:
     l2.SetFillColor(0)
     l2.SetFillStyle(4000)
     l2.SetTextFont(62)
-    for channel,g in graphs.iteritems():
+    for channel,g in graphs.items():
         print channel
 #        l2.AddEntry(g,'ZH, Z#rightarrowl^{+}l^{-}',"pl")
         l2.AddEntry(g,'ZH, Z#rightarrow#nu#nu',"pl")
@@ -594,7 +594,7 @@ if options.plotsf and options.dc:
     l2.SetTextSize(0.035)
 #    l2.SetNColumns(3)
     l2.Draw("same")
-    for channel,g in graphs.iteritems():
+    for channel,g in graphs.items():
         print channel
         g.Draw("P same")
         for label in labels:
