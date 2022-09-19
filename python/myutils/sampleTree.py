@@ -246,12 +246,12 @@ class SampleTree(object):
                 # TODO: per run if possible, sum LHE weights if present
 
                 # sum the contributions from the subtrees
-                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.items() if len(values) > 0 and type(values[0]) in [int, float, long]}
+                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.items() if len(values) > 0 and type(values[0]) in [int, float]}
                 # print summary table
                 countBranches = self.totalNanoTreeCounts.keys()
                 depth = None
                 for key,values in self.nanoTreeCounts.items():
-                    if values and len(values)>1 and type(values[0]) in [int, float, long]:
+                    if values and len(values)>1 and type(values[0]) in [int, float]:
                         depth = len(values)
                         break
                 print("-"*160)
@@ -275,8 +275,8 @@ class SampleTree(object):
                     if type(value) == int:
                         # 64 bit signed int 
                         typeCode = 'L'
-                    elif type(value) == long:
-                        typeCode = 'L'
+                    #elif type(value) == long:
+                    #    typeCode = 'L'
                     elif type(value) == float:
                         typeCode = 'f'
                     nanoTreeCountBuffers[key] = array.array(typeCode, [value])
@@ -608,8 +608,9 @@ class SampleTree(object):
     # implement iterator for TChain, with updating TTreeFormula objects on tree
     # switching and show performance statistics during loop
     # ------------------------------------------------------------------------------
-    def next(self):
-        self.treeIterator.next()
+    #Replaced next wit __next__ for python 3
+    def __next__(self):
+        self.treeIterator.__next__()
         self.eventsRead += 1
         if self.debug and (self.eventsRead % 1000 == 0 or self.eventsRead == 10 or self.eventsRead == 100):
             throughput = 1.0*self.eventsRead / (1.0*(time.time() - self.timeStart) + 0.001)
@@ -650,6 +651,10 @@ class SampleTree(object):
             for formulaName, treeFormula in self.formulas.items():
                 treeFormula.UpdateFormulaLeaves()
         return self.tree
+
+    #for python 3
+
+    #__next__ = next
 
     def __iter__(self):
         self.treeIterator = self.tree.__iter__()

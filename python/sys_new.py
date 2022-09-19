@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 import os
 import ROOT
 ROOT.gROOT.SetBatch(True)
@@ -20,11 +21,11 @@ class XbbRun:
 
         # get file list
         self.filelist = FileList.decompress(opts.fileList) if len(opts.fileList) > 0 else None
-        print "len(filelist)",len(self.filelist),
+        print("len(filelist)",len(self.filelist),)
         if len(self.filelist) > 0:
-            print "filelist[0]:", self.filelist[0]
+            print("filelist[0]:", self.filelist[0])
         else:
-            print ''
+            print('')
 
         # config
         self.debug = 'XBBDEBUG' in os.environ
@@ -37,31 +38,35 @@ class XbbRun:
         # load namespace, TODO
         VHbbNameSpace = self.config.get('VHbbNameSpace', 'library')
         ROOT.gSystem.Load(VHbbNameSpace)
+        VHbbNameSpaceHeader = self.config.get('VHbbNameSpace', 'header')
+        LineToInterpret = "#include " + "\"" + VHbbNameSpaceHeader + "\""
+        #ROOT.gInterpreter.ProcessLine('#include "VHbbNameSpace.h"')
+        ROOT.gInterpreter.ProcessLine(LineToInterpret)
 
         # directories
         self.pathIN = self.config.get('Directories', opts.inputDir)
         self.pathOUT = self.config.get('Directories', opts.outputDir)
         self.tmpDir = self.config.get('Directories', 'scratch')
-        print 'INput samples:\t%s'%self.pathIN
-        print 'OUTput samples:\t%s'%self.pathOUT
+        print('INput samples:\t%s'%self.pathIN)
+        print('OUTput samples:\t%s'%self.pathOUT)
 
         self.fileLocator = FileLocator(config=self.config)
 
         # check if given sample identifier uniquely matches a samples from config
         matchingSamples = ParseInfo(samples_path=self.pathIN, config=self.config).find(identifier=opts.sampleIdentifier)
         if len(matchingSamples) != 1:
-            print "ERROR: need exactly 1 sample identifier as input with -S !!"
-            print matchingSamples
+            print("ERROR: need exactly 1 sample identifier as input with -S !!")
+            print(matchingSamples)
             exit(1)
         self.sample = matchingSamples[0]
 
         # collections
         self.collections = [x.strip() for x in opts.addCollections.split(',') if len(x.strip()) > 0] if len(opts.addCollections.strip())>0  else []
         if len(self.collections) < 1:
-            print "\x1b[31mWARNING: no collections added! Specify the collections to add with the --addCollections option!\x1b[0m"
-        print 'collections to add:', self.collections
+            print("\x1b[31mWARNING: no collections added! Specify the collections to add with the --addCollections option!\x1b[0m")
+        print('collections to add:', self.collections)
         self.collections = self.parseCollectionList(self.collections)
-        print 'after parsing:', self.collections
+        print('after parsing:', self.collections)
 
         # temorary folder to save the files of this job on the scratch
         temporaryName = self.sample.identifier + '/' + uuid.uuid4().hex
@@ -135,20 +140,20 @@ class XbbRun:
                 # load sample tree
                 sampleTree = SampleTree(subJob['localInputFileNames'], config=self.config)
                 if not sampleTree.tree:
-                    print "trying fallback...", len(subJob['inputFileNames'])
+                    print("trying fallback...", len(subJob['inputFileNames']))
 
                     if len(subJob['inputFileNames']) == 1:
                         # try original naming scheme if reading directly from Heppy/Nano ntuples (without prep)
                         fileNameOriginal = self.pathIN + '/' + subJob['inputFileNames'][0]
-                        print "FO:", fileNameOriginal
+                        print("FO:", fileNameOriginal)
                         xrootdRedirector = self.fileLocator.getRedirector(fileNameOriginal)
                         sampleTree = SampleTree([fileNameOriginal], config=self.config, xrootdRedirector=xrootdRedirector)
                         if not sampleTree.tree:
-                            print "\x1b[31mERROR: file does not exist or is broken, will be SKIPPED!\x1b[0m"
+                            print("\x1b[31mERROR: file does not exist or is broken, will be SKIPPED!\x1b[0m")
                             nFilesFailed += 1
                             continue
                     else:
-                        print "\x1b[31mERROR: file does not exist or is broken, will be SKIPPED! (old naming scheme not supported for joining multipel files)\x1b[0m"
+                        print("\x1b[31mERROR: file does not exist or is broken, will be SKIPPED! (old naming scheme not supported for joining multipel files)\x1b[0m")
                         nFilesFailed += 1
                         continue
 
@@ -165,16 +170,16 @@ class XbbRun:
                         if self.config.has_section(section) and self.config.has_option(section, key):
                             pyCode = self.config.get(section, key)
                         elif '(' in collection and collection.endswith(')'):
-                            print "WARNING: config option", collection, " not found, interpreting it as Python code!"
+                            print("WARNING: config option", collection, " not found, interpreting it as Python code!")
                             pyCode = collection 
                         else:
-                            print "\x1b[31mERROR: config option not found:", collection, ". To specify Python code directly, pass a complete constructor, e.g. --addCollections 'Module.Class()'. Module has to be placed in python/myutils/ folder.\x1b[0m"
+                            print("\x1b[31mERROR: config option not found:", collection, ". To specify Python code directly, pass a complete constructor, e.g. --addCollections 'Module.Class()'. Module has to be placed in python/myutils/ folder.\x1b[0m")
                             raise Exception("ConfigError")
 
                         # import module from myutils
                         moduleName = pyCode.split('(')[0].split('.')[0].strip()
                         if self.debug:
-                            print "DEBUG: import module:", moduleName
+                            print("DEBUG: import module:", moduleName)
                             print("\x1b[33mDEBUG: " + collection + ": run PYTHON code:\n"+pyCode+"\x1b[0m")
                         globals()[moduleName] = importlib.import_module(".{module}".format(module=moduleName), package="myutils")
 
@@ -207,11 +212,11 @@ class XbbRun:
 
                         versionTable.append([moduleName, wObject.getVersion() if hasattr(wObject, "getVersion") else 0])
                     else:
-                        print "\x1b[31mERROR: config option not found:", collection, " the format should be: [Section].[Option]\x1b[0m"
+                        print("\x1b[31mERROR: config option not found:", collection, " the format should be: [Section].[Option]\x1b[0m")
                         raise Exception("ConfigError")
 
                 for moduleName, moduleVersion in versionTable:
-                    print " > {m}:{v}".format(m=moduleName, v=moduleVersion)
+                    print(" > {m}:{v}".format(m=moduleName, v=moduleVersion))
 
                 # DEPRECATED, do not use anymore ---> use BranchTools.TreeFormulas()
                 if 'addbranches' in self.collections:
@@ -245,29 +250,29 @@ class XbbRun:
                 if sampleTree.getNumberOfOutputTrees() > 0: 
                     try:
                         self.fileLocator.cp(subJob['tmpFileName'], subJob['outputFileName'], force=True)
-                        print 'copy ', subJob['tmpFileName'], subJob['outputFileName']
+                        print('copy ', subJob['tmpFileName'], subJob['outputFileName'])
 
                         if self.verifyCopy:
                             if not self.fileLocator.isValidRootFile(subJob['outputFileName']):
-                                print 'INFO: output at final destination broken, try to copy again from scratch disk to final destination...'
+                                print('INFO: output at final destination broken, try to copy again from scratch disk to final destination...')
                                 self.fileLocator.cp(subJob['tmpFileName'], subJob['outputFileName'], force=True)
-                                print 'INFO: second attempt copy done!'
+                                print('INFO: second attempt copy done!')
                                 if not self.fileLocator.isValidRootFile(subJob['outputFileName']):
-                                    print '\x1b[31mERROR: output still broken!\x1b[0m'
+                                    print('\x1b[31mERROR: output still broken!\x1b[0m')
                                     nFilesFailed += 1
                                     raise Exception("FileCopyError")
                                 else:
-                                    print 'INFO: file is good after second attempt!'
+                                    print('INFO: file is good after second attempt!')
                     except Exception as e:
-                        print e
-                        print "\x1b[31mERROR: copy from scratch to final destination failed!!\x1b[0m"
+                        print(e)
+                        print("\x1b[31mERROR: copy from scratch to final destination failed!!\x1b[0m")
 
                     # delete temporary file
                     try:
                         self.fileLocator.rm(subJob['tmpFileName'])
                     except Exception as e:
-                        print e
-                        print "WARNING: could not delete file on scratch!"
+                        print(e)
+                        print("WARNING: could not delete file on scratch!")
 
 
                 # clean up
@@ -275,7 +280,7 @@ class XbbRun:
                     getattr(wObject, "cleanUp")()
 
             else:
-                print 'SKIP:', subJob['inputFileNames']
+                print('SKIP:', subJob['inputFileNames'])
 
         if nFilesFailed > 0:
             raise Exception("ProcessingIncomplete")
@@ -300,5 +305,5 @@ if opts.config == "":
 xr = XbbRun(opts)
 xr.run()
 
-print "INFO: max memory used (MB): %1.1f"%(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0)
+print("INFO: max memory used (MB): %1.1f"%(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0))
 

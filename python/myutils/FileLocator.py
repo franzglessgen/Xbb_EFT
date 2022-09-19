@@ -121,7 +121,11 @@ class FileLocator(object):
     def isValidRootFile(self, path):
         if self.debug:
             print("DEBUG: check validity of ", path)
-        f = ROOT.TFile.Open(path, 'read')
+        
+        try:  
+            f = ROOT.TFile.Open(path, 'read')
+        except:
+            f = False
         if f:
             isValid = not (f.IsZombie() or f.GetNkeys() == 0 or f.TestBit(ROOT.TFile.kRecovered))
             try:

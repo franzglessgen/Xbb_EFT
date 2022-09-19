@@ -24,7 +24,8 @@ class FileList(object):
     @staticmethod
     def decompress(fileList):
         if fileList.startswith('base64:'):
-            decompressedList = zlib.decompress(base64.b64decode(fileList[7:])).split(';')
+            decompressedList = zlib.decompress( base64.b64decode(fileList[7:]) )
+            decompressedList = (decompressedList.decode("utf-8")).split(';')
         else:
             print ("\x1b[31mERROR: invalid compressed file list format: {fileList}\x1b[0m".format(fileList=fileList))
             raise Exception("InvalidCompressedFileListFormat")
