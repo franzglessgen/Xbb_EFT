@@ -1,0 +1,46 @@
+/bin/squeue
+['Zll2018config//paths.ini']
+wrote config to: /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_094737.ini
+whereToLaunch auto
+run_locally False
+INFO: auto-detected batch system: SLURM
+INFO: using batch system [34m BatchSystemSLURM [0m
+################################################################################################################################################################
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ TASK:   [33msysnew[0m
+ INPUT:  [32mMVAHelicity[0m
+ ------> [32mroot://t3dcachedb03.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/fglessge/VHbb/EFT/Zll/VHbbPostNano2018_V6/2022_03_25/MVAHelicity[0m
+ OUTPUT: [35mBITtestbranch[0m
+ ------> [35mroot://t3dcachedb03.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/fglessge/VHbb/EFT/Zll/VHbbPostNano2018_V6/2022_03_25/BITtestbranch[0m
+ OPTIONS:
+  - Configuration.[34mcmsswbase[0m = [32m/work/fglessge/EFT/CMSSW_10_1_0/[0m
+  - Directories.[34msamplefiles[0m = [32m/work/fglessge/EFT/CMSSW_10_1_0//src/Xbb/samples/VHbbPostNano2018_V6_final/merged_Zll2018[0m
+  - Cuts.[34mOverlapResolvedBoosted[0m = [32mSR_B[0m
+  - General.[34mVjetFlavor[0m = [32mVJ4[0m
+  - Stitching.[34mMethodDY[0m = [32mV12[0m
+  - Stitching.[34mMethodWJ[0m = [32mV12[0m
+  - Stitching.[34mMethodZJ[0m = [32mV12[0m
+  - Stitching.[34mReweightLHEVpt[0m = [32mON[0m
+  - Weights.[35mweightF[0m(raw) = [32mgenWeight * puWeight * 1.0 * (1.0+(((hJidx[0]>-1&&hJidx[1]>-1) && !(boostedSR&&!resolvedSR)))*(-1.0+bTagWeightDeepCSV)) * EWKw[0] * weightJetPUID * ((muonSF_Iso[0]*muonSF_Id[0]*muonSF_trigger[0])*(electronSF_IdIso[0]*electronSF_trigger[0])) * weightLOtoNLO_LHEVptV5 * (1.0+((isBoosted)&&(isSignal))*(-1.0+bTagWeightDoubleB))[0m
+  - Weights.[34mweightF[0m = [32mgenWeight * puWeight * 1.0 * (1.0+(((hJidx[0]>-1&&hJidx[1]>-1) && !(boostedSR&&!resolvedSR)))*(-1.0+bTagWeightDeepCSV)) * EWKw[0] * weightJetPUID * ((muonSF_Iso[0]*muonSF_Id[0]*muonSF_trigger[0])*(electronSF_IdIso[0]*electronSF_trigger[0])) * weightLOtoNLO_LHEVptV5 * (1.0+((isBoosted)&&(isSignal))*(-1.0+bTagWeightDoubleB))[0m
+  - General.[34mbtagMethod[0m = [32mDeepCSV[0m
+  - General.[34mSFmethod[0m = [32mOFF[0m
+  - General.[35mJetFlavor[0m(raw) = [32m[
+'(nGenBpt25eta2p6<1&&nGenDpt25eta2p6<1)',
+'(nGenBpt25eta2p6<1&&nGenDpt25eta2p6>0)',
+'(nGenBpt25eta2p6==1)',
+'(nGenBpt25eta2p6>1)',
+][0m
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+################################################################################################################################################################
+INFO: module:version
+ > Eval.SR_medhigh_Zmm_BIT          ---> [32mLGBlightEvaluator_fromCheckpoint[0m:[35m0[0m
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO: going to submit jobs for 1 samples.
+going to submit [36m 202 [0m jobs for sample [36m WH_1j_SMEFTsim_v1  [0m..
+SUBMIT:[34m sbatch --job-name=sysnew_WH_1j_SMEFTsim_v1_part0_Zll2018sysnew --mem=6000M --time=0-10:00 --output=/work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/Logs//sysnew_2022_09_20-09_47_37_sysnew_WH_1j_SMEFTsim_v1_part0_Zll2018_.out --open-mode=append --account=t3 runAll.sh sysnew_WH_1j_SMEFTsim_v1_part0 Zll2018 sysnew 1 noid  --sampleIdentifier=WH_1j_SMEFTsim_v1  --fileList=base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd  --addCollections=Eval.SR_medhigh_Zmm_BIT  --inputDir=MVAHelicity  --outputDir=BITtestbranch  --force  --configFile=/work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_094737.ini --noretry [0m
+(press ENTER to run it and continue, [34ml[0m to run it locally, [34md[0m for debug mode, [34ma[0m to run all jobs locally and [34ms[0m to submit the remaining jobs)
+You pressed Ctrl+C!
+
+----------------------------
+

@@ -247,5 +247,4 @@ class tensorflowEvaluator(AddCollectionsModule):
         return True
 
     def cleanUp(self):
-        pass
-
+        print(">>>>>>>>>> CLEAN UP")

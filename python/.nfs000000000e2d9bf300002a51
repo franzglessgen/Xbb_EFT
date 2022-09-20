@@ -20,7 +20,7 @@ ulimit -c 0
 ulimit -S -c 0
 
 # Fix Python escape sequence bug.
-#export TERM=""
+export TERM=""
 
 #-------------------------------------------------
 # Parse Input Arguments
@@ -266,10 +266,8 @@ if [ "$runCommand" ]; then
 
     echo "$runCommand"
     eval "$runCommand"
-    #eval "python ./dummy.py"
-    echo "you here"
 fi
-echo "you there"
+
 
 EXITCODE=$?
 echo "--------------------------------------------------------------------------------"

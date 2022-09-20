@@ -1,0 +1,524 @@
+1377 /work/dvalsecc/miniconda3/envs/coffea3/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-f25e83df-f808-4fa8-9481-69fe54e94879.json
+2195 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/CombineTools/scripts/ValidateDatacards.py comb_2016_smooth2_nlo.txt
+3468 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1
+3500 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1
+4174 python ../../../scripts/modifyDC_bugfix_dccheck.py --year 2018 --dir /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/output/14july22_VH2018_newVjets_lumifixZnn_noEWK2018/cmb_rebin_metric2_lowmed3p0high2p0_smooth_bugfix_dccheck/
+4229 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+4259 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/CombineTools/scripts/ValidateDatacards.py comb_2016_smooth2_nlo.txt
+4261 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+4480 python ../../../scripts/modifyDC_bugfix_dccheck.py --year 2018 --dir /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/output/14july22_VH2018_newVjets_lumifixZnn_noEWK2018/cmb_rebin_metric2_lowmed3p0high2p0_smooth_bugfix_dccheck/
+5046 python ../../../scripts/modifyDC_bugfix_dccheck.py --year 2018 --dir /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/output/14july22_VH2018_newVjets_lumifixZnn_noEWK2018/cmb_rebin_metric2_lowmed3p0high2p0_smooth_bugfix_dccheck/
+6172 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+6312 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6315 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6316 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6318 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6320 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6322 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6323 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6324 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6325 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6326 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6327 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6328 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6329 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6330 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6331 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6332 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6333 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6334 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6335 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6336 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6337 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6338 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6339 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6340 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6341 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6342 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6343 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6344 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6345 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6346 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6347 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6348 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6349 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6350 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6351 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6352 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6353 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6354 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6355 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6356 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6357 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6358 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6359 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6361 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6362 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6363 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6364 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6365 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/scripts/systematicsAnalyzer2020_Andrea.py comb_fullrun2.txt --all -o Andrea_script_1sept22 -f html --plot [CMS_VJetsNLO2018_PtBinnedRwt_.*_*J]
+6366 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6367 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6368 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6369 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6370 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6371 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6372 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6373 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6374 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6375 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6376 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6377 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6378 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6380 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6381 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6382 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6383 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6384 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6385 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6386 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6387 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6388 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6389 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6390 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6391 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6392 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6393 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6394 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6395 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6396 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6397 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6398 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6399 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6400 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6401 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6402 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6403 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6404 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6405 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6406 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6407 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6408 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6409 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6410 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6411 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6412 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6413 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6414 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6415 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6416 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6417 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6418 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6419 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6420 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6421 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6422 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6423 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6424 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6425 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6426 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6427 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6428 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6429 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6430 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6431 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6432 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6433 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6434 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6435 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6436 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6437 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6438 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6439 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6440 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6441 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6442 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6443 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6444 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+6770 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+6803 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+7395 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+8050 /work/gallim/anaconda3/envs/eft-studies/bin/python /work/gallim/anaconda3/envs/eft-studies/bin/ipython
+8153 /work/gallim/anaconda3/envs/higgs-dna-220822_2/bin/python /work/gallim/anaconda3/envs/higgs-dna-220822_2/bin/run_analysis.py --wf dystudies --dump /work/gallim/devel/HiggsDNA_studies/out/test/from_chen --meta Era2017_legacy_xgb_v1 --samples tmp/from_chen.json
+9961 /work/gallim/anaconda3/envs/higgs-dna-220822_2/bin/python /work/gallim/anaconda3/envs/higgs-dna-220822_2/bin/run_analysis.py --wf dystudies --dump /work/gallim/devel/HiggsDNA_studies/out/test/from_chen --meta Era2017_legacy_xgb_v1 --samples tmp/from_chen.json
+10909 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+12264 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2017 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*2018}=1,rgx{.*vhbb.*Wen.*2016}=1,rgx{.*vhbb.*Wmn.*2016}=1,rgx{.*vhbb.*Znn.*2016}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+12297 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2017 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*2018}=1,rgx{.*vhbb.*Wen.*2016}=1,rgx{.*vhbb.*Wmn.*2016}=1,rgx{.*vhbb.*Znn.*2016}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+12335 /cvmfs/sft.cern.ch/lcg/releases/Python/3.6.5-56635/x86_64-centos7-gcc8-opt/bin/python3 /cvmfs/sft.cern.ch/lcg/views/LCG_94python3/x86_64-centos7-gcc8-opt/bin/jupyter-notebook --port=8011 --no-browser
+13041 /cvmfs/sft.cern.ch/lcg/releases/Python/3.6.5-56635/x86_64-centos7-gcc8-opt/bin/python3 -m ipykernel_launcher -f /run/user/660/jupyter/kernel-ce5f9423-876b-47c4-8933-56e992d2f874.json
+13375 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+14877 python /work/acalandr/VHbb_Xbb_production_Oct2020/new_fit_CH_June16/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -i output/cmb_VHcombined_MengCheck/ -o ws_stxs_fine_testHComb.root -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel --PO verbose --PO map=.*/.*ZH_lep_PTV_75_150_hbb:r_zhlow[1,-5,5] --PO map=.*/.*ZH_lep_PTV_150_250_0J_hbb:r_zhmednoj[1,-5,5] --PO map=.*/.*ZH_lep_PTV_150_250_GE1J_hbb:r_zhmedwithj[1,-5,5] --PO map=.*/.*ZH_lep_PTV_250_400_hbb:r_zhhi1[1,-5,5] --PO map=.*/.*ZH_lep_PTV_GT400_hbb:r_zhhi2[1,-5,5] --PO map=.*/.*WH_lep_PTV_150_250_.*_hbb:r_whmed[1,-5,5] --PO map=.*/.*WH_lep_PTV_250_400_hbb:r_whhi1[1,-5,5] --PO map=.*/.*WH_lep_PTV_GT400_hbb:r_whhi2[1,-5,5]
+14906 python /work/acalandr/VHbb_Xbb_production_Oct2020/new_fit_CH_June16/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -i output/cmb_VHcombined_MengCheck/ -o ws_stxs_fine_testHComb.root -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel --PO verbose --PO map=.*/.*ZH_lep_PTV_75_150_hbb:r_zhlow[1,-5,5] --PO map=.*/.*ZH_lep_PTV_150_250_0J_hbb:r_zhmednoj[1,-5,5] --PO map=.*/.*ZH_lep_PTV_150_250_GE1J_hbb:r_zhmedwithj[1,-5,5] --PO map=.*/.*ZH_lep_PTV_250_400_hbb:r_zhhi1[1,-5,5] --PO map=.*/.*ZH_lep_PTV_GT400_hbb:r_zhhi2[1,-5,5] --PO map=.*/.*WH_lep_PTV_150_250_.*_hbb:r_whmed[1,-5,5] --PO map=.*/.*WH_lep_PTV_250_400_hbb:r_whhi1[1,-5,5] --PO map=.*/.*WH_lep_PTV_GT400_hbb:r_whhi2[1,-5,5]
+14962 python
+16971 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+17175 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+17875 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Wen --doVV True
+17897 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Wmn --doVV True
+17928 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Zee --doVV True
+17966 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Zmm --doVV True
+18018 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Zmm --doVV True
+18061 python ./scripts/VHLegacy_NLOdRbb.py --output 32aug22_VZ2018NLO_correctPtwgt --year 2018 --channel Znn --doVV True
+19118 python ./submit.py -T Zll2018 -F boost -J sysnew --addCollections Eval.SR_medhigh_Zmm_BIT --input MVAHelicity --output BITtestbranch -S WH_1j_SMEFTsim_v1 -f -i
+19332 sh runAll.sh sysnew_WH_1j_SMEFTsim_v1_part0 Zll2018 sysnew 1 noid --sampleIdentifier=WH_1j_SMEFTsim_v1 --fileList=base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --addCollections=Eval.SR_medhigh_Zmm_BIT --inputDir=MVAHelicity --outputDir=BITtestbranch --force --configFile=/work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220919_180208.ini --noretry
+19335 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220919_180208.ini --inputDir MVAHelicity --outputDir BITtestbranch
+21278 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21281 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21282 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21284 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21286 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21288 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21290 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21292 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21293 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21294 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21295 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21296 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21297 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21298 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21299 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21300 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21302 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21303 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21304 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21305 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21306 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21307 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21308 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21309 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21310 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21311 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21312 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21313 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21314 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21315 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21316 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21317 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21318 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21319 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21320 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21321 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21322 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21323 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21324 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21325 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21326 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21329 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21330 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21331 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21332 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21334 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21335 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21336 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21337 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21338 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21339 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21341 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21342 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21343 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21344 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21345 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21346 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21347 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21348 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21349 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21350 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21351 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21352 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21353 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21354 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21355 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21356 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21357 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21358 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21359 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21360 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21361 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21362 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21363 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21364 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21365 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21366 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21367 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21368 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21369 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21370 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21371 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21372 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21373 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21374 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21375 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21376 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21377 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21378 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21379 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21380 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21381 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21382 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21383 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21384 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21385 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21386 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21387 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21388 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21389 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21390 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21391 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21392 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21393 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21394 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21395 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21396 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21397 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21398 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21399 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21400 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21401 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21402 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21403 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21404 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21405 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21406 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21407 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21408 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21409 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21410 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21411 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21413 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21414 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21415 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21774 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21777 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21778 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21779 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21781 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21782 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21784 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21785 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21786 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21787 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21788 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21789 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21790 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21791 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21792 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21793 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21794 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21795 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21796 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21797 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21798 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21799 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21800 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21801 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21802 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21803 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21804 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21805 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21806 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21807 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21808 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21810 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21811 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21812 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21813 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21814 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21815 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21816 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21817 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21818 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21819 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21820 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21821 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21822 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21823 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21824 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21825 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21826 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21827 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21828 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21829 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21830 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21831 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21832 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21833 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21834 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21835 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21836 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21837 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21838 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21839 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21840 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21841 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21842 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21843 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21844 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21845 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21846 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21847 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21848 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21849 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21850 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21851 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21852 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21853 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21854 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21855 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21856 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21857 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21858 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21859 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21860 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21861 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21862 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21863 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21864 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21865 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21866 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21867 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21869 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21870 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21871 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21872 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21873 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21874 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21875 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21876 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21877 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21878 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21879 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21880 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21881 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21882 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21883 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21884 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21885 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21886 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21887 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21888 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21889 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21890 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21891 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21892 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21893 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21894 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21895 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21896 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21897 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21898 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21899 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21900 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21901 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21902 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21903 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+21904 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018_closuretest.py
+23669 /work/dvalsecc/miniconda3/envs/coffea3/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-a293dae8-4568-4005-a82f-e8a36d0f24f5.json
+23738 python scripts/plot/trigger_efficiency.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+23739 python scripts/plot/trigger_efficiency.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+27551 python -m pdb ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+28300 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+28675 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28685 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28688 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28690 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28692 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28695 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28713 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28717 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28719 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28720 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28722 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28725 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28726 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28728 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28730 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28732 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28736 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28737 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28740 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28746 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28748 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28751 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28752 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28754 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28755 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28757 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28761 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28762 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28763 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28765 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28766 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28767 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28768 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28769 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28772 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28774 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28775 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28777 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28778 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28783 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28784 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28785 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28786 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28787 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28788 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28789 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28790 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28791 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28792 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28793 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28794 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28795 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28796 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28797 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28798 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28799 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28800 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28801 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28802 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28803 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28804 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+28805 python runner.py --cfg config/semileptonic_triggerSF/semileptonic_triggerSF_2018.py
+30073 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+31341 /work/dvalsecc/miniconda3/envs/coffea3/bin/python3.10 /work/dvalsecc/miniconda3/envs/coffea3/bin/jupyter-lab --no-browser
+36443 python ../scripts/plot1DScan.py -o scan_nominal_r_whhi2 --POI r_whhi2 --translate ../scripts/pois.json --model STXS --json plots/STXSfine.json --others results/scan.r_whhi2.fr.all.root:Freeze all:8 --breakdown Syst,Stat --meta POIs:r_whhi2 -m results/scan.r_whhi2.root --y-max 10 --no-input-label --outdir plots/
+38623 sh runAll.sh sysnew_WH_1j_SMEFTsim_v1_part0 Zll2018 sysnew 1 noid --sampleIdentifier=WH_1j_SMEFTsim_v1 --fileList=base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --addCollections=Eval.SR_medhigh_Zmm_BIT --inputDir=MVAHelicity --outputDir=BITtestbranch --force --configFile=/work/fglessge/EFT/CMSSW_10_1_0/src//Xbb/python/logs_Zll2018//boost/config//submission_20220919_170928.ini --noretry
+38626 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0/src//Xbb/python/logs_Zll2018//boost/config//submission_20220919_170928.ini --inputDir MVAHelicity --outputDir BITtestbranch
+38987 python -m pdb ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+39976 python
+41640 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/scripts/systematicsAnalyzer2020_Andrea.py comb_fullrun2.txt --all
+43121 /bin/python -W ignore -m elpy.__main__
+43192 /work/dvalsecc/miniconda3/envs/clustering/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-8d134e71-2734-4d41-8d4f-7d4308ab6d11.json
+46070 /work/dvalsecc/miniconda3/envs/coffea3/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-fa1e3994-69ac-436d-a962-552195ff4b8e.json
+46561 /bin/python -W ignore -m elpy.__main__
+50215 /work/gallim/anaconda3/envs/higgs-dna-220728/bin/python /work/gallim/anaconda3/envs/higgs-dna-220728/bin/ipython
+51581 /work/friti/miniconda3/envs/hammer3p8/bin/python /work/friti/miniconda3/envs/hammer3p8/bin/ipython
+52930 /work/dvalsecc/miniconda3/envs/clustering/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-14e861f3-9030-4913-8e79-60b5f3fd3eba.json
+54150 python scripts/prepareVHbbComb_mjj.py --dir2016 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2016/cmb/ --dir2017 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2017/cmb/ --dir2018 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/200620222018/cmb/
+55836 /work/dvalsecc/miniconda3/envs/coffea3/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-1d6eaf84-b76e-4c41-86e1-a23908bc0cf2.json
+56604 /work/dvalsecc/miniconda3/envs/clustering/bin/python3.10 -m ipykernel_launcher -f /t3home/dvalsecc/.local/share/jupyter/runtime/kernel-dd62601e-2def-4565-ac0e-15928331bc56.json
+57581 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+57652 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+57712 /work/dvalsecc/miniconda3/envs/clustering/bin/python3.10 /work/dvalsecc/miniconda3/envs/clustering/bin/jupyter-lab --no-browser
+57970 /bin/python2 -u -Wignore /bin/gfal-copy root://storage01.lcg.cscs.ch:1096//pnfs/lcg.cscs.ch/cms/trivcat/store/user/fleble/SVJ/QCD/samples/UL2018/main_chain/PFNANOAODStep3/PFNANOAODSUPER_QCD_pt-3200toInfGeV_part-1.root .
+60423 python ./submit.py -T Wlv2018 -F cachedc -J cachedc --regions VV_ttbar_med_Wen,VV_ttbar_med_Wmn,VV_Wlf_med_Wen,VV_Wlf_med_Wmn,VV_Whf_med_Wen,VV_Whf_med_Wmn,VV_SR_med_Wen,VV_SR_med_Wmn,VV_ttbar_high_Wen,VV_ttbar_high_Wmn,VV_Wlf_high_Wen,VV_Wlf_high_Wmn,VV_Whf_high_Wen,VV_Whf_high_Wmn,VV_SR_high_Wen,VV_SR_high_Wmn,VV_SR_high1_Wen,VV_SR_high1_Wmn,VV_SR_high2_Wen,VV_SR_high2_Wmn,VV_SR_high_Wen_BOOST,VV_SR_high_Wmn_BOOST,VV_SR_high1_Wen_BOOST,VV_SR_high1_Wmn_BOOST,VV_SR_high2_Wen_BOOST,VV_SR_high2_Wmn_BOOST,VV_Wlf_high_Wen_BOOST,VV_Wlf_high_Wmn_BOOST,VV_Whf_high_Wmn_BOOST,VV_Whf_high_Wen_BOOST,VV_ttbar_high_Wmn_BOOST,VV_ttbar_high_Wen_BOOST --set=General.VZ_optimize=True --parallel=3 -i
+61917 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/scripts/prepareVHbbComb_mjj.py --dir2016 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2016/cmb/ --dir2017 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2017/cmb/ --dir2018 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/200620222018/cmb/
+62060 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/scripts/prepareVHbbComb_mjj.py --dir2016 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2016/cmb/ --dir2017 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2017/cmb/ --dir2018 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/200620222018/cmb/
+64980 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+65021 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2018 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2017}=1,rgx{.*vhbb.*Wen.*2018}=1,rgx{.*vhbb.*Wmn.*2018}=1,rgx{.*vhbb.*Znn.*2018}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+65091 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2017 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2018}=1,rgx{.*vhbb.*Wen.*2017}=1,rgx{.*vhbb.*Wmn.*2017}=1,rgx{.*vhbb.*Znn.*2017}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+65123 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_masked.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_2lep2017 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --freezeParameters EWK_corr_VZ_0lep_2017,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_2lep_2017,lumiscale_2017,lumiscale_2016 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --setParameters r=1,rgx{.*vhbb.*2016}=1,rgx{.*vhbb.*2018}=1,rgx{.*vhbb.*Wen.*2017}=1,rgx{.*vhbb.*Wmn.*2017}=1,rgx{.*vhbb.*Znn.*2017}=1,rgx{EWK_corr_VZ_.*}=1 --X-rtd FAST_VERTICAL_MORPH
+65369 python sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch
+67064 python runner.py --cfg config/btagSF_calibration/config.py -o output/btagSF_calibration_hist_oldbtagfile
+67159 python /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/CombineHarvester/VHLegacy/scripts/prepareVHbbComb_mjj.py --dir2016 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2016/cmb/ --dir2017 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/ATNLO0404rebin2017/cmb/ --dir2018 /mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/output/mjj_peryear/200620222018/cmb/
+69914 python /work/acalandr/VHbb_Xbb_production_Oct2020/new_fit_CH_June16/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M MultiDimFit -d ws_sensitivity_perchannel_VZ.root --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --setParameterRanges SF_C_passB_high_2016_btag_BOOST=0,7.5:SF_C_passB_high_2017_btag_BOOST=0,7.5:SF_C_passB_high_2018_btag_BOOST=0,7.5:SF_C_failB_high_2016_btag_BOOST=0,7.5:SF_C_failB_high_2017_btag_BOOST=0,7.5:SF_C_failB_high_2018_btag_BOOST=0,7.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 --X-rtd MINIMIZER_MaxCalls=999999999 --X-rtd FAST_VERTICAL_MORPH --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --noMCbonly 1 --saveInactivePOI=1 --saveToys --saveWorkspace -n .perchannelVZ_BestFit_unblinded_strategy2 --cminDefaultMinimizerStrategy 2 -v 3
+69982 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_test2.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_test2 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --setParameterRanges SF_C_passB_high_2016_btag_BOOST=0,7.5:SF_C_passB_high_2017_btag_BOOST=0,7.5:SF_C_passB_high_2018_btag_BOOST=0,7.5:SF_C_failB_high_2016_btag_BOOST=0,7.5:SF_C_failB_high_2017_btag_BOOST=0,7.5:SF_C_failB_high_2018_btag_BOOST=0,7.5 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --X-rtd FAST_VERTICAL_MORPH --freezeParameters EWK_corr_VZ_0lep_2018,EWK_corr_VZ_0lep_2017,EWK_corr_VZ_0lep_2016,EWK_corr_VZ_1lep_2018,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_1lep_2016,EWK_corr_VZ_2lep_2018,EWK_corr_VZ_2lep_2017,EWK_corr_VZ_2lep_2016,lumiscale_2018,lumiscale_2016,lumiscale_2017,CMS_vhbb_dRbbWeight_Vpt_Zll_Zj_udsg_13TeV2018,CMS_VJetsNLO2018_PtBinnedRwt_DY100To250_2J --setParameters rgx{EWK_corr_VZ_.*}=1,r=1
+70010 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_test2.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_test2 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --setParameterRanges SF_C_passB_high_2016_btag_BOOST=0,7.5:SF_C_passB_high_2017_btag_BOOST=0,7.5:SF_C_passB_high_2018_btag_BOOST=0,7.5:SF_C_failB_high_2016_btag_BOOST=0,7.5:SF_C_failB_high_2017_btag_BOOST=0,7.5:SF_C_failB_high_2018_btag_BOOST=0,7.5 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --X-rtd FAST_VERTICAL_MORPH --freezeParameters EWK_corr_VZ_0lep_2018,EWK_corr_VZ_0lep_2017,EWK_corr_VZ_0lep_2016,EWK_corr_VZ_1lep_2018,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_1lep_2016,EWK_corr_VZ_2lep_2018,EWK_corr_VZ_2lep_2017,EWK_corr_VZ_2lep_2016,lumiscale_2018,lumiscale_2016,lumiscale_2017,CMS_vhbb_dRbbWeight_Vpt_Zll_Zj_udsg_13TeV2018,CMS_VJetsNLO2018_PtBinnedRwt_DY100To250_2J --setParameters rgx{EWK_corr_VZ_.*}=1,r=1
+70356 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_test2.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_test2 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --setParameterRanges SF_C_passB_high_2016_btag_BOOST=0,7.5:SF_C_passB_high_2017_btag_BOOST=0,7.5:SF_C_passB_high_2018_btag_BOOST=0,7.5:SF_C_failB_high_2016_btag_BOOST=0,7.5:SF_C_failB_high_2017_btag_BOOST=0,7.5:SF_C_failB_high_2018_btag_BOOST=0,7.5 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --X-rtd FAST_VERTICAL_MORPH --freezeParameters EWK_corr_VZ_0lep_2018,EWK_corr_VZ_0lep_2017,EWK_corr_VZ_0lep_2016,EWK_corr_VZ_1lep_2018,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_1lep_2016,EWK_corr_VZ_2lep_2018,EWK_corr_VZ_2lep_2017,EWK_corr_VZ_2lep_2016,lumiscale_2018,lumiscale_2016,lumiscale_2017,CMS_vhbb_dRbbWeight_Vpt_Zll_Zj_udsg_13TeV2018,CMS_VJetsNLO2018_PtBinnedRwt_DY100To250_2J --setParameters rgx{EWK_corr_VZ_.*}=1,r=1
+70380 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M FitDiagnostics --cminDefaultMinimizerStrategy 2 --X-rtd MINIMIZER_MaxCalls=9999999 -d ws_sensitivity_inclusive_test2.root --there --saveShapes --skipBOnlyFit --name .sbfit_FitDiag_robust_test2 --cminFallbackAlgo Minuit2,Migrad,1:0.1 --cminFallbackAlgo Minuit2,Migrad,0:0.5 --cminFallbackAlgo Minuit2,Migrad,1:0.5 --cminFallbackAlgo Minuit2,Migrad,0:1.0 --cminFallbackAlgo Minuit2,Migrad,1:1.0 -v 3 --robustHesse=1 --setParameterRanges SF_C_passB_high_2016_btag_BOOST=0,7.5:SF_C_passB_high_2017_btag_BOOST=0,7.5:SF_C_passB_high_2018_btag_BOOST=0,7.5:SF_C_failB_high_2016_btag_BOOST=0,7.5:SF_C_failB_high_2017_btag_BOOST=0,7.5:SF_C_failB_high_2018_btag_BOOST=0,7.5 --X-rtd CACHINGPDF_NOCLONE --X-rtd NO_INITIAL_SNAP --X-rtd OPTIMIZE_BOUNDS=0 --X-rtd FAST_VERTICAL_MORPH --freezeParameters EWK_corr_VZ_0lep_2018,EWK_corr_VZ_0lep_2017,EWK_corr_VZ_0lep_2016,EWK_corr_VZ_1lep_2018,EWK_corr_VZ_1lep_2017,EWK_corr_VZ_1lep_2016,EWK_corr_VZ_2lep_2018,EWK_corr_VZ_2lep_2017,EWK_corr_VZ_2lep_2016,lumiscale_2018,lumiscale_2016,lumiscale_2017,CMS_vhbb_dRbbWeight_Vpt_Zll_Zj_udsg_13TeV2018,CMS_VJetsNLO2018_PtBinnedRwt_DY100To250_2J --setParameters rgx{EWK_corr_VZ_.*}=1,r=1
+70955 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -o ws_sensitivity_inclusive.root -i ./vhbb_Wen_14_13TeV2018.txt ./vhbb_Wen_15_13TeV2018.txt ./vhbb_Wen_16_13TeV2018.txt ./vhbb_Wen_18_13TeV2018.txt ./vhbb_Wen_19_13TeV2018.txt ./vhbb_Wen_20_13TeV2018.txt ./vhbb_Wen_6_13TeV2018.txt ./vhbb_Wen_7_13TeV2018.txt ./vhbb_Wen_8_13TeV2018.txt ./vhbb_Wmn_14_13TeV2018.txt ./vhbb_Wmn_15_13TeV2018.txt ./vhbb_Wmn_16_13TeV2018.txt ./vhbb_Wmn_18_13TeV2018.txt ./vhbb_Wmn_19_13TeV2018.txt ./vhbb_Wmn_20_13TeV2018.txt ./vhbb_Wmn_6_13TeV2018.txt ./vhbb_Wmn_7_13TeV2018.txt ./vhbb_Wmn_8_13TeV2018.txt ./vhbb_Znn_14_13TeV2018.txt ./vhbb_Znn_15_13TeV2018.txt ./vhbb_Znn_16_13TeV2018.txt ./vhbb_Znn_18_13TeV2018.txt ./vhbb_Znn_19_13TeV2018.txt ./vhbb_Znn_20_13TeV2018.txt ./vhbb_Znn_21_13TeV2018.txt ./vhbb_Znn_22_13TeV2018.txt ./vhbb_Znn_23_13TeV2018.txt ./vhbb_Znn_24_13TeV2018.txt ./vhbb_Znn_5_13TeV2018.txt ./vhbb_Znn_6_13TeV2018.txt ./vhbb_Znn_7_13TeV2018.txt ./vhbb_Znn_8_13TeV2018.txt ./vhbb_Znn_9_13TeV2018.txt --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum
+70982 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -o ws_sensitivity_inclusive.root -i ./vhbb_Wen_14_13TeV2018.txt ./vhbb_Wen_15_13TeV2018.txt ./vhbb_Wen_16_13TeV2018.txt ./vhbb_Wen_18_13TeV2018.txt ./vhbb_Wen_19_13TeV2018.txt ./vhbb_Wen_20_13TeV2018.txt ./vhbb_Wen_6_13TeV2018.txt ./vhbb_Wen_7_13TeV2018.txt ./vhbb_Wen_8_13TeV2018.txt ./vhbb_Wmn_14_13TeV2018.txt ./vhbb_Wmn_15_13TeV2018.txt ./vhbb_Wmn_16_13TeV2018.txt ./vhbb_Wmn_18_13TeV2018.txt ./vhbb_Wmn_19_13TeV2018.txt ./vhbb_Wmn_20_13TeV2018.txt ./vhbb_Wmn_6_13TeV2018.txt ./vhbb_Wmn_7_13TeV2018.txt ./vhbb_Wmn_8_13TeV2018.txt ./vhbb_Znn_14_13TeV2018.txt ./vhbb_Znn_15_13TeV2018.txt ./vhbb_Znn_16_13TeV2018.txt ./vhbb_Znn_18_13TeV2018.txt ./vhbb_Znn_19_13TeV2018.txt ./vhbb_Znn_20_13TeV2018.txt ./vhbb_Znn_21_13TeV2018.txt ./vhbb_Znn_22_13TeV2018.txt ./vhbb_Znn_23_13TeV2018.txt ./vhbb_Znn_24_13TeV2018.txt ./vhbb_Znn_5_13TeV2018.txt ./vhbb_Znn_6_13TeV2018.txt ./vhbb_Znn_7_13TeV2018.txt ./vhbb_Znn_8_13TeV2018.txt ./vhbb_Znn_9_13TeV2018.txt --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum
+71126 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -o ws_sensitivity_inclusive.root -i ./vhbb_Wen_14_13TeV2018.txt ./vhbb_Wen_15_13TeV2018.txt ./vhbb_Wen_16_13TeV2018.txt ./vhbb_Wen_18_13TeV2018.txt ./vhbb_Wen_19_13TeV2018.txt ./vhbb_Wen_20_13TeV2018.txt ./vhbb_Wen_6_13TeV2018.txt ./vhbb_Wen_7_13TeV2018.txt ./vhbb_Wen_8_13TeV2018.txt ./vhbb_Wmn_14_13TeV2018.txt ./vhbb_Wmn_15_13TeV2018.txt ./vhbb_Wmn_16_13TeV2018.txt ./vhbb_Wmn_18_13TeV2018.txt ./vhbb_Wmn_19_13TeV2018.txt ./vhbb_Wmn_20_13TeV2018.txt ./vhbb_Wmn_6_13TeV2018.txt ./vhbb_Wmn_7_13TeV2018.txt ./vhbb_Wmn_8_13TeV2018.txt ./vhbb_Znn_14_13TeV2018.txt ./vhbb_Znn_15_13TeV2018.txt ./vhbb_Znn_16_13TeV2018.txt ./vhbb_Znn_18_13TeV2018.txt ./vhbb_Znn_19_13TeV2018.txt ./vhbb_Znn_20_13TeV2018.txt ./vhbb_Znn_21_13TeV2018.txt ./vhbb_Znn_22_13TeV2018.txt ./vhbb_Znn_23_13TeV2018.txt ./vhbb_Znn_24_13TeV2018.txt ./vhbb_Znn_5_13TeV2018.txt ./vhbb_Znn_6_13TeV2018.txt ./vhbb_Znn_7_13TeV2018.txt ./vhbb_Znn_8_13TeV2018.txt ./vhbb_Znn_9_13TeV2018.txt --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum
+71152 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/combineTool.py -M T2W -o ws_sensitivity_inclusive.root -i ./vhbb_Wen_14_13TeV2018.txt ./vhbb_Wen_15_13TeV2018.txt ./vhbb_Wen_16_13TeV2018.txt ./vhbb_Wen_18_13TeV2018.txt ./vhbb_Wen_19_13TeV2018.txt ./vhbb_Wen_20_13TeV2018.txt ./vhbb_Wen_6_13TeV2018.txt ./vhbb_Wen_7_13TeV2018.txt ./vhbb_Wen_8_13TeV2018.txt ./vhbb_Wmn_14_13TeV2018.txt ./vhbb_Wmn_15_13TeV2018.txt ./vhbb_Wmn_16_13TeV2018.txt ./vhbb_Wmn_18_13TeV2018.txt ./vhbb_Wmn_19_13TeV2018.txt ./vhbb_Wmn_20_13TeV2018.txt ./vhbb_Wmn_6_13TeV2018.txt ./vhbb_Wmn_7_13TeV2018.txt ./vhbb_Wmn_8_13TeV2018.txt ./vhbb_Znn_14_13TeV2018.txt ./vhbb_Znn_15_13TeV2018.txt ./vhbb_Znn_16_13TeV2018.txt ./vhbb_Znn_18_13TeV2018.txt ./vhbb_Znn_19_13TeV2018.txt ./vhbb_Znn_20_13TeV2018.txt ./vhbb_Znn_21_13TeV2018.txt ./vhbb_Znn_22_13TeV2018.txt ./vhbb_Znn_23_13TeV2018.txt ./vhbb_Znn_24_13TeV2018.txt ./vhbb_Znn_5_13TeV2018.txt ./vhbb_Znn_6_13TeV2018.txt ./vhbb_Znn_7_13TeV2018.txt ./vhbb_Znn_8_13TeV2018.txt ./vhbb_Znn_9_13TeV2018.txt --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum
+72595 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/text2workspace.py -o ws_sensitivity_inclusive.root --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum vhbb_Znn_5_13TeV2018.txt
+72648 python /work/krgedia/CMSSW_10_2_13/bin/slc7_amd64_gcc700/text2workspace.py -o ws_sensitivity_inclusive.root --for-fits --no-wrappers --X-pack-asympows --optimize-simpdf-constraints=cms --use-histsum vhbb_Znn_22_13TeV2018.txt
+73091 python ./sys_new.py --addCollections Eval.SR_medhigh_Zmm_BIT --fileList base64:eNoljMsOgjAURL8Ib9+FtdGw0ZhocNm0WAoGKOktJv69BGczOZOcAR8R2gkBc0weQorrAkv/RdMPISD0zsGc12X0CE3t3C1ivto5AiO0hIYKY+fj5hgcwmxHeNYFfRf3y+n8wGEqPhQqJbgoWVdp67mSllNJhOVKq866bXlJ5rRuOyaoJ54z8XKV3N6B7DH/2gly8t6QQ4ox/wBwaDkd --force --sampleIdentifier WH_1j_SMEFTsim_v1 --config /work/fglessge/EFT/CMSSW_10_1_0//src//Xbb/python/logs_Zll2018//boost/config//submission_20220920_100107.ini --inputDir MVAHelicity --outputDir BITtestbranch

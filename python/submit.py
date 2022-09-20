@@ -1050,11 +1050,14 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
 		            # submit
                     batchJob = submit(jobName, jobDict)
 
+                    print("After submission")
+
                     jobID = batchJob.jobID() if batchJob else -1
                     if jobID > -1:
                         if sampleIdentifier not in jobDependencyDict:
                             jobDependencyDict[sampleIdentifier] = {}
                         jobDependencyDict[sampleIdentifier][chunkNumber] = jobID
+                    print("After jobID")
                 else:
                     if allInputFilesMissing:
                         print("\x1b[31mSKIP: chunk %d, all input files of this chunk are missing!\x1b[0m"%chunkNumber)

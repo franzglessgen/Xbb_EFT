@@ -5,6 +5,7 @@ import fnmatch
 import hashlib
 import json
 import importlib
+import os 
 
 class BatchJob(object):
     def __init__(self, jobName='', submitCommand='', log=''):
@@ -199,7 +200,9 @@ class BatchSystem(object):
                 except Exception as e:
                     print(e)
             else:
+                print(">>>>>>>>>>>>>> CALL SUBPROCESS")
                 subprocess.call([command], shell=True)
+                print(">>>>>>>>>>>>>> CALLED SUBPROCESS")
 
             self.submittedJobs.append(batchJob)
             return batchJob

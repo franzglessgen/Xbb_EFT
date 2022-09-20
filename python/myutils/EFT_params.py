@@ -43,6 +43,7 @@ class EFT_params(AddCollectionsModule):
         self.hyperPoly.initialize( basepoint_coordinates, ref_point_coordinates )
 
         self.sampleTree = initVars['sampleTree']
+        self.NbEvents = 0
 
 
     def processEvent(self, tree):
@@ -52,6 +53,10 @@ class EFT_params(AddCollectionsModule):
 	# if current entry has not been processed yet
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
+            
+            self.NbEvents+=1
+            print("Event ", self.NbEvents, " out of ", tree.GetEntries())
+            
             self._b(self.branchName + '_weight')[0] = -99997.0
             self._b(self.branchName + '_coeff')[0] = -99997.0
             self._b(self.branchName + '_np')[0] = -99997

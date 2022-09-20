@@ -12,7 +12,6 @@ import importlib
 from myutils.sampleTree import SampleTree
 import resource
 import uuid
-
 # ntuple processing class (former "sys-step")
 
 class XbbRun:
@@ -36,8 +35,8 @@ class XbbRun:
         self.channel = self.config.get('Configuration', 'channel')
 
         # load namespace, TODO
-        VHbbNameSpace = self.config.get('VHbbNameSpace', 'library')
-        ROOT.gSystem.Load(VHbbNameSpace)
+        #VHbbNameSpace = self.config.get('VHbbNameSpace', 'library')
+        #ROOT.gSystem.Load(VHbbNameSpace)
         VHbbNameSpaceHeader = self.config.get('VHbbNameSpace', 'header')
         LineToInterpret = "#include " + "\"" + VHbbNameSpaceHeader + "\""
         #ROOT.gInterpreter.ProcessLine('#include "VHbbNameSpace.h"')
@@ -184,6 +183,8 @@ class XbbRun:
                         globals()[moduleName] = importlib.import_module(".{module}".format(module=moduleName), package="myutils")
 
                         # get object
+
+                        print(pyCode)
                         wObject = eval(pyCode)
 
                         # pass the tree and other variables if needed to finalize initialization
@@ -266,7 +267,7 @@ class XbbRun:
                     except Exception as e:
                         print(e)
                         print("\x1b[31mERROR: copy from scratch to final destination failed!!\x1b[0m")
-
+                    
                     # delete temporary file
                     try:
                         self.fileLocator.rm(subJob['tmpFileName'])
@@ -274,13 +275,18 @@ class XbbRun:
                         print(e)
                         print("WARNING: could not delete file on scratch!")
 
-
                 # clean up
                 if hasattr(wObject, "cleanUp") and callable(getattr(wObject, "cleanUp")):
                     getattr(wObject, "cleanUp")()
 
             else:
                 print('SKIP:', subJob['inputFileNames'])
+
+            try:
+                sampleTree.delete()
+            except:
+                print("Delete issue")        
+
 
         if nFilesFailed > 0:
             raise Exception("ProcessingIncomplete")
@@ -306,4 +312,3 @@ xr = XbbRun(opts)
 xr.run()
 
 print("INFO: max memory used (MB): %1.1f"%(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0))
-

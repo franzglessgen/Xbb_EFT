@@ -246,11 +246,11 @@ class SampleTree(object):
                 # TODO: per run if possible, sum LHE weights if present
 
                 # sum the contributions from the subtrees
-                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.items() if len(values) > 0 and type(values[0]) in [int, float]}
+                self.totalNanoTreeCounts = {key: sum(values) for key,values in list(self.nanoTreeCounts.items()) if len(values) > 0 and type(values[0]) in [int, float]}
                 # print summary table
-                countBranches = self.totalNanoTreeCounts.keys()
+                countBranches = list(self.totalNanoTreeCounts.keys())
                 depth = None
-                for key,values in self.nanoTreeCounts.items():
+                for key,values in list(self.nanoTreeCounts.items()):
                     if values and len(values)>1 and type(values[0]) in [int, float]:
                         depth = len(values)
                         break
@@ -284,12 +284,13 @@ class SampleTree(object):
                     
                 self.histograms['Runs'].Fill()
 
-    def __del__(self):
-        self.delete()
+    #def __del__(self):
+    #    self.delete()
 
     def delete(self):
         self.callbacks = None
         # close possible left open files referencing the TChain and delete output trees
+        print(">>>>>>>>>>>> DELETE")
         try:
             if self.tree:
                 self.tree.Reset()
@@ -736,7 +737,7 @@ class SampleTree(object):
     # add callback function, which MUST return a boolean. To continue processing this event, the function must return True. False means skip this event!
     def addCallback(self, category, fcn):
         if category not in self.callbacks:
-             self.callbacks[category] = []
+            self.callbacks[category] = []
         self.callbacks[category].append(fcn)
 
     # ------------------------------------------------------------------------------
@@ -889,6 +890,8 @@ class SampleTree(object):
                 print (' > \x1b[35m', formulaName, '\x1b[0m ==> ', formula)
 
         # find common set of branches which needs to be enabled for cuts and desired variables in all of the output trees
+        print(">>>>>>>>>>>>>>>>>>>>>>> DEBUG POINT 1")
+
         listOfBranchesToKeep = []
         for outputTree in self.outputTrees:
             if 'branches' in outputTree and outputTree['branches']:
