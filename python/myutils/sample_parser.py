@@ -23,7 +23,7 @@ class ParseInfo:
             traceback.print_exc(file=sys.stdout)
             raise Exception("Error")
         elif self.debug:
-            print("DEBUG: config object passed to sample parser.")
+            print "DEBUG: config object passed to sample parser."
 
         lumi = float(config.get('General','lumi'))
 
@@ -32,11 +32,11 @@ class ParseInfo:
 
         configSamples = [x for x in config.sections() if config.has_option(x, 'sampleName')]
         if self.debug:
-            print("DEBUG:", len(configSamples), " samples found.")
+            print "DEBUG:", len(configSamples), " samples found."
             
         for sample in configSamples:
             sampleName = config.get(sample, 'sampleName')
-            sampleType = config.get(sample,'sampleType')
+	    sampleType = config.get(sample,'sampleType')
             cut = config.get(sample, 'cut') if config.has_option(sample, 'cut') else '1'
 
             specialweight = config.get(sample, 'specialweight') if config.has_option(sample, 'specialweight') else "1"
@@ -89,16 +89,16 @@ class ParseInfo:
                     if len(list(set(subxsecs))) == 1:
                         newsample.xsec = [subxsecs[0]]
                     else:
-                        print("\x1b[31mWARNING: different cross sections for the sub-samples of", sampleName, " are you sure you want to do this?\x1b[0m")
+                        print "\x1b[31mWARNING: different cross sections for the sub-samples of", sampleName, " are you sure you want to do this?\x1b[0m"
                     subsfs = eval((config.get(sample, 'SF'))) if config.has_option(sample, 'SF') else [1.0]*len(subxsecs)
                     if type(subsfs) != list:
                         subsfs = [subsfs]*len(subcuts)
 
                 try:
                     subspecialweights = eval((config.get(sample, 'specialweight')))
-                    if len(subspecialweights) < 2:
+		    if len(subspecialweights) < 2:
                         subspecialweights = []
-                        print("\x1b[31mWARNING: specialweight not defined for subsamples but for full sample only!\x1b[0m")
+                        print "\x1b[31mWARNING: specialweight not defined for subsamples but for full sample only!\x1b[0m"
                 except:
                     subspecialweights = []
 
@@ -116,16 +116,16 @@ class ParseInfo:
                         newsubsample.xsec = float(subxsecs[i])
                     if len(subspecialweights) == len(subcuts):
                         newsubsample.specialweight = subspecialweights[i] 
-                    if type(newsample.index) == list:
+		    if type(newsample.index) == list:
                         newsubsample.index = newsample.index[i]
                     if config.has_option(sample, 'offsets'):
                         sampleIndexOffsets = eval(config.get(sample, 'offsets'))
                         if type(sampleIndexOffsets) == list and len(sampleIndexOffsets) == len(subcuts):
                             newsubsample.index += sampleIndexOffsets[i]
                         else:
-                            print("sample:", newsample.name)
-                            print("=>", type(sampleIndexOffsets), len(sampleIndexOffsets), len(subcuts))
-                            print("\x1b[31mERROR: sampleIndex offset does not match subcuts\x1b[0m")
+                            print "sample:", newsample.name
+                            print "=>", type(sampleIndexOffsets), len(sampleIndexOffsets), len(subcuts)
+                            print "\x1b[31mERROR: sampleIndex offset does not match subcuts\x1b[0m"
                             raise Exception("ConfigError")
 
                     newsamples.append(newsubsample)
@@ -156,12 +156,13 @@ class ParseInfo:
         samples = []
         thenames = []
         #for splitted samples use the identifier. There is always only one. if list, they are all true
-        if (len(samplenames)>0 and self.checkSplittedSampleName(samplenames[0])):
-          print("The samples is splitted")
+        
+	if (len(samplenames)>0 and self.checkSplittedSampleName(samplenames[0])):
+          print "The samples is splitted"
           for sample in self._samplelist:
                   if (sample.subsample): continue #avoid multiple submissions from subsamples
-                  print('@DEBUG: samplenames ' + samplenames[0])
-                  print('@DEBUG: sample identifier ' + sample.identifier)
+                  print '@DEBUG: samplenames ' + samplenames[0]
+                  print '@DEBUG: sample identifier ' + sample.identifier
                   if sample.identifier == samplenames[0]:
                           samples.append(sample)
                           thenames.append(sample.name)
@@ -181,9 +182,9 @@ class ParseInfo:
                         samples.append(sample)
                         thenames.append(sample.name)
                 if not found:
-                    print("\x1b[31mERROR: sample not found:", samplename, "\x1b[0m")
-                    print("requested:", samplenames)
-                    print("existing:", [x.name for x in self._samplelist])
+                    print "\x1b[31mERROR: sample not found:", samplename, "\x1b[0m"
+                    print "requested:", samplenames
+                    print "existing:", [x.name for x in self._samplelist]
                     raise Exception("SampleMissing")
                 
         return samples
@@ -221,19 +222,19 @@ class ParseInfo:
     def checkSplittedSample(self, filename):
             try:
                     isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
-                    print('@DEBUG: fileName in CHECKSPLITTEDSAMPLE : ' + filename)
-                    print('@DEBUG: return in CHECKSPLITTEDSAMPLE : ' + filename[:filename.rfind('_')])
+                    print '@DEBUG: fileName in CHECKSPLITTEDSAMPLE : ' + filename
+                    print '@DEBUG: return in CHECKSPLITTEDSAMPLE : ' + filename[:filename.rfind('_')]
                     return filename[:filename.rfind('_')]
             except:
                     return filename
     # DEPRECATED
     #bool
     def checkSplittedSampleName(self,filename):
-            #print('### CHECKSPLITTEDSAMPLENAME ###',filename)
+            #print '### CHECKSPLITTEDSAMPLENAME ###',filename
             # if there is an underscore in the filename
             if ( filename.rfind('_') > 0. ) :
                     try:
-                        return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
+			    return isinstance( eval(filename[filename.rfind('_')+1:] ) , int )
                     except:
                             return False
             else:
@@ -250,7 +251,7 @@ if __name__ == '__main__':
     pathconfig.read('/mnt/t3nfs01/data01/shome/krgedia/CMSSW_10_1_0/src/Xbb/python/Wlv2018config/paths.ini') #parent class 'ConfigParser' method
     configFiles = pathconfig.get('Configuration', 'List').split(' ') 
     config = BetterConfigParser()
-    print(('configFiles parsed', configFiles))
+    print ('configFiles parsed', configFiles)
     for configFile in configFiles:
         config.read('Wlv2017config/' + configFile)
 
@@ -270,5 +271,5 @@ if __name__ == '__main__':
     
     # read sample
     #sampleTree = SampleTree([inputFile], config=config)
-    #print('sampleTree', sampleTree)
+    #print 'sampleTree', sampleTree
 

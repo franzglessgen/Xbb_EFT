@@ -18,7 +18,7 @@ def getRatio(hist,reference,min,max,yTitle="Data/MC",maxUncertainty = 1000.000,r
     theRatio = thePlotter.make_rebinned_ratios(theHist,theReference,maxUncertainty,False,0)
     refError = thePlotter.make_rebinned_ratios(theHist,theReference,maxUncertainty,False,1)
     theRatio.GetXaxis().SetRangeUser(min,max)
-    print("theRation: range",min," ",max)
+    print "theRation: range",min," ",max
     #theRatio.GetXaxis().SetRangeUser(0,1)
     if restrict:
         theRatio.SetMinimum(yRange[0])

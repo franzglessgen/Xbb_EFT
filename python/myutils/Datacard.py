@@ -221,7 +221,7 @@ class Datacard(object):
             print ('================================\n')
 
         if self.sysOptions['ptRegionsDict']:
-            self.ptRegion = [ptRegion for ptRegion, outputNames in self.sysOptions['ptRegionsDict'].items() if len([x for x in outputNames if x.upper() in self.ROOToutname.upper()])>0]
+            self.ptRegion = [ptRegion for ptRegion, outputNames in self.sysOptions['ptRegionsDict'].iteritems() if len([x for x in outputNames if x.upper() in self.ROOToutname.upper()])>0]
             if len(self.ptRegion) != 1:
                 if self.verbose:
                     print("INFO: invalid pt region:", self.ptRegion, ", use default.")
@@ -234,7 +234,7 @@ class Datacard(object):
         if self.verbose:
             print ("\x1b[33mptRegion:\x1b[0m", self.ptRegion)
 
-        for outputName, removeSystematics in self.sysOptions['removeWeightSystematics'].items():
+        for outputName, removeSystematics in self.sysOptions['removeWeightSystematics'].iteritems():
             if outputName in self.ROOToutname:
                 self.sysOptions['weightF_sys'] = [x for x in self.sysOptions['weightF_sys'] if x not in removeSystematics]
 
@@ -263,7 +263,7 @@ class Datacard(object):
         if self.sysOptions['sample_sys_info']:
             self.sample_sys_list = []#List of all the samples used for the sys. Those samples need to be skiped, except for corresponding sys
             #Extract list of sys samples
-            for key, item in self.sysOptions['sample_sys_info'].items():
+            for key, item in self.sysOptions['sample_sys_info'].iteritems():
                 for item2 in item:
                     for sample_type in item2:
                         NOMsamplesys = sample_type[0]
@@ -400,7 +400,7 @@ class Datacard(object):
         
         # sample systematics
         if self.sysOptions['sample_sys_info']:
-            for sampleSystematicName, sampleSystematicSamples in self.sysOptions['sample_sys_info'].items(): #loop over the systematics
+            for sampleSystematicName, sampleSystematicSamples in self.sysOptions['sample_sys_info'].iteritems(): #loop over the systematics
                 for Q in self.UD:
                     systematicsDictionary = deepcopy(self.systematicsDictionaryNominal)
                     systematicsDictionary.update({
@@ -418,7 +418,7 @@ class Datacard(object):
                                     2: (Q == 'Up'),    # up variation
                                 }
                             # mark nominal/up/down variations in sample_sys_dic
-                            for index, value in sampleSystematicVariationTypes.items():
+                            for index, value in sampleSystematicVariationTypes.iteritems():
                                 for sampleName in sample_type[index]:
                                     systematicsDictionary['sample_sys_dic'][sampleName] = value
 
@@ -430,13 +430,13 @@ class Datacard(object):
             # make list of differences compared to nominal
             systematicsListDelta = [self.systematicsList[0]]
             for i in range(1,len(self.systematicsList)):
-                delta = {k:v for k,v in self.systematicsList[i].items() if systematicsListDelta[0][k] != v}
+                delta = {k:v for k,v in self.systematicsList[i].iteritems() if systematicsListDelta[0][k] != v}
                 systematicsListDelta.append(delta)
             print (json.dumps(systematicsListDelta, sort_keys=True, indent=8, default=str))
         
         if self.debug or self.verbose:
             print('INFO: datacard initialization complete!')
-            print('INFO: {nSys} systematics for {nSamples} samples'.format(nSys=len(self.systematicsList), nSamples=sum([len(x) for k,x in self.samples.items()])))
+            print('INFO: {nSys} systematics for {nSamples} samples'.format(nSys=len(self.systematicsList), nSamples=sum([len(x) for k,x in self.samples.iteritems()])))
         
 
     def calcBinning(self):
@@ -643,7 +643,7 @@ class Datacard(object):
 
     # return full (flattened) list of sample objects
     def getAllSamples(self):
-        return sum([y for x, y in self.samples.items()], []) 
+        return sum([y for x, y in self.samples.iteritems()], []) 
 
     # if checkExistenc=False, returns number of files which should be present, if checkExistenc=True counts how many of them actually exist
     def getNumberOfCachedFiles(self, useSampleIdentifiers=None, checkExistence=True):
@@ -715,8 +715,8 @@ class Datacard(object):
         # nominal cut is still the original one, to ensure all nominal events are kept if approximations are used for systematics
         # therefore the list systematicsCuts also contains the nominal cut string
         sampleCuts = {'AND': [sample.subcut, {'OR': systematicsCuts}]}
-
-        return sampleCuts
+        
+	return sampleCuts
 
     def getUniqueHistogramName(self, sampleName, systName):
         histogramName = "{sampleName}_{systName}_c{counter}".format(sampleName=sampleName, systName=systName, counter=self.histogramCounter)
@@ -1036,7 +1036,7 @@ class Datacard(object):
         return processName
 
     def getGroupNameFromProcessName(self, processName):
-        dcProcessSampleGroup = {v: k for k,v in self.sysOptions['Dict'].items()}
+        dcProcessSampleGroup = {v: k for k,v in self.sysOptions['Dict'].iteritems()}
         if processName in dcProcessSampleGroup:
             return dcProcessSampleGroup[processName]
         else:
@@ -1200,7 +1200,7 @@ class Datacard(object):
                 datacardProcessHistogramName = self.getHistogramName(process=datacardProcess, systematics=systematics)
 
                 # add up all the sample histograms for this process and this systematic
-                histogramsInGroup = [h[systematics['systematicsName']] for k, h in self.histograms.items() if k == sampleGroup]
+                histogramsInGroup = [h[systematics['systematicsName']] for k, h in self.histograms.iteritems() if k == sampleGroup]
 
                 if len(histogramsInGroup) > 0:
                     systematics['histograms'][sampleGroup] = StackMaker.sumHistograms(histogramsInGroup, datacardProcessHistogramName)

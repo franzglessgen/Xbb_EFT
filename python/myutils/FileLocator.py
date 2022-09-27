@@ -100,7 +100,7 @@ class FileLocator(object):
             subfolder = inputFile.split('/')[-4]
         filename = inputFile.split('/')[-1]
         filename = filename.split('_')[0]+'_'+subfolder+'_'+filename.split('_')[1]
-        hash = hashlib.sha224(filename.encode("utf-8")).hexdigest()
+        hash = hashlib.sha224(filename).hexdigest()
         return filename.replace('.root','')+'_'+str(hash)+'.root'
 
     def getFilePath(self, basePath, sampleIdentifier, originalFileName):

@@ -8,23 +8,23 @@ class LeptonSF:
             self.valid = False
             if lep_json!="":
                 pass
-                print("[LeptonSF]: Warning: ", lep_json, " is not a valid file. Return.")
+                print "[LeptonSF]: Warning: ", lep_json, " is not a valid file. Return."
             else:
                 pass
-                print("[LeptonSF]: No file has been specified. Return.")
+                print "[LeptonSF]: No file has been specified. Return."
         else:
             self.init(lep_json, lep_name, lep_binning, extrapolateFromClosestBin)
 
     def init(self, lep_json, lep_name, lep_binning, extrapolateFromClosestBin) :
         f = open(lep_json, 'r')             
-        #print('[LeptonSF]: Initialize with the following parameters:')
-        #print('\tfile:',lep_json)
-        #print('\titem:', lep_name)
-        #print('\tbinning:', lep_binning)
+        #print '[LeptonSF]: Initialize with the following parameters:'
+        #print '\tfile:',lep_json
+        #print '\titem:', lep_name
+        #print '\tbinning:', lep_binning
         results = json.load(f)
         if lep_name not in results.keys():
             self.valid = False
-            #print("[LeptonSF]: Warning: ", lep_name , " is not a valid item. Return.")
+            #print "[LeptonSF]: Warning: ", lep_name , " is not a valid item. Return."
             return False
         self.res = results[lep_name]
         self.lep_name = lep_name
@@ -46,12 +46,12 @@ class LeptonSF:
 
         ptFound = False
 
-        for ptKey, result in sorted(self.res[self.lep_binning].items()) :
+        for ptKey, result in sorted(self.res[self.lep_binning].iteritems()) :
             ptL = float(((ptKey[ptKey.find(':')+2:]).rstrip(']').split(',')[0]))
             ptH = float(((ptKey[ptKey.find(':')+2:]).rstrip(']').split(',')[1]))
 
-            #print('ptL is', ptL)
-            #print('ptH is', ptH)
+            #print 'ptL is', ptL
+            #print 'ptH is', ptH
 
             if abs(ptL-pt)<closestPt or abs(ptH-pt)<closestPt and not ptFound:
                 closestPt = min(abs(ptL-pt), abs(ptH-pt))
@@ -100,9 +100,9 @@ class LeptonSF:
         closestPt = 9999.
 
         etaFound = False
-        for etaKey, values in sorted(self.res[self.lep_binning].items()) :
-            #print('etaKey is', etaKey)
-            #print('etaKey after strip is', etaKey[stripForEta:])
+        for etaKey, values in sorted(self.res[self.lep_binning].iteritems()) :
+            #print 'etaKey is', etaKey
+            #print 'etaKey after strip is', etaKey[stripForEta:]
             #etaL = float(((etaKey[stripForEta:]).rstrip(']').split(',')[0]))
             #etaH = float(((etaKey[stripForEta:]).rstrip(']').split(',')[1]))
             etaL = float(((etaKey[etaKey.find('[')+1:]).rstrip(']').split(',')[0]))
@@ -118,7 +118,7 @@ class LeptonSF:
                 closestEtaBin = etaKey
                 etaFound = True                
 
-            for ptKey, result in sorted(values.items()) :
+            for ptKey, result in sorted(values.iteritems()) :
                 #ptL = float(((ptKey[stripForPt:]).rstrip(']').split(',')[0]))
                 #ptH = float(((ptKey[stripForPt:]).rstrip(']').split(',')[1]))
                 ptL = float(((ptKey[ptKey.find('[')+1:]).rstrip(']').split(',')[0]))
@@ -210,9 +210,9 @@ if __name__ == "__main__":
             wdir+'/python/json/V25/SingleLepton_2017/VHbb1ElectronTrigger2017.json' : ['singleEleTrigger', 'eta_pt_ratio']
             }
 
-    for j, name in jsons.items():
+    for j, name in jsons.iteritems():
 
-        print('j is', j)
+        print 'j is', j
         lepCorr = LeptonSF(j , name[0], name[1])
 
         #test1
@@ -234,4 +234,4 @@ if __name__ == "__main__":
             weight = lepCorr.get_1D(lepton_eta)
         val = weight[0]
         err = weight[1]
-        print('SF: ',  val, ' +/- ', err)
+        print 'SF: ',  val, ' +/- ', err

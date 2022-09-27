@@ -429,7 +429,7 @@ class TreeCache:
                 if self.verbose:
                     print ("HISTOGRAMS: %r"%histograms)
                 output.cd()
-                for histogramName, histogram in histograms.items():
+                for histogramName, histogram in histograms.iteritems():
                     histogram.SetDirectory(output)
 
             # single input file -> read it as TFile

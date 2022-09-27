@@ -180,7 +180,7 @@ class MvaTrainingHelper(object):
         for category in categories:
             for sample in self.samples[category]:
                 print ('*'*80,'\n%s\n'%sample,'*'*80)
-                for datasetName, additionalCut in datasetParts.items():
+                for datasetName, additionalCut in datasetParts.iteritems():
                     # cuts
                     sampleCuts = [sample.subcut]
                     if additionalCut:
@@ -337,7 +337,7 @@ class MvaTrainingHelper(object):
             if self.parameters['class_weight'] == 'balanced':
                 applyClassWeights = True
         elif self.parameters['classifier'] == 'MLPClassifier':
-            classifierParams = {k:v for k,v in self.parameters.items() if k in ['solver', 'alpha', 'hidden_layer_sizes', 'max_iter', 'warm_start', 'learning_rate_init', 'learning_rate', 'momentum', 'epsilon', 'beta_1', 'beta_2', 'validation_fraction', 'early_stopping']}
+            classifierParams = {k:v for k,v in self.parameters.iteritems() if k in ['solver', 'alpha', 'hidden_layer_sizes', 'max_iter', 'warm_start', 'learning_rate_init', 'learning_rate', 'momentum', 'epsilon', 'beta_1', 'beta_2', 'validation_fraction', 'early_stopping']}
             clf = MLPClassifier(**classifierParams) 
         elif self.parameters['classifier'] in ['SVC', 'LinearSVC']:
             '''
@@ -691,7 +691,7 @@ class MvaTrainingHelper(object):
             pass
         html.append('<br><br>')
 
-        #for k,v in sorted(self.parameters.items()):
+        #for k,v in sorted(self.parameters.iteritems()):
         #    html.append('<b>' + k + '</b>: ' + '%r<br>'%v)
 
         html.append('<b>config</b>: ' + '%r<br>'%self.MVAsettings)

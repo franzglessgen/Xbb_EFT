@@ -83,11 +83,11 @@ for sampleGroup in sampleGroups:
             raise Exception("SampleMissing")
 
 # pruning
-for sampleIdentifier,counts in countDict.items():
+for sampleIdentifier,counts in countDict.iteritems():
     specialweight = ''
-    for cut,cutCount in counts.items():
+    for cut,cutCount in counts.iteritems():
         totalCount = 0
-        for sample,sampleCounts in countDict.items():
+        for sample,sampleCounts in countDict.iteritems():
             if cut in sampleCounts:
                 totalCount += sampleCounts[cut]
 
@@ -118,11 +118,11 @@ for sampleGroup in sampleGroups:
 
 print "-"*80
 
-for sampleIdentifier,counts in countDict.items():
+for sampleIdentifier,counts in countDict.iteritems():
     specialweight = ''
-    for cut,cutCount in counts.items():
+    for cut,cutCount in counts.iteritems():
         totalCount = 0
-        for sample,sampleCounts in countDict.items():
+        for sample,sampleCounts in countDict.iteritems():
             if cut in sampleCounts:
                 totalCount += sampleCounts[cut]
 
@@ -140,7 +140,7 @@ for sampleIdentifier,counts in countDict.items():
 print "-"*80
 
 with open("./stitching.csv", "w") as of:
-    for sampleIdentifier,counts in countDict.items():
-        for cut,cutCount in counts.items():
+    for sampleIdentifier,counts in countDict.iteritems():
+        for cut,cutCount in counts.iteritems():
             of.write("{s},{c},{v}\n".format(s=sampleIdentifier,c=cut,v=cutCount))
 

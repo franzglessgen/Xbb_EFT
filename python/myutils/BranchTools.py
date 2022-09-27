@@ -39,7 +39,7 @@ class TreeFormulas(object):
 
     def __init__(self, formulaDict):
         self.formulas = []
-        for k,v in formulaDict.items():
+        for k,v in formulaDict.iteritems():
             if type(v) == str:
                 self.formulas.append(TreeFormula(k, v))
             else:
@@ -59,7 +59,7 @@ class newCutBranches(object):
 
     def customInit(self, initVars):
         self.config = initVars['config']
-        for k,v in self.formulaDict.items():
+        for k,v in self.formulaDict.iteritems():
             print 'k,v', k,v
             if v == 'dc':
                 self.formulas.append(TreeFormula(k, self.config.get('Cuts',self.config.get(v+':'+k, 'cut'))))

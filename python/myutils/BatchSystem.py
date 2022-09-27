@@ -120,7 +120,7 @@ class BatchSystem(object):
 
         # add named arguments to run script
         if 'arguments' in repDict:
-            for argument, value in repDict['arguments'].items():
+            for argument, value in repDict['arguments'].iteritems():
                 runScript += (' --{argument}={value} '.format(argument=argument, value=value)) if len('{value}'.format(value=value)) > 0 else ' --{argument} '.format(argument=argument)
 
         # add path to config file (Can be dumped combined config instead of single files!)
@@ -165,7 +165,7 @@ class BatchSystem(object):
                     answer = 'l'
                 else:
                     print("SUBMIT:\x1b[34m", command, "\x1b[0m\n(press ENTER to run it and continue, \x1b[34ml\x1b[0m to run it locally, \x1b[34md\x1b[0m for debug mode, \x1b[34ma\x1b[0m to run all jobs locally and \x1b[34ms\x1b[0m to submit the remaining jobs)")
-                    answer = input().strip()
+                    answer = raw_input().strip()
                 if answer.lower() in ['no', 'n']:
                     self.nJobsSkipped += 1
                     return

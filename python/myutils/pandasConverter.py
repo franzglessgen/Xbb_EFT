@@ -108,8 +108,8 @@ class SampleTreesToDataFrameConverter(object):
         return self.dfs
 
     def makeHDF(self,path="./"):
-        for region, dataframes in self.dfs.items():
-            for dataType, df in dataframes.items():
+        for region, dataframes in self.dfs.iteritems():
+            for dataType, df in dataframes.iteritems():
                 df.to_hdf(path+"/"+region+".hdf",dataType)
 
 

@@ -6,7 +6,6 @@ import random
 sys.path.append('../')
 from myutils.sampleTree import SampleTree as SampleTree
 from myutils.FileLocator import FileLocator
-from myutils.samplesclass import Sample
 import os
 
 class TestXrootdMethods(unittest.TestCase):
@@ -22,7 +21,7 @@ class TestXrootdMethods(unittest.TestCase):
             path1 = 'root://xrootd-cms.infn.it//store/group/phys_higgs/hbb/ntuples/VHbbPostNano/2017/V11/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17NanoAODv4-PU2017_1282/190510_115113/0000/tree_1.root'
             tree1 = self.getTree(path1)
             print ("ENTRIES:", tree1.GetEntries())
-            self.assertEqual(tree1.GetEntries(), 552904)
+            self.assertEqual(tree1.GetEntries(), 552904L)
 
             fileLocator = FileLocator()
 

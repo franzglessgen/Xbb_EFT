@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import BetterConfigParser
-import configparser as ConfigParser
 import os
 import inspect
 import ROOT
-#Python 2 vs Python 3
-try:
-    from itertools import ifilter
-except:
-    pass
+from itertools import ifilter
 from copytreePSI import filelist
 from FileLocator import FileLocator
 from sample_parser import ParseInfo
@@ -98,9 +93,6 @@ class XbbConfigReader(object):
         else:
             pathconfig = BetterConfigParser.BetterConfigParser()
             pathconfig.read(configDirectory + '/paths.ini')
-            print(pathconfig.read(configDirectory + '/paths.ini'))
-  
-             
             configFiles = [x.strip() for x in pathconfig.get('Configuration', 'List').split(' ') if x.strip() != 'volatile.ini']
 
             # read actual config

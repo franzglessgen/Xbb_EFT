@@ -472,7 +472,7 @@ if config.has_option('LimitGeneral','sample_sys_info'):
     sample_sys_list = []#List of all the samples used for the sys. Those samples need to be skiped, except for corresponding sys
     sample_sys_info = eval(config.get('LimitGeneral','sample_sys_info'))
     #Extract list of sys samples
-    for key, item in sample_sys_info.items():
+    for key, item in sample_sys_info.iteritems():
         for item2 in item:
             for sample_type in item2:
                 NOMsamplesys = sample_type[0]
@@ -841,7 +841,7 @@ for weightF_sys in weightF_systematics:
 #sample systematics
 print 'before modif, _sample_sys_dic is', _sample_sys_dic
 if len(sample_sys_info) > 0:
-    for key, item in sample_sys_info.items():#loop over the systematics
+    for key, item in sample_sys_info.iteritems():#loop over the systematics
         _weight = weightF
         _cut = shapecut_first
         shapecut = shapecut_first
@@ -1664,7 +1664,7 @@ for weightF_sys in weightF_systematics:
     f.write('\n')
 
 # additional sample systematics
-for key, item in sample_sys_info.items():#loop over sys
+for key, item in sample_sys_info.iteritems():#loop over sys
     f.write('%s\tshape'%(systematicsnaming[key]))
     for it in range(0,columns):
         found = False
