@@ -247,12 +247,12 @@ class SampleTree(object):
                 # TODO: per run if possible, sum LHE weights if present
 
                 # sum the contributions from the subtrees
-                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.iteritems() if len(values) > 0 and type(values[0]) in [int, float, long]}
+                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.items() if len(values) > 0 and type(values[0]) in [int, float]}
                 # print summary table
                 countBranches = self.totalNanoTreeCounts.keys()
                 depth = None
-                for key,values in self.nanoTreeCounts.iteritems():
-                    if values and len(values)>1 and type(values[0]) in [int, float, long]:
+                for key,values in self.nanoTreeCounts.items():
+                    if values and len(values)>1 and type(values[0]) in [int, float]:
                         depth = len(values)
                         break
                 print("-"*160)

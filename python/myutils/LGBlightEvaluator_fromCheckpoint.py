@@ -112,6 +112,7 @@ class LGBMEvaluator(AddCollectionsModule):
 
         print("POSTFIX", self.checkpoints)
 
+        #Load the data
 
 
         # FEATURES
@@ -161,48 +162,60 @@ class LGBMEvaluator(AddCollectionsModule):
 
         # create tensorflow graph
         #self.ev = TensorflowDNNEvaluator(checkpoint=self.checkpoint, scaler=self.scalerDump)
-        
-        self.NbEvents = 0
-      
-
-
 
     # called from main loop for every event
     def processEvent(self, tree):
 
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
-           
-            self.NbEvents+=1
-            print("Event ", self.NbEvents, " out of ", tree.GetEntries())
+            
             #fake_features = np.ones((1,44))
             #pred = Regressor.gbm.predict(fake_features)
             #print(pred)
-    
 
             if self.condition is None or self.sampleTree.evaluate(self.condition):
                 # fill input variables
                 inputs = np.full((1, self.nFeatures), 0.0, dtype=np.float32)
                 for i, var in enumerate(self.inputVariables):
                         if var in self.fixInputs:
-                            inputs[0,i] = self.fixInputs[var]
+                            inputs[j,i] = self.fixInputs[var]
                         else:
-                            inputs[0,i] = self.sampleTree.evaluate(var)
+                            inputs[j,i] = self.sampleTree.evaluate(var)
 
                 # use TensorflowDNNEvaluator
-                
-                #Softmax probas, replace with BDT evaluation
-                
-                for i in range(len(self.checkpoints)):
-                     
-                    self._b(self.checkpoints[i])[0] = self.regressors[i].gbm.predict(inputs) 
-
-                 
+                probabilities = self.ev.eval(inputs)
             else:
-                print("The condition is not met, check your config")
-                raise Exception("CheckpointError")
+                probabilities = np.full((len(self.systematics), self.nFeatures), -1.0, dtype=np.float32)
 
- 
+            # fill output branches
+            if len(self.dnnCollections) == 1:
+                # for signal/background store just one of the two, selected by self.signalIndex
+                for i,dnnCollection in enumerate(self.dnnCollections):
+                    for j, syst in enumerate(self.systematics):
+                        dnnCollection[dnnCollection.name][j] = probabilities[j, self.signalIndex]
+            else:
+                if self.addDebugVariables:
+                    # for multi-class, store all
+                    for i,dnnCollection in enumerate(self.dnnCollections):
+                        for j, syst in enumerate(self.systematics):
+                            dnnCollection[dnnCollection.name][j] = probabilities[j, i]
+
+                for j, syst in enumerate(self.systematics):
+                    sortedValues = np.sort(probabilities[j])
+                    argmaxP = np.argmax(probabilities[j])
+                    maxP = min(sortedValues[-1], 0.9999)
+                    if self.addDebugVariables:
+                        self.dnnCollectionsMulti['argmax']._b()[j] = argmaxP
+                        self.dnnCollectionsMulti['max']._b()[j]    = maxP
+                        self.dnnCollectionsMulti['max2']._b()[j]   = min(sortedValues[-2], 0.9999)
+
+                        # sum the total signal probability, useful in case of multiple signals
+                        self.dnnCollectionsMulti['signal']._b()[j] = min(sum([probabilities[j, i] for i in self.signalClassIds]), 0.9999)
+
+                    # default linearization method
+                    self.dnnCollectionsMulti['default']._b()[j] = argmaxP + maxP
+
         return True
 
-
+    def cleanUp(self):
+        pass

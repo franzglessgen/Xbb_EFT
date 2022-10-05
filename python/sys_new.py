@@ -37,6 +37,10 @@ class XbbRun:
         # load namespace, TODO
         VHbbNameSpace = self.config.get('VHbbNameSpace', 'library')
         ROOT.gSystem.Load(VHbbNameSpace)
+        VHbbNameSpaceHeader = self.config.get('VHbbNameSpace', 'header')
+        LineToInterpret = "#include " + "\"" + VHbbNameSpaceHeader + "\""
+        #ROOT.gInterpreter.ProcessLine('#include "VHbbNameSpace.h"')
+        ROOT.gInterpreter.ProcessLine(LineToInterpret)
 
         # directories
         self.pathIN = self.config.get('Directories', opts.inputDir)
@@ -259,8 +263,8 @@ class XbbRun:
                                 else:
                                     print 'INFO: file is good after second attempt!'
                     except Exception as e:
-                        print e
-                        print "\x1b[31mERROR: copy from scratch to final destination failed!!\x1b[0m"
+                        print(e)
+                        print("\x1b[31mERROR: copy from scratch to final destination failed!!\x1b[0m")
 
                     # delete temporary file
                     try:
@@ -270,12 +274,13 @@ class XbbRun:
                         print "WARNING: could not delete file on scratch!"
 
 
+
                 # clean up
                 if hasattr(wObject, "cleanUp") and callable(getattr(wObject, "cleanUp")):
                     getattr(wObject, "cleanUp")()
 
             else:
-                print 'SKIP:', subJob['inputFileNames']
+                print('SKIP:', subJob['inputFileNames'])
 
         if nFilesFailed > 0:
             raise Exception("ProcessingIncomplete")
@@ -300,5 +305,5 @@ if opts.config == "":
 xr = XbbRun(opts)
 xr.run()
 
-print "INFO: max memory used (MB): %1.1f"%(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0)
+print("INFO: max memory used (MB): %1.1f"%(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0))
 
