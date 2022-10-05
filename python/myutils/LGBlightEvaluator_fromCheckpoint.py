@@ -121,7 +121,10 @@ class LGBMEvaluator(AddCollectionsModule):
             self.featuresConfig = self.config.get(self.config.get(self.mvaName, "treeVarSet"), "Nominal").strip().split(" ")
         except Exception as e:
             print("WARNING: could not get treeVarSet from config:", e)
-        
+       
+        print("FEATURES", self.featuresConfig)
+
+ 
         #TOADD: save the list of variable names in checkpoint
         #if 'variables' in self.info:
         #    self.featuresCheckpoint = self.info['variables']
