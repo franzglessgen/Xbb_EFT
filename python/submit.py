@@ -1051,7 +1051,6 @@ if opts.task == 'sysnew' or opts.task == 'checksysnew' or opts.task == 'run':
                     if sampleIdentifier in jobDependencyDict and chunkNumber in jobDependencyDict[sampleIdentifier]:
                         jobDict['dependency'] = jobDependencyDict[sampleIdentifier][chunkNumber]
 
-
 		            # submit
                     print(jobName)
 		            batchJob = submit(jobName, jobDict)

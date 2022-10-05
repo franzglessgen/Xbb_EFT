@@ -275,6 +275,7 @@ class XbbRun:
 
 
 
+
                 # clean up
                 if hasattr(wObject, "cleanUp") and callable(getattr(wObject, "cleanUp")):
                     getattr(wObject, "cleanUp")()
