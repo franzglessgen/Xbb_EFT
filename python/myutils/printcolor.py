@@ -3,7 +3,7 @@ def printc(fg,bg,text):
     one, two = makefix(4,bg)
     pre+=one
     post+=two
-    print(pre+text+post)
+    print pre+text+post
     
 def makefix(first,color):
     if color == 'black': id=0

@@ -2,7 +2,6 @@
 from __future__ import print_function
 import sys
 import unittest
-sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 
 loader = unittest.TestLoader()
 loader.testMethodPrefix = "test"

@@ -34,9 +34,9 @@ class SampleGroup(AddCollectionsModule):
             self.groupDict = eval(self.config.get('LimitGeneral','Group'))
 
         self.groupNames = list(set(self.groupDict.values()))
-        self.groups = {k: [x for x,y in self.groupDict.items() if y==k] for k in self.groupNames}
+        self.groups = {k: [x for x,y in self.groupDict.iteritems() if y==k] for k in self.groupNames}
 
-        for groupName, sampleNames in self.groups.items():
+        for groupName, sampleNames in self.groups.iteritems():
             self.branches.append({'name': self.prefix + groupName, 'formula': self.isInGroup, 'arguments': groupName}) 
 
 

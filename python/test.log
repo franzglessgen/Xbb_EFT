@@ -1,2 +1,370 @@
-['Zll2018config//paths.ini']
-paths.ini general.ini ../VHbb2018commonconfig/modules.ini ../VHbb2018commonconfig/configuration.ini ../VHbb2018commonconfig/samples_mc.ini WC.ini hadd.ini datacardsEFT.ini cuts.ini training.ini plots.ini data.ini ../VHbb2018commonconfig/vhbbPlotDef.ini ../VHbb2018commonconfig/EventCounts2018V12.ini sys.ini
+myutils/BatchSystem.py:    def toDict(self):
+myutils/BatchSystem.py:    def getRunScriptCommand(self, repDict):
+myutils/BatchSystem.py:        runScript = 'runAll.sh %(job)s %(config)s '%(repDict)
+myutils/BatchSystem.py:        runScript += repDict['task'] + ' ' + repDict['nprocesses'] + ' ' + repDict['job_id'] + ' ' + repDict['additional']
+myutils/BatchSystem.py:        if 'arguments' in repDict:
+myutils/BatchSystem.py:            for argument, value in repDict['arguments'].iteritems():
+myutils/BatchSystem.py:    def getLogPaths(self, repDict):
+myutils/BatchSystem.py:                'log': '%(logpath)s/%(task)s_%(timestamp)s_%(job)s_%(en)s_%(additional)s.log' %(repDict),
+myutils/BatchSystem.py:                'error': '%(logpath)s/%(task)s_%(timestamp)s_%(job)s_%(en)s_%(additional)s.err' %(repDict),
+myutils/BatchSystem.py:                'out': '%(logpath)s/%(task)s_%(timestamp)s_%(job)s_%(en)s_%(additional)s.out' %(repDict),
+myutils/BatchSystem.py:                'config': "%(logpath)s/%(timestamp)s_%(task)s.config" %(repDict),
+myutils/BatchSystem.py:    def submitPreprocess(self, job, repDict):
+myutils/BatchSystem.py:        repDict['job'] = job
+myutils/BatchSystem.py:        repDict['name'] = '%(job)s_%(en)s%(task)s' %repDict
+myutils/BatchSystem.py:    def run(self, command, runScript='', repDict={}, getJobIdFn=None):
+myutils/BatchSystem.py:            batchJob = BatchJob(repDict['name'], command, self.getLogPaths(repDict)['out'])
+myutils/BatchSystem.py:            batchJob.setProperty('repDict', repDict)
+myutils/BatchSystem.py:            json.dump([x.toDict() for x in self.submittedJobs], outfile)
+myutils/BatchSystemHTCondor.py:    def submit(self, job, repDict):
+myutils/BatchSystemHTCondor.py:        self.submitPreprocess(job, repDict)
+myutils/BatchSystemHTCondor.py:        runScript = self.getRunScriptCommand(repDict)
+myutils/BatchSystemHTCondor.py:        logPaths = self.getLogPaths(repDict)
+myutils/BatchSystemHTCondor.py:        isBatched = 'batch' in repDict and not self.noBatch
+myutils/BatchSystemHTCondor.py:            if repDict['batch'] not in self.condorBatchGroups:
+myutils/BatchSystemHTCondor.py:                self.condorBatchGroups[repDict['batch']] = '%(task)s_%(timestamp)s_%(batch)s'%(repDict)
+myutils/BatchSystemHTCondor.py:            dictHash = self.condorBatchGroups[repDict['batch']]
+myutils/BatchSystemHTCondor.py:            dictHash = '%(task)s_%(timestamp)s'%(repDict) + '_%x'%hash('%r'%repDict)
+myutils/BatchSystemHTCondor.py:        condorDict = {
+myutils/BatchSystemHTCondor.py:                submitFile.write(self.template.format(**condorDict))
+myutils/BatchSystemHTCondor.py:                submitFile.write(self.template.format(**condorDict))
+myutils/BatchSystemHTCondor.py:        return self.run(command, runScript, repDict)
+myutils/BatchSystemSGE.py:            if self.config.has_option('SubmitOptions', 'submitQueueDict'):
+myutils/BatchSystemSGE.py:                self.submitQueueDict.update(eval(self.config.get('SubmitOptions', 'submitQueueDict')))
+myutils/BatchSystemSGE.py:            jobDict = {
+myutils/BatchSystemSGE.py:            result.append(jobDict)
+myutils/BatchSystemSGE.py:    def submit(self, job, repDict):
+myutils/BatchSystemSGE.py:        self.submitPreprocess(job, repDict)
+myutils/BatchSystemSGE.py:        runScript = self.getRunScriptCommand(repDict)
+myutils/BatchSystemSGE.py:        logPaths = self.getLogPaths(repDict)
+myutils/BatchSystemSGE.py:        qsubOptions = self.submitScriptOptionsTemplate%(repDict)
+myutils/BatchSystemSGE.py:        if repDict['task'] in self.submitScriptSpecialOptions:
+myutils/BatchSystemSGE.py:            qsubOptions += self.submitScriptSpecialOptions[repDict['task']]
+myutils/BatchSystemSGE.py:        if 'queue' in repDict:
+myutils/BatchSystemSGE.py:            if repDict['queue'] == 'veryshort.q':
+myutils/BatchSystemSGE.py:                repDict['queue'] = 'short.q'
+myutils/BatchSystemSGE.py:        repDict['batchSystem'] = self.name
+myutils/BatchSystemSGE.py:        return self.run(command, runScript, repDict, getJobIdFn=self.getJobIDfromOutput)
+myutils/BatchSystemSLURM.py:                jobDict = {
+myutils/BatchSystemSLURM.py:                result.append(jobDict)
+myutils/BatchSystemSLURM.py:    def submit(self, job, repDict):
+myutils/BatchSystemSLURM.py:        self.submitPreprocess(job, repDict)
+myutils/BatchSystemSLURM.py:        runscript = self.getRunScriptCommand(repDict)
+myutils/BatchSystemSLURM.py:        logPaths = self.getLogPaths(repDict)
+myutils/BatchSystemSLURM.py:        if 'queue' in repDict:
+myutils/BatchSystemSLURM.py:            if repDict['queue'] == 'all.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'long.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'twodays.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'threedays.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'short.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'veryshort.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'espresso.q':
+myutils/BatchSystemSLURM.py:            elif repDict['queue'] == 'bigmem.q':
+myutils/BatchSystemSLURM.py:        if 'dependency' in repDict:
+myutils/BatchSystemSLURM.py:            extraOptions += " --dependency=afterany:{jobId} ".format(jobId=repDict['dependency'])
+myutils/BatchSystemSLURM.py:        command = self.submitScriptTemplate.format(jobName=repDict['name'], memory=memoryLimit, time=timeLimit, runscript=runscript, output=logPaths['out'], extraOptions=extraOptions)
+myutils/BatchSystemSLURM.py:        repDict['batchSystem'] = self.name
+myutils/BatchSystemSLURM.py:        return self.run(command, runscript, repDict, getJobIdFn=self.getJobIDfromOutput)
+myutils/BranchList.py:    def flattenDict(self, cutDict):
+myutils/BranchList.py:        if type(cutDict) == str:
+myutils/BranchList.py:            return cutDict
+myutils/BranchList.py:        elif type(cutDict) == dict:
+myutils/BranchList.py:            if 'OR' in cutDict:
+myutils/BranchList.py:                return '||'.join(['(%s)'%self.flattenDict(x) for x in cutDict['OR']])
+myutils/BranchList.py:            elif 'AND' in cutDict:
+myutils/BranchList.py:                return '&&'.join(['(%s)'%self.flattenDict(x) for x in cutDict['AND']])
+myutils/BranchList.py:                raise Exception('BadTreeTypeCutDict')
+myutils/BranchList.py:            self.cuts.append(self.flattenDict(cuts))
+myutils/BranchTools.py:    def __init__(self, formulaDict):
+myutils/BranchTools.py:        for k,v in formulaDict.iteritems():
+myutils/BranchTools.py:    def __init__(self, formulaDict):
+myutils/BranchTools.py:        self.formulaDict = formulaDict
+myutils/BranchTools.py:        for k,v in self.formulaDict.iteritems():
+myutils/BranchTools.py:    def fromList(self, listOfDicts):
+myutils/BranchTools.py:        self.setSize(len(listOfDicts))
+myutils/BranchTools.py:        for i in range(len(listOfDicts)):
+myutils/BranchTools.py:                self[p][i] = listOfDicts[i][p]
+myutils/CheckDuplicateEvents.py:        self.eventDict = {}
+myutils/CheckDuplicateEvents.py:            if major not in self.eventDict:
+myutils/CheckDuplicateEvents.py:                self.eventDict[major] = {}
+myutils/CheckDuplicateEvents.py:            if minor in self.eventDict[major]:
+myutils/CheckDuplicateEvents.py:                self.eventDict[major][minor] = True
+myutils/Datacard.py:        self.DCprocessSeparatorDict = {'WS':':','TH':'/'}
+myutils/Datacard.py:                'addBlindingCut', 'change_shapes', 'Group', 'Dict', 'binstat', 'binstat_cr', 'rebin_active', 'ignore_stats', 'signal_inject', 'add_signal_as_bkg', 'systematicsnaming', 'weightF_sys',
+myutils/Datacard.py:                'sample_sys_info', 'addSample_sys', 'removeWeightSystematics', 'ptRegionsDict', 'setup', 'setupSignals', 'reshapeBins', 'sys_cut_dict', 'sys_cut_dict_per_syst', 'useMinmaxCuts', 'sys_cut_replacement_final',
+myutils/Datacard.py:        if self.sysOptions['ptRegionsDict']:
+myutils/Datacard.py:            self.ptRegion = [ptRegion for ptRegion, outputNames in self.sysOptions['ptRegionsDict'].iteritems() if len([x for x in outputNames if x.upper() in self.ROOToutname.upper()])>0]
+myutils/Datacard.py:        self.systematicsDictionaryNominal = {
+myutils/Datacard.py:        # contains all systematicDictionaries, first entry will be nominal
+myutils/Datacard.py:        self.systematicsList = [self.systematicsDictionaryNominal]
+myutils/Datacard.py:        mcStatsDict = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:        mcStatsDict['sysType'] = 'unweighted'
+myutils/Datacard.py:        mcStatsDict['systematicsName'] = 'unweighted'
+myutils/Datacard.py:        self.systematicsList.append(mcStatsDict)
+myutils/Datacard.py:        mcStatsDict = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:        mcStatsDict['sysType'] = 'sumw2'
+myutils/Datacard.py:        mcStatsDict['systematicsName'] = 'sumw2'
+myutils/Datacard.py:        self.systematicsList.append(mcStatsDict)
+myutils/Datacard.py:                systematicsDictionary = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:                systematicsDictionary.update({
+myutils/Datacard.py:                self.systematicsList.append(systematicsDictionary)
+myutils/Datacard.py:                systematicsDictionary = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:                systematicsDictionary.update({
+myutils/Datacard.py:                self.systematicsList.append(systematicsDictionary)
+myutils/Datacard.py:                    systematicsDictionary = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:                    systematicsDictionary.update({
+myutils/Datacard.py:                                    systematicsDictionary['sample_sys_dic'][sampleName] = value
+myutils/Datacard.py:                    self.systematicsList.append(systematicsDictionary)
+myutils/Datacard.py:        elif groupName in self.sysOptions['Dict']:
+myutils/Datacard.py:            processName = self.sysOptions['Dict'][groupName]
+myutils/Datacard.py:        dcProcessSampleGroup = {v: k for k,v in self.sysOptions['Dict'].iteritems()}
+myutils/Datacard.py:                #print ("->",self.sysOptions['Dict'])
+myutils/Datacard.py:                        #dcProcess = self.sysOptions['Dict'][sampleGroup]
+myutils/Datacard.py:                                systematicsDictionary = deepcopy(self.systematicsDictionaryNominal)
+myutils/Datacard.py:                                systematicsDictionary.update({
+myutils/Datacard.py:                                bbbHistogramName = self.getHistogramName(process=dcProcess, systematics=systematicsDictionary) + Q
+myutils/Datacard.py:                                self.systematicsList.append(systematicsDictionary)
+myutils/Datacard.py:                f.write('shapes * * vhbb_%s_%s.root $CHANNEL%s$PROCESS $CHANNEL%s$PROCESS$SYSTEMATIC\n\n'%(self.DCtype, self.ROOToutname, self.DCprocessSeparatorDict[self.DCtype], self.DCprocessSeparatorDict[self.DCtype]))
+myutils/Datacard.py:                    nominalDict = self.getSystematicsList(isData=True)
+myutils/Datacard.py:                    if len(nominalDict) == 1:
+myutils/Datacard.py:                        nominalValue = nominalDict[0]['histograms']['DATA'].Integral()
+myutils/Datacard.py:                        raise Exception("DcDictError")
+myutils/Datacard.py:                    #dcProcesses = [(self.sysOptions['Dict'][sampleGroup]) for sampleGroup in sampleGroups if sampleGroup != 'DATA']
+myutils/Datacard.py:                    systematicDict = eval(self.config.get('Datacard', systematic))
+myutils/Datacard.py:                    dcRow = [systematic, systematicDict['type']]
+myutils/Datacard.py:                        dcRow.append(str(systematicDict[self.getGroupNameFromProcessName(dcProcess)]) if self.getGroupNameFromProcessName(dcProcess) in systematicDict else '-')
+myutils/DoubleStackMaker.py:        self.colorDict=eval(config.get('Plot_general','colorDict'))
+myutils/DoubleStackMaker.py:        self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
+myutils/DoubleStackMaker.py:            self.histos[i].SetLineColor(int(self.colorDict[self.typs[i]]))
+myutils/DoubleStackMaker.py:            l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'l')
+myutils/DoubleStackMaker.py:            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+myutils/DoubleStackMaker.py:        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
+myutils/DoubleStackMaker.py:        print self.typLegendDict
+myutils/DoubleStackMaker.py:            self.histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
+myutils/DoubleStackMaker.py:            l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'F')
+myutils/DoubleStackMaker.py:            l.AddEntry(self.overlay,self.typLegendDict['Overlay'],'L')
+myutils/HistoMaker.py:    def __init__(self, samples, path, config, optionsList, GroupDict=None, filelist=None, mergeplot=False, sample_to_merge=None, mergeCachingPart=-1, plotMergeCached=False,  branch_to_keep=None, dccut=None, remove_sys=None):
+myutils/HistoMaker.py:        #optionsList: Dictionnary containing information on vars, including the cuts
+myutils/HistoMaker.py:        self.GroupDict=GroupDict
+myutils/HistoMaker.py:            if self.GroupDict is None:
+myutils/HistoMaker.py:                group=self.GroupDict[job.name]
+myutils/HistoMaker.py:            gDict = {}
+myutils/HistoMaker.py:                gDict[group] = self.mybinning.rebin(hTree)
+myutils/HistoMaker.py:                gDict[group] = hTree
+myutils/HistoMaker.py:            hTreeList.append(gDict)
+myutils/HistoMaker.py:            if self.GroupDict is None:
+myutils/HistoMaker.py:                group=self.GroupDict[job.name]
+myutils/HistoMaker.py:            gDict = {}
+myutils/HistoMaker.py:                gDict[group] = self.mybinning.rebin(hTree)
+myutils/HistoMaker.py:                gDict[group] = hTree
+myutils/HistoMaker.py:            hTreeList.append(gDict)
+myutils/JetEnergySystematics.py:        self.regDict = {"Jet_pt":"Jet_pt[hJCMVAV2idx[0]]",
+myutils/JetEnergySystematics.py:            self.JECsysGroupDict = {
+myutils/JetEnergySystematics.py:            #var = regDict[key]
+myutils/NewStackMaker.py:        self.typLegendDict = self.readConfig('Plot_general','typLegendDict', {})
+myutils/NewStackMaker.py:                legendEntryName = self.typLegendDict[groupName] if groupName in self.typLegendDict else groupName
+myutils/NewStackMaker.py:        colorDict = eval(self.config.get('Plot_general', 'colorDict'))
+myutils/NewStackMaker.py:                if groupName in colorDict:
+myutils/NewStackMaker.py:                        groupedHistograms[groupName].SetLineColor(colorDict[groupName])
+myutils/NewStackMaker.py:                        groupedHistograms[groupName].SetFillColor(colorDict[groupName])
+myutils/NewStackMaker.py:            colorDict = eval(self.config.get('Plot_general', 'colorDict'))
+myutils/NewStackMaker.py:                theErrorGraph.SetFillColor(colorDict[histogramGroup])
+myutils/PostFitWeight.py:        dcNameDict = eval(self.config.get('LimitGeneral', 'Dict'))
+myutils/PostFitWeight.py:        elif groupName in dcNameDict: 
+myutils/PostFitWeight.py:            processName = dcNameDict[groupName]
+myutils/PostFitWeight.py:        dcRegionNameDict = eval(self.config.get('Fit', 'regions'))
+myutils/PostFitWeight.py:        return dcRegionNameDict[region]
+myutils/RegressionTrainer.py:        regDict = dict(zip(self.__vars, self.__apply)) 
+myutils/RegressionTrainer.py:        self.__config.set('Regression', 'regDict', '%s' %regDict)
+myutils/SampleGroup.py:    def __init__(self, groupDict=None, prefix="is_", eventCounts=None):
+myutils/SampleGroup.py:        self.groupDict = groupDict
+myutils/SampleGroup.py:                self.eventCountsDict = eval(inFile.read())
+myutils/SampleGroup.py:            self.eventCountsDict = None
+myutils/SampleGroup.py:        if not self.groupDict:
+myutils/SampleGroup.py:            self.groupDict = eval(self.config.get('LimitGeneral','Group'))
+myutils/SampleGroup.py:        self.groupNames = list(set(self.groupDict.values()))
+myutils/SampleGroup.py:        self.groups = {k: [x for x,y in self.groupDict.iteritems() if y==k] for k in self.groupNames}
+myutils/SampleGroup.py:        if self.eventCountsDict:
+myutils/SampleGroup.py:            self.eventNumberOffset = self.eventCountsDict[self.sample.identifier][self.sampleTree.sampleFileNames[0]]
+myutils/StackMaker.py:        self.colorDict=eval(config.get('Plot_general','colorDict'))
+myutils/StackMaker.py:        #print "self.colorDict:", self.colorDict
+myutils/StackMaker.py:        self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
+myutils/StackMaker.py:            if self.typs[i] in self.colorDict:
+myutils/StackMaker.py:                self.histos[i].SetLineColor(int(self.colorDict[self.typs[i]]))
+myutils/StackMaker.py:            l.AddEntry(self.histos[j],self.typLegendDict[self.typs[j]],'l')
+myutils/StackMaker.py:#        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
+myutils/StackMaker.py:        print self.typLegendDict
+myutils/StackMaker.py:            if self.typs[i] in self.colorDict:
+myutils/StackMaker.py:                self.histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
+myutils/StackMaker.py:                _overlay.SetLineColor(int(self.colorDict[_overlay.GetTitle()]))
+myutils/StackMaker.py:            legendEntryName = self.typLegendDict[self.typs[j]] if self.typs[j] in self.typLegendDict else self.typs[j]
+myutils/StackMaker.py:                l_2.AddEntry(_overlay,self.typLegendDict[_overlay.GetTitle()]+" X"+str(overScale),'L')
+myutils/StackMaker.py:#                l_2.AddEntry(_overlay,self.typLegendDict[_overlay.GetTitle()],'L')
+myutils/StackMaker.py:        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
+myutils/StackMaker.py:        print self.typLegendDict
+myutils/StackMaker.py:            if self.typs[i] in self.colorDict:
+myutils/StackMaker.py:                sub_histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
+myutils/StackMaker.py:                    l.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
+myutils/StackMaker.py:                    l_2.AddEntry(sub_histos[j],self.typLegendDict[self.typs[j]],'F')
+myutils/StackMaker.py:                l_2.AddEntry(_overlay,self.typLegendDict['Overlay'+_overlay.GetTitle()],'L')
+myutils/TreeCache.py:        self.__hashDict = {}
+myutils/TreeCache.py:        return (self.__sampleList,self.__doCache,self.__tmpPath,self._cutList,self.__hashDict,self.minCut,self.path)
+myutils/TreeCache.py:            self.__hashDict[theName] = theHash
+myutils/TreeCache.py:            self.__hashDict[theName] = theHash
+myutils/TreeCache.py:            sampleDictionary = {}
+myutils/TreeCache.py:                # extract hashes from filenames and pass them as a list to __hashDict
+myutils/TreeCache.py:                self.__hashDict[sample.name] = [x.split('/')[-1].replace('tmp_','').split('.')[0] for x in mergedFiles]
+myutils/TreeCache.py:            #print( "DICT:",self.__hashDict)
+myutils/TreeCache.py:            self.__hashDict[theName]=theHash
+myutils/TreeCache.py:        #print (self.__hashDict)
+myutils/TreeCache.py:        inputHashes = self.__hashDict[sample.name]
+myutils/TreeCache.py:                print ("%s/tmp_%s.root is corrupted. I'm relaunching _trim_tree"%(self.__cachedPath,self.__hashDict[sample.name]))
+myutils/TreeCache.py:                input = ROOT.TFile.Open('%s/tmp_%s.root'%(self.__cachedPath,self.__hashDict[sample.name]),'read')
+myutils/TreeCache.py:                return ['%s/tmp_%s.root'%(self.__cachedPath, hash) for hash in self.__hashDict[sample.name]]
+myutils/TreeCache.py:                return '%s/tmp_%s.root'%(self.__cachedPath,self.__hashDict[sample.name])
+myutils/TreeCache.py:            posWeight = self.get_weight_histogram(self.__hashDict[sample.name], 'CountPosWeight') #input.Get('CountPosWeight')
+myutils/TreeCache.py:            negWeight = self.get_weight_histogram(self.__hashDict[sample.name], 'CountNegWeight') #input.Get('CountNegWeight')
+myutils/TreeCache.py:            count = self.get_weight_histogram(self.__hashDict[sample.name], 'Count').GetBinContent(1)
+myutils/TreeCache.py:        posWeight = self.get_weight_histogram(self.__hashDict[sample.name], 'CountPosWeight')  #input.Get('CountPosWeight')
+myutils/TreeCache.py:        negWeight = self.get_weight_histogram(self.__hashDict[sample.name], 'CountNegWeight')  #input.Get('CountNegWeight')
+myutils/TreeCache.py:        Weight = self.get_weight_histogram(self.__hashDict[sample.name], 'CountWeighted')     #input.Get('CountWeighted')
+myutils/TreeCache.py:        countWeightedLHEWeightScale = self.get_weight_histogram(self.__hashDict[sample.name], 'CountWeightedLHEWeightScale')    #input.Get('CountWeightedLHEWeightScale')
+myutils/TreeCache.py:    ##retrives the cahe __cachedPath and __hashDict
+myutils/TreeCache.py:    #self.__hashDict[sample.name] = theHash
+myutils/XbbTools.py:        replacementRulesDict = eval(config.get('LimitGeneral', 'sys_cut_suffix'))
+myutils/XbbTools.py:        if syst in replacementRulesDict:
+myutils/XbbTools.py:            if isinstance(replacementRulesDict[syst], list):
+myutils/XbbTools.py:                return replacementRulesDict[syst]
+myutils/XbbTools.py:                return [replacementRulesDict[syst]]
+myutils/XbbTools.py:            if isinstance(replacementRulesDict['default'], list):
+myutils/XbbTools.py:                return replacementRulesDict['default']
+myutils/XbbTools.py:                return [replacementRulesDict['default']]
+myutils/XbbTools.py:    def readDictFromRootFile(rootFileName, treeName, key, value):
+myutils/XbbTools.py:    def writeDictToRootFile(rootFileName, treeName, treeDescription, key, value, dictToWrite, fileLocator):
+myutils/kinFitterXbb.py:        self.bDict = {}
+myutils/kinFitterXbb.py:            self.bDict[syst] = {}
+myutils/kinFitterXbb.py:                self.bDict[syst][n] = branchNameFull
+myutils/kinFitterXbb.py:                self.bDict[syst][n] = branchNameFull
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['status'])[0] = kinfit_fit
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_fit'])[0]          = fit_result_H.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_eta_fit'])[0]         = fit_result_H.Eta()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_phi_fit'])[0]         = fit_result_H.Phi()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_fit'])[0]        = fit_result_H.M()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_fit_noJetMass'])[0] = fit_result_H_noJetMass.M()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_pt_fit'])[0]          = fit_result_V.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_eta_fit'])[0]         = fit_result_V.Eta()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_phi_fit'])[0]         = fit_result_V.Phi()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_mass_fit'])[0]        = fit_result_V.M()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['HVdPhi_fit'])[0]        = abs(ROOT.TVector2.Phi_mpi_pi(fit_result_H.Phi() - fit_result_V.Phi()))
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['jjVPtRatio_fit'])[0]    = fit_result_H.Pt()/fit_result_V.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_0_fit'])[0]    = fit_result_j1.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_1_fit'])[0]    = fit_result_j2.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['n_recoil_jets_fit'])[0] = len(recoil_jets)
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_sigma_fit'])[0] = ( dmH_by_dpt1**2          * cov_fit(0,0)
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_0_sigma_fit'])[0] = cov_fit(0,0)**0.5
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_1_sigma_fit'])[0] = cov_fit(3,3)**0.5
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_corr_fit'])[0]        = cov_fit(0,3) / ( (cov_fit(0,0)*cov_fit(3,3))**0.5 )
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_sigma_fit'])[0]       = (cov_fit(0,0) + cov_fit(3,3) + 2.0*cov_fit(0,3) )**0.5
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_pt_fit'])[0]          = llbb.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_phi_fit'])[0]         = llbb.Phi()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_eta_fit'])[0]         = llbb.Eta()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_mass_fit'])[0]        = llbb.M()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_pt_fit'])[0]          = llbbr.Pt()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_phi_fit'])[0]         = llbbr.Phi()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_eta_fit'])[0]         = llbbr.Eta()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_mass_fit'])[0]        = llbbr.M()
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_fit'])[0]          = tree.H_pt
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_eta_fit'])[0]         = tree.H_eta
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_phi_fit'])[0]         = tree.H_phi
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_fit'])[0]        = tree.H_mass
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_fit_noJetMass'])[0] = tree.H_mass
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_pt_fit'])[0]          = tree.V_pt
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_eta_fit'])[0]         = tree.V_eta
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_phi_fit'])[0]         = tree.V_phi
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['V_mass_fit'])[0]        = tree.V_mass
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['HVdPhi_fit'])[0]        = abs(ROOT.TVector2.Phi_mpi_pi(tree.H_phi - tree.V_phi))
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['jjVPtRatio_fit'])[0]    = tree.H_pt/tree.V_pt
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_0_fit'])[0]    = pt_reg[hJidx[0]] 
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_1_fit'])[0]    = pt_reg[hJidx[1]]
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['n_recoil_jets_fit'])[0] = -1 
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_mass_sigma_fit'])[0]  = -1
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_0_sigma_fit'])[0] = -1
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['hJets_pt_1_sigma_fit'])[0] = -1
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_corr_fit'])[0]        = -1
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['H_pt_sigma_fit'])[0]       = -1
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_pt_fit'])[0]          = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_phi_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_eta_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbb_mass_fit'])[0]        = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_pt_fit'])[0]          = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_phi_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_eta_fit'])[0]         = -99 
+myutils/kinFitterXbb.py:                        self._b(self.bDict[syst]['llbbr_mass_fit'])[0]        = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_pt_fit'])[0]          = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_eta_fit'])[0]         = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_phi_fit'])[0]         = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_mass_fit'])[0]        = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_mass_fit_noJetMass'])[0] = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['V_pt_fit'])[0]          = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['V_eta_fit'])[0]         = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['V_phi_fit'])[0]         = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['V_mass_fit'])[0]        = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['HVdPhi_fit'])[0]        = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['jjVPtRatio_fit'])[0]    = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['hJets_pt_0_fit'])[0]    = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['hJets_pt_1_fit'])[0]    = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['n_recoil_jets_fit'])[0] = -1 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_mass_sigma_fit'])[0]  = -1
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['hJets_pt_0_sigma_fit'])[0] = -1
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['hJets_pt_1_sigma_fit'])[0] = -1
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_pt_corr_fit'])[0]        = -1
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['H_pt_sigma_fit'])[0]       = -1
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbb_pt_fit'])[0]          = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbb_phi_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbb_eta_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbb_mass_fit'])[0]        = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbbr_pt_fit'])[0]          = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbbr_phi_fit'])[0]         = -99
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbbr_eta_fit'])[0]         = -99 
+myutils/kinFitterXbb.py:                    self._b(self.bDict[syst]['llbbr_mass_fit'])[0]        = -99
+myutils/sampleTree.py:        self.newBranchesDict = {}
+myutils/sampleTree.py:        if branchName in self.newBranchesDict:
+myutils/sampleTree.py:            branch = self.newBranchesDict[branchName]
+myutils/sampleTree.py:        if branchName in self.newBranchesDict:
+myutils/sampleTree.py:        self.newBranchesDict[branchName] = newBranch
+myutils/sampleTree.py:    def addOutputBranches(self, branchDictList):
+myutils/sampleTree.py:        for branchDict in branchDictList:
+myutils/sampleTree.py:                branchName=branchDict['name'],
+myutils/sampleTree.py:                formula=branchDict['formula'],
+myutils/sampleTree.py:                branchType=branchDict['type'] if 'type' in branchDict else 'f',
+myutils/sampleTree.py:                length=branchDict['length'] if 'length' in branchDict else 1,
+myutils/sampleTree.py:                arguments=branchDict['arguments'] if 'arguments' in branchDict else None,
+myutils/sampleTree.py:                leaflist=branchDict['leaflist'] if 'leaflist' in branchDict else None,
+myutils/sampleTree.py:                arrayStyle=branchDict['arrayStyle'] if 'arrayStyle' in branchDict else False,
+myutils/sampleTree.py:    def addCutDictRecursive(self, cutDict):
+myutils/sampleTree.py:        if type(cutDict) == str:
+myutils/sampleTree.py:            if cutDict not in self.formulas:
+myutils/sampleTree.py:		self.addFormula(cutDict, cutDict)
+myutils/sampleTree.py:        elif 'OR' in cutDict and 'AND' in cutDict:
+myutils/sampleTree.py:            raise Exception("BadTreeTypeCutDict")
+myutils/sampleTree.py:        elif 'OR' in cutDict:
+myutils/sampleTree.py:            for subDict in cutDict['OR']:
+myutils/sampleTree.py:                self.addCutDictRecursive(subDict)
+myutils/sampleTree.py:        elif 'AND' in cutDict:
+myutils/sampleTree.py:            for subDict in cutDict['AND']:
+myutils/sampleTree.py:                self.addCutDictRecursive(subDict)
+myutils/sampleTree.py:            raise Exception("BadTreeTypeCutDict")
+myutils/sampleTree.py:    def evaluateCutDictRecursive(self, cutDict):
+myutils/sampleTree.py:        if type(cutDict) == str:
+myutils/sampleTree.py:            if self.formulaResults[cutDict] is None:
+myutils/sampleTree.py:                print ("FORMULA:", cutDict)
+myutils/sampleTree.py:            return self.formulaResults[cutDict]
+myutils/sampleTree.py:        elif 'OR' in cutDict and 'AND' in cutDict:
+myutils/sampleTree.py:            raise Exception("BadTreeTypeCutDict")
+myutils/sampleTree.py:        elif 'OR' in cutDict:
+myutils/sampleTree.py:            return any([self.evaluateCutDictRecursive(subDict) for subDict in cutDict['OR']])
+myutils/sampleTree.py:        elif 'AND' in cutDict:
+myutils/sampleTree.py:            return all([self.evaluateCutDictRecursive(subDict) for subDict in cutDict['AND']])
+myutils/sampleTree.py:            raise Exception("BadTreeTypeCutDict")
+myutils/sampleTree.py:                self.addCutDictRecursive(outputTree['cut'])
+myutils/sampleTree.py:                    passedCut = self.evaluateCutDictRecursive(outputTree['cutSequence'])

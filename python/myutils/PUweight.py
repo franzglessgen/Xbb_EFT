@@ -28,10 +28,10 @@ class PUweight(AddCollectionsModule):
                     }
 
             # load histograms from file
-            rootFileData = {k: ROOT.TFile.Open(v, "read") if v else None for k,v in self.systematics.items()}
+            rootFileData = {k: ROOT.TFile.Open(v, "read") if v else None for k,v in self.systematics.iteritems()}
             if not rootFileData['Nominal']:
                 raise Exception("RootFileMissing")
-            self.histogramData = {k: v.Get('pileup') if v else None for k,v in rootFileData.items()}
+            self.histogramData = {k: v.Get('pileup') if v else None for k,v in rootFileData.iteritems()}
 
             # if no file for MC is given, try to load MC pileup from 'autoPU' histogram (2017)
             if self.fileNameMC:
@@ -46,13 +46,13 @@ class PUweight(AddCollectionsModule):
                     raise Exception("NoPUforMC")
 
             # normalize histograms
-            for k,v in self.histogramData.items():
+            for k,v in self.histogramData.iteritems():
                 if v:
                     v.Scale(1.0/v.Integral())
             histogramMC.Scale(1.0/histogramMC.Integral())
 
             # check histogram compatibility
-            for k,v in self.histogramData.items():
+            for k,v in self.histogramData.iteritems():
                 if v:
                     if not self.ignoreHistogramMismatch and (v.GetNbinsX()!=histogramMC.GetNbinsX() or v.GetXaxis().GetXmin()!=histogramMC.GetXaxis().GetXmin() or v.GetXaxis().GetXmax()!=histogramMC.GetXaxis().GetXmax()):
                         print "\x1b[31mERROR: ", k, "histograms not compatible! (bins, xmin, xmax)\x1b[0m"
@@ -70,11 +70,11 @@ class PUweight(AddCollectionsModule):
 
             # compute table of PUweight vs. nTrueInt
             self.puWeightLUT = {}
-            for k,v in self.histogramData.items():
+            for k,v in self.histogramData.iteritems():
                 self.puWeightLUT[k] = [1.0]*(maxPU+1)
             for pu in range(minPU, maxPU+1):
                 nMC = histogramMC.GetBinContent(histogramMC.FindBin(pu))
-                for k,v in self.histogramData.items():
+                for k,v in self.histogramData.iteritems():
                     if v:
                         self.puWeightLUT[k][pu] = 1.0 * v.GetBinContent(v.FindBin(pu))/nMC  if nMC > 0 else 1.0
                 print "PU = ",pu," weight = ", self.puWeightLUT['Nominal'][pu]
@@ -82,7 +82,7 @@ class PUweight(AddCollectionsModule):
             self.puWeightLUTmax = maxPU 
 
             # add PU weight for all available systematic variations
-            for k,v in self.histogramData.items():
+            for k,v in self.histogramData.iteritems():
                 if v:
                     self.addBranch(self.puWeightName + (('_'+k) if k != 'Nominal' else ''))
             print('dictionary_pu',self.puWeightLUT)
@@ -102,7 +102,7 @@ class PUweight(AddCollectionsModule):
     def processEvent(self, tree):
         if not self.hasBeenProcessed(tree) and not self.sample.isData():
             self.markProcessed(tree)
-            for k,v in self.histogramData.items():
+            for k,v in self.histogramData.iteritems():
                 if v:
                     self._b(self.puWeightName + (('_'+k) if k != 'Nominal' else ''))[0] = self.getPUweight(tree, k)
 

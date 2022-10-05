@@ -36,14 +36,13 @@ class EFT_params(AddCollectionsModule):
         interpolationOrder = int(2)                              # because we're using a second-order polynomial
         self.hyperPoly       = HyperPoly( interpolationOrder )
 
-        weightInfo_data = list(weightInfo.data.items())
+        weightInfo_data = list(weightInfo.data.iteritems())
         weightInfo_data.sort( key = lambda w: w[1] )
         basepoint_coordinates = map( lambda d: [d[v] for v in weightInfo.variables] , map( lambda w: self.interpret_weight(w[0]), weightInfo_data) )
 
         self.hyperPoly.initialize( basepoint_coordinates, ref_point_coordinates )
 
         self.sampleTree = initVars['sampleTree']
-        self.NbEvents = 0
 
 
     def processEvent(self, tree):
@@ -53,10 +52,6 @@ class EFT_params(AddCollectionsModule):
 	# if current entry has not been processed yet
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
-            
-            self.NbEvents+=1
-            print("Event ", self.NbEvents, " out of ", tree.GetEntries())
-            
             self._b(self.branchName + '_weight')[0] = -99997.0
             self._b(self.branchName + '_coeff')[0] = -99997.0
             self._b(self.branchName + '_np')[0] = -99997
@@ -108,7 +103,7 @@ if __name__ == '__main__':
 
 
 	print(ref_point_coordinates)
-        weightInfo_data = list(weightInfo.data.items())
+        weightInfo_data = list(weightInfo.data.iteritems())
         
 	print(weightInfo_data[0][1])
 	print(weightInfo_data[0])

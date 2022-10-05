@@ -15,7 +15,7 @@ class StackMaker:
         self.subcut = subcut
         #make log plot even if not defined in plot.ini
         self.forceLog = None
-        #print("region:",region)
+        #print "region:",region
         self.normalize = eval(config.get(section,'Normalize'))
         self.log = eval(config.get(section,'log'))
         if config.has_option('plotDef:%s'%var,'log') and not self.log:
@@ -42,7 +42,7 @@ class StackMaker:
             self.nBins = int(eval(config.get(section,'nBins'))/self.rebin)
         else:
             self.nBins = int(eval(config.get('plotDef:%s'%var,'nBins'))/self.rebin)
-        #print(self.nBins)
+        #print self.nBins
         if config.has_option(section,'min'):
             self.xMin = eval(config.get(section,'min'))
         else:
@@ -63,12 +63,12 @@ class StackMaker:
         data = config.get(section,'Datas')
         if '<mass>' in self.name:
             self.name = self.name.replace('<mass>',self.mass)
-            #print(self.name)
+            #print self.name
         if config.has_option('Cuts',region):
             cut = config.get('Cuts',region)
         else:
             cut = None
-            #print("''Cuts' section doesn't contain any ",region)
+            #print "''Cuts' section doesn't contain any ",region
         if config.has_option(section, 'Datacut'):
             cut=config.get(section, 'Datacut')
         if config.has_option(section, 'doFit'):
@@ -77,7 +77,7 @@ class StackMaker:
             self.doFit = False
 
         self.colorDict=eval(config.get('Plot_general','colorDict'))
-        #print("self.colorDict:", self.colorDict)
+        #print "self.colorDict:", self.colorDict
         self.typLegendDict=eval(config.get('Plot_general','typLegendDict'))
         self.anaTag = config.get("Analysis","tag")
         self.xAxis = config.get('plotDef:%s'%var,'xAxis')
@@ -97,15 +97,15 @@ class StackMaker:
 
         # self.hname = self.hname.replace('$','')
 # >>>>>>> silviodonato/master
-        #print(('self.hname',self.hname))
-        print('test of the sample name', '%s%s_%s_%s.pdf'%(region,self.subcut,var,self.mass))
+        #print ('self.hname',self.hname)
+        print 'test of the sample name', '%s%s_%s_%s.pdf'%(region,self.subcut,var,self.mass)
         self.options = {'var': self.name,'name':self.hname,'xAxis': self.xAxis, 'nBins': self.nBins, 'xMin': self.xMin, 'xMax': self.xMax,'pdfName': '%s%s_%s_%s.pdf'%(region,self.subcut,var,self.mass),'cut':cut,'mass': self.mass, 'data': data, 'blind': self.blind}
         if config.has_option('Weights','weightF'):
             self.options['weight'] = config.get('Weights','weightF')
         else:
             self.options['weight'] = None
 
-        #print("Using weightF:",self.options['weight'])
+        #print "Using weightF:",self.options['weight']
         self.plotDir = config.get('Directories','plotpath')
         #self.maxRatioUncert = 1000.5
         self.maxRatioUncert = 0.5
@@ -137,7 +137,7 @@ class StackMaker:
             self.addFlag2 = 'W+udscg enriched'
         #else:
             #addFlag2 = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
-        #print(self.setup)
+        #print self.setup
 
     @staticmethod
     def myText(txt="CMS Preliminary",ndcX=0,ndcY=0,size=0.8):
@@ -158,7 +158,7 @@ class StackMaker:
         l.Clear()
         maximum = 0.
         for j in range(0,k):
-            #print(histos[j].GetBinContent(1))
+            #print histos[j].GetBinContent(1)
             i=k-j-1
             if self.typs[i] in self.colorDict:
                 self.histos[i].SetLineColor(int(self.colorDict[self.typs[i]]))
@@ -201,23 +201,23 @@ class StackMaker:
 
     def doPlot(self):
 
-        print("Start performing stacked plot")
-        print("=============================\n")
+        print "Start performing stacked plot"
+        print "=============================\n"
 
         TdrStyles.tdrStyle()
-        print("self.typs",self.typs)
-        print("self.histos",self.histos)
-        print("self.setup",self.setup)
+        print "self.typs",self.typs
+        print "self.histos",self.histos
+        print "self.setup",self.setup
         #Groups all the subsample of the "Group" dictionnary into one sample
         histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(len(self.histos))],self.setup)
         #sort
 
-        print("histo_dict",histo_dict)
+        print "histo_dict",histo_dict
         for key in self.setup:
-          print("The sample in setup are", key)
+          print "The sample in setup are", key
 
         self.histos=[histo_dict[key] for key in self.setup if key in histo_dict]
-        print("again, self.histos is",self.histos)
+        print "again, self.histos is",self.histos
         self.typs=self.setup
 
         if self.forceLog is not None and self.forceLog:
@@ -264,22 +264,22 @@ class StackMaker:
 
         from array import array
         doubleVariable = array('d',[0])
-    
-        for histo in self.histos:
-            print("histo name, title, integral,error: ",histo.GetName(),histo.GetTitle(),histo.IntegralAndError(0,histo.GetNbinsX(),doubleVariable),doubleVariable[0])
+
+	for histo in self.histos:
+            print "histo name, title, integral,error: ",histo.GetName(),histo.GetTitle(),histo.IntegralAndError(0,histo.GetNbinsX(),doubleVariable),doubleVariable[0]
             MC_integral+=histo.Integral()
-        print("\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral)
+        print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 
         #ORDER AND ADD TOGETHER
 
 #        if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
-        print(self.typLegendDict)
+        print self.typLegendDict
 
         k=len(self.histos)
     
         for j in range(0,k):
-            print('j is',j)
-            #print(histos[j].GetBinContent(1))
+            print 'j is',j
+            #print histos[j].GetBinContent(1)
             i=k-j-1
             if self.typs[i] in self.colorDict:
                 self.histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
@@ -294,28 +294,28 @@ class StackMaker:
             datas_nbins = 0
             datas_xMin = 0
             datas_xMax = 0
-        print('data_nbins:', datas_nbins)
-        print('datas_xMin:', datas_xMin)
-        print('datas_xMax:', datas_xMax)
-        print('nbins:', self.nBins)
-        print('xMin:', self.xMin)
-        print('xMax:',self.xMax)
+        print 'data_nbins:', datas_nbins
+        print 'datas_xMin:', datas_xMin
+        print 'datas_xMax:', datas_xMax
+        print 'nbins:', self.nBins
+        print 'xMin:', self.xMin
+        print 'xMax:',self.xMax
 
 
         d1 = ROOT.TH1F('noData','noData',self.nBins,self.xMin,self.xMax)
         datatitle='Data'
         addFlag = ''
-        print('self.datanames is', self.datanames)
+        print 'self.datanames is', self.datanames
         isZee = False
         isZmm = False
         for data_ in self.datanames:
-            print('data_ is', data_)
+            print 'data_ is', data_
             if 'DoubleEG' in data_:
                 isZee = True
-                print('isZee is True')
+                print 'isZee is True'
             if 'DoubleMuon' in data_:
                 isZmm = True
-                print('isZmm is True')
+                print 'isZmm is True'
         if ('Zee' in self.datanames and 'Zmm' in self.datanames) or (isZee and isZmm):
             addFlag = 'Z(l^{-}l^{+})H(b#bar{b})'
         elif 'Zee' in self.datanames or isZee:
@@ -344,19 +344,19 @@ class StackMaker:
         #    addFlag = 'W(#tau#nu)H(b#bar{b})'
 
         for i in range(0,len(self.datas)):
-            print("Adding data ",self.datas[i]," with integral:",self.datas[i].Integral()," and entries:",self.datas[i].GetEntries()," and bins:",self.datas[i].GetNbinsX())
+            print "Adding data ",self.datas[i]," with integral:",self.datas[i].Integral()," and entries:",self.datas[i].GetEntries()," and bins:",self.datas[i].GetNbinsX()
             d1.Add(self.datas[i],1)
-        print("\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral())
+        print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
         flow = d1.GetEntries()-d1.Integral()
         if flow > 0:
-            print("\033[1;31m\tU/O flow: %s\033[1;m"%flow)
+            print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
 
         if self.overlay and not isinstance(self.overlay,list):
             self.overlay = [self.overlay]
-        print('self.overlay is', self.overlay)
+        print 'self.overlay is', self.overlay
         if self.overlay:
             for _overlay in self.overlay:
-                print('overlay title is', _overlay.GetTitle())
+                print 'overlay title is', _overlay.GetTitle()
                 _overlay.SetLineColor(99)
                 _overlay.SetLineColor(int(self.colorDict[_overlay.GetTitle()]))
                 _overlay.SetLineWidth(3)
@@ -365,7 +365,7 @@ class StackMaker:
 
                 # PREfit overlay
         if self.prefit_overlay:
-            print('\n\n\t\t========PREFIT OVERLAY==========',self.prefit_overlay)
+            print '\n\n\t\t========PREFIT OVERLAY==========',self.prefit_overlay
             for _prefit_overlay in self.prefit_overlay:
                 _prefit_overlay.SetLineColor(ROOT.kRed)
                 #_prefit_overlay.SetLineColor(ROOT.kBlue)
@@ -389,10 +389,10 @@ class StackMaker:
             for _overlay in self.overlay: #find minimum scale to use for all overlays
                 stackMax = allStack.GetMaximum()
                 overMax = _overlay.GetMaximum() + 1e-30 
-                print("overScale=",overScale,)
-                print("stackMax/overMax=",stackMax/overMax,)
-                print("overMax=",overMax,)
-                print("stackMax=",stackMax,)
+                print "overScale=",overScale,
+                print "stackMax/overMax=",stackMax/overMax,
+                print "overMax=",overMax,
+                print "stackMax=",stackMax,
                 overScale = min(overScale,stackMax/overMax)
                 if overScale >= 100000: overScale=100000
                 elif overScale >= 50000: overScale=50000
@@ -416,7 +416,7 @@ class StackMaker:
 #                l_2.AddEntry(_overlay,self.typLegendDict[_overlay.GetTitle()],'L')
     
         if self.normalize:
-            print("I'm normalizing MC to data integral")
+            print "I'm normalizing MC to data integral"
             if MC_integral != 0:        stackscale=d1.Integral()/MC_integral
             if self.overlay:
                 for _overlay in self.overlay:
@@ -424,7 +424,7 @@ class StackMaker:
             stackhists=allStack.GetHists()+allStack.GetStack()
             for blabla in stackhists:
                 if MC_integral != 0: blabla.Scale(stackscale)
-            print("new MC_integral: ",allStack.GetStack().Last().Integral())
+            print "new MC_integral: ",allStack.GetStack().Last().Integral()
    
         allMC=allStack.GetStack().Last().Clone()
 
@@ -482,7 +482,7 @@ class StackMaker:
         l_2.Draw()
 
         tPrel = self.myText("CMS",0.17,0.88,1.04)
-        print('self.lumi is', self.lumi)
+        print 'self.lumi is', self.lumi
         # if not d1.GetSumOfWeights() % 1 == 0.0:
             # tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%('7TeV',(float(5000.)/1000.)),0.17,0.83)
             # tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.78)
@@ -490,7 +490,7 @@ class StackMaker:
             # tLumi = self.myText("#sqrt{s} =  %s, L = %.1f fb^{-1}"%(self.anaTag,(float(self.lumi)/1000.)),0.17,0.83)
         tLumi = self.myText("#sqrt{s} =  %s, L = %.2f fb^{-1}"%(self.anaTag,(float(self.lumi/1000.0))),0.17,0.83)
         tAddFlag = self.myText(addFlag,0.17,0.78)
-        print('Add Flag %s' %self.addFlag2)
+        print 'Add Flag %s' %self.addFlag2
         if self.addFlag2:
             tAddFlag2 = self.myText(self.addFlag2,0.17,0.73)
 
@@ -510,8 +510,8 @@ class StackMaker:
         ratio, error = getRatio(d1,allMC,self.xMin,self.xMax,"",self.maxRatioUncert, True)
         ksScore = d1.KolmogorovTest( allMC )
         chiScore = d1.Chi2Test( allMC , "UWCHI2/NDF")
-        print(ksScore)
-        print(chiScore)
+        print ksScore
+        print chiScore
         try:
             ratio.SetStats(0)
             ratio.GetXaxis().SetTitle(self.xAxis)
@@ -520,14 +520,14 @@ class StackMaker:
             ratioError.SetFillStyle(3013)
             ratio.Draw("E1")
         except Exception as e:
-            print("ERROR with ratio histogram!", e)
+            print "ERROR with ratio histogram!", e
         
         if self.doFit:
             fitData = ROOT.TF1("fData", "gaus",0.7, 1.3)
             fitMC = ROOT.TF1("fMC", "gaus",0.7, 1.3)
-            print('Fit on data')
+            print 'Fit on data'
             d1.Fit(fitData,"R")
-            print('Fit on simulation')
+            print 'Fit on simulation'
             allMC.Fit(fitMC,"R")
 
 
@@ -542,7 +542,7 @@ class StackMaker:
         r_err = {}
         if not self.ratio_band== None:
             for key in self.ratio_band:
-                print('key is', key)
+                print 'key is', key
                 r_err[key] = allMC.Clone()
                 r_err[key].Divide(self.ratio_band[key])
                 r_err[key].Draw('SAME2')
@@ -604,22 +604,22 @@ class StackMaker:
         #c.SaveAs(rootName)
         #c.SaveAs(CName)
 
-        #print("DATA INTEGRAL: %s" %d1.Integral(d1.GetNbinsX()-2,d1.GetNbinsX()) )
+        #print "DATA INTEGRAL: %s" %d1.Integral(d1.GetNbinsX()-2,d1.GetNbinsX()) 
         #fOut = ROOT.TFile.Open(name.replace('.pdf','.root'),'RECREATE')
         #for theHist in allStack.GetHists():
         #    if not self.AddErrors == None and not theHist.GetName() in ['ZH','WH','VH']:
-                #print(theHist.GetNbinsX())
-                #print(self.AddErrors.GetN())
-                #print(error.GetNbinsX())
+                #print theHist.GetNbinsX()
+                #print self.AddErrors.GetN()
+                #print error.GetNbinsX()
         #        for bin in range(0,theHist.GetNbinsX()):
         #            theRelativeTotalError = self.AddErrors.GetErrorY(bin)
         #            if error.GetBinError(bin+1) > 0.:
         #                theRelativeIncrease = theRelativeTotalError/error.GetBinError(bin+1)
         #            else:
         #                theRelativeIncrease = 1.
-                    #print('TheTotalRelativeIncrease is: %.2f' %theRelativeIncrease)
-                    #print('TheTotalStatError is: %.2f' %error.GetBinError(bin+1))
-                    #print('TheTotalError is: %.2f' %theRelativeTotalError)
+                    #print 'TheTotalRelativeIncrease is: %.2f' %theRelativeIncrease
+                    #print 'TheTotalStatError is: %.2f' %error.GetBinError(bin+1)
+                    #print 'TheTotalError is: %.2f' %theRelativeTotalError
         #            theHist.SetBinError(bin,theHist.GetBinError(bin)*theRelativeIncrease)
         #    theHist.SetDirectory(fOut)
         #    if theHist.GetName() == 'ZH' or theHist.GetName() == 'WH':
@@ -631,15 +631,15 @@ class StackMaker:
         #fOut.Close()
         self.doCompPlot(allStack,l)
 
-        print("Finished performing stacked plot")
-        print("================================\n")
+        print "Finished performing stacked plot"
+        print "================================\n"
 
     def doSubPlot(self,signal):
         
         TdrStyles.tdrStyle()
         histo_dict = HistoMaker.orderandadd([{self.typs[i]:self.histos[i]} for i in range(len(self.histos))],self.setup)
         #sort
-        print('histo_dict',histo_dict)
+        print 'histo_dict',histo_dict
         sig_histos=[]
         sub_histos=[histo_dict[key] for key in self.setup]
         self.typs=self.setup
@@ -669,30 +669,30 @@ class StackMaker:
         MC_entries=0
 
         for histo in sub_histos:
-            print("histo name, title, integral: ",histo.GetName(),histo.GetTitle(),histo.Integral())
+            print "histo name, title, integral: ",histo.GetName(),histo.GetTitle(),histo.Integral()
             MC_integral+=histo.Integral()
-        print("\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral)
+        print "\033[1;32m\n\tMC integral = %s\033[1;m"%MC_integral
 
 
 
         if not 'DYc' in self.typs: self.typLegendDict.update({'DYlight':self.typLegendDict['DYlc']})
-        print(self.typLegendDict)
+        print self.typLegendDict
 
         k=len(sub_histos)
 
         # debug
-        print(sub_histos)
-        print(sig_histos)
+        print sub_histos
+        print sig_histos
     
         for j in range(0,k):
-            #print(histos[j].GetBinContent(1))
+            #print histos[j].GetBinContent(1)
             i=k-j-1
             if self.typs[i] in self.colorDict:
                 sub_histos[i].SetFillColor(int(self.colorDict[self.typs[i]]))
             sub_histos[i].SetLineColor(1)
             allStack.Add(sub_histos[i])
-            print(sub_histos[i].GetName())
-            print(sub_histos[i].Integral())
+            print sub_histos[i].GetName()
+            print sub_histos[i].Integral()
             if not sub_histos[i] in sig_histos:
                 bkgStack.Add(sub_histos[i])
             if sub_histos[i] in sig_histos:
@@ -705,18 +705,18 @@ class StackMaker:
         d1 = ROOT.TH1F('noData','noData',self.nBins,self.xMin,self.xMax)
         datatitle='Data'
         addFlag = ''
-        print('asdf yeah man')
-        print('datanames is', self.datanames)
+        print 'asdf yeah man'
+        print 'datanames is', self.datanames
         isZee = False
         isZmm = False
         for data_ in self.datanames:
-            print('data_ is', data_)
+            print 'data_ is', data_
             if 'DoubleEG' in data_:
                 isZee = True
-                print('isZee is True')
+                print 'isZee is True'
             if 'DoubleMuon' in data_:
                 isZmm = True
-                print('isZmm is True')
+                print 'isZmm is True'
         if ('Zee' in self.datanames and 'Zmm' in self.datanames) or (isZee and isZmm):
             addFlag = 'Z(l^{-}l^{+})H(b#bar{b})'
         elif 'Zee' in self.datanames or isZee:
@@ -732,12 +732,12 @@ class StackMaker:
         else:
             addFlag = 'pp #rightarrow VH; H #rightarrow b#bar{b}'
         for i in range(0,len(self.datas)):
-            print("Adding data ",self.datas[i]," with integral:",self.datas[i].Integral()," and entries:",self.datas[i].GetEntries()," and bins:",self.datas[i].GetNbins())
+            print "Adding data ",self.datas[i]," with integral:",self.datas[i].Integral()," and entries:",self.datas[i].GetEntries()," and bins:",self.datas[i].GetNbins()
             d1.Add(self.datas[i],1)
-        print("\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral())
+        print "\033[1;32m\n\tDATA integral = %s\033[1;m"%d1.Integral()
         flow = d1.GetEntries()-d1.Integral()
         if flow > 0:
-            print("\033[1;31m\tU/O flow: %s\033[1;m"%flow)
+            print "\033[1;31m\tU/O flow: %s\033[1;m"%flow
         
 
         numLegend = 1+k
@@ -828,7 +828,7 @@ class StackMaker:
         
         if self.overlay:
             for _overlay in self.overlay:
-                print("Drawing overlay")
+                print "Drawing overlay"
                 _overlay.Draw('hist,same')
                 for _prefit_overlay in self.prefit_overlay:
                                     _prefit_overlay.Draw('same')

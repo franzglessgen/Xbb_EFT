@@ -39,7 +39,7 @@ class TreeFormulas(object):
 
     def __init__(self, formulaDict):
         self.formulas = []
-        for k,v in formulaDict.items():
+        for k,v in formulaDict.iteritems():
             if type(v) == str:
                 self.formulas.append(TreeFormula(k, v))
             else:
@@ -59,11 +59,11 @@ class newCutBranches(object):
 
     def customInit(self, initVars):
         self.config = initVars['config']
-        for k,v in self.formulaDict.items():
-            print('k,v', k,v)
+        for k,v in self.formulaDict.iteritems():
+            print 'k,v', k,v
             if v == 'dc':
                 self.formulas.append(TreeFormula(k, self.config.get('Cuts',self.config.get(v+':'+k, 'cut'))))
-            #print('v is', v)
+            #print 'v is', v
             else:
                 self.formulas.append(TreeFormula(k, self.config.get(v, k)))
         for x in self.formulas:
@@ -237,9 +237,9 @@ class AddCollectionsModule(object):
     # this is called after the last event has been processed, but before the output files are flushed/closed.
     def afterProcessing(self):
         if len(self.xbbStats.keys()) > 0:
-            print("INFO: statistics:")
+            print "INFO: statistics:"
             for k in sorted(self.xbbStats.keys()):
-                print(" ",k,": ", self.xbbStats[k])
+                print " ",k,": ", self.xbbStats[k]
 
     def getVersion(self):
         return self.version
@@ -254,9 +254,9 @@ class AddCollectionsModule(object):
     def addBranch(self, branchName, default=0.0):
         self.branchBuffers[branchName] = array.array('d', [default])
         self.branches.append({'name': branchName, 'formula': self.getBranch, 'arguments': branchName})
-        #print('self.getBranch', self.getBranch)
-        #print('self.branchBuffers[branchName]', self.branchBuffers[branchName])
-        #print('self.branches', self.branches)
+        #print 'self.getBranch', self.getBranch
+        #print 'self.branchBuffers[branchName]', self.branchBuffers[branchName]
+        #print 'self.branches', self.branches
 
     def addIntegerBranch(self, branchName, default=0):
         self.branchBuffers[branchName] = array.array('i', [default])

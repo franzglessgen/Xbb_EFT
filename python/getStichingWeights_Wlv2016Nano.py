@@ -61,10 +61,10 @@ def getEventCount(Sample, region="1"):
     #print 'Total count is', count
     return count
     # get total count
-    #totalCount = sum([n for sampleName,n in SampleCounts.items()])
+    #totalCount = sum([n for sampleName,n in SampleCounts.iteritems()])
 
     # relative weights
-    #for sampleName,n in SampleCounts.items():
+    #for sampleName,n in SampleCounts.iteritems():
     #    print sampleName,":",(1.0*n/totalCount if totalCount > 0 else '-')
 
 def getStichWeight(string, Sample1, Sample2, region):
@@ -96,10 +96,10 @@ def getExtWeights(config, extParts):
             extPartCounts[extPart] += countEvents(t3proto + '/' + extPartFile)
             #root://t3dcachedb03.psi.ch:1094
     # get total count
-    totalCount = sum([n for sampleName,n in extPartCounts.items()])
+    totalCount = sum([n for sampleName,n in extPartCounts.iteritems()])
 
     # relative weights
-    for sampleName,n in extPartCounts.items():
+    for sampleName,n in extPartCounts.iteritems():
         print sampleName,":",(1.0*n/totalCount if totalCount > 0 else '-')
 
 config = BetterConfigParser()

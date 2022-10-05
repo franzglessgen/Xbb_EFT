@@ -19,13 +19,13 @@ class MuonSF:
         if "abseta_pt_ratio" in self.res.keys(): header = "abseta_pt_ratio"
         elif "abseta_pt_MC" in self.res.keys(): header = "abseta_pt_MC"
         if header != '':
-            for etaKey, values in sorted(self.res[header].items()) :
+            for etaKey, values in sorted(self.res[header].iteritems()) :
                 etaL = float(((etaKey[8:]).rstrip(']').split(',')[0]))
                 etaH = float(((etaKey[8:]).rstrip(']').split(',')[1]))
                 if not (eta>etaL and eta<etaH):
                     continue
                 #print etaL, etaH
-                for ptKey, result in sorted(values.items()) :
+                for ptKey, result in sorted(values.iteritems()) :
                     ptL = float(((ptKey[4:]).rstrip(']').split(',')[0]))
                     ptH = float(((ptKey[4:]).rstrip(']').split(',')[1]))
                     if not (pt>ptL and pt<ptH):
@@ -55,7 +55,7 @@ class MuonSF:
 #pt = 40.01
 #eta = -1.68
 #
-#for j, name in jsons.items():
+#for j, name in jsons.iteritems():
 #    muonCorr = MuonSF(j , name)
 #    weight = muonCorr.get_2D( pt , eta)
 #    val = weight[0]

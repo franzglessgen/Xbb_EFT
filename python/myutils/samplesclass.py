@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 class Sample:
     def __init__(self,name,type):
         self.name=name
@@ -35,14 +33,14 @@ class Sample:
         return self.name == other.name
 
     def printInfo(self):
-        print("-sample-info--------")
-        print("name:", self.name)
-        print("type:", self.type)
-        print("identifier:", self.identifier)
-        print("subsample:", self.subsample)
-        print("group:", self.group)
-        print("treecut:", self.treecut)
-        print("--------------------")
+        print "-sample-info--------"
+        print "name:", self.name
+        print "type:", self.type
+        print "identifier:", self.identifier
+        print "subsample:", self.subsample
+        print "group:", self.group
+        print "treecut:", self.treecut
+        print "--------------------"
 
     def isData(self):
         return self.type=='DATA'

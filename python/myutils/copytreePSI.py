@@ -15,7 +15,7 @@ class CopyTreePSI(object):
             print("INPUT:", inputFile)
         input = ROOT.TFile.Open(inputFile,'read')
         if not input:
-          print('input file NOT EXISTING:',inputFile)
+          print 'input file NOT EXISTING:',inputFile
           #input.Close()
           return
         try:
@@ -28,7 +28,7 @@ class CopyTreePSI(object):
         except:
             pass
         outputFileName = outputFile.split('/')[-1]
-        print('outputFileName',__tmpPath+'/'+outputFileName)
+        print 'outputFileName',__tmpPath+'/'+outputFileName
         output = ROOT.TFile.Open(__tmpPath+'/'+outputFileName,'recreate')
 
         inputTree = input.Get("tree")
@@ -37,11 +37,11 @@ class CopyTreePSI(object):
         nEntries = inputTree.GetEntries()
         for branch in remove_branches:
           if branch and not branch.isspace():
-            # print('DROPPING BRANCHES LIKE',str(branch))
+            # print 'DROPPING BRANCHES LIKE',str(branch)
             inputTree.SetBranchStatus(str(branch), ROOT.kFALSE);
 
         output.cd()
-        print('\n\t copy file: %s with cut: %s' %(inputFile,skimmingCut))
+        print '\n\t copy file: %s with cut: %s' %(inputFile,skimmingCut)
         outputTree = inputTree.CopyTree(skimmingCut)
         kEntries = outputTree.GetEntries()
         printc('blue','',"\t before cuts\t %s" %nEntries)
@@ -56,7 +56,7 @@ class CopyTreePSI(object):
             if obj.GetName() in  ['tree', 'Events']:
                 continue
             if self.debug:
-                print("DEBUG: clone object ", obj.GetName())
+                print "DEBUG: clone object ", obj.GetName()
             # all other objects are just cloned
             output.cd()
             if obj.IsA().InheritsFrom(ROOT.TTree.Class()):
@@ -68,9 +68,9 @@ class CopyTreePSI(object):
         output.Close()
         input.Close()
         tmpFile = __tmpPath+'/'+outputFileName
-        print('copy to final location:\x1b[34m', outputFile, '\x1b[0m')
+        print 'copy to final location:\x1b[34m', outputFile, '\x1b[0m'
         self.fileLocator.cp(source=tmpFile, target=outputFile)
-        print('checking if the copy worked')
+        print 'checking if the copy worked'
         # check root file existence
         if self.fileLocator.exists(outputFile, attempts=2):
             if self.fileLocator.isValidRootFile(outputFile):
@@ -95,8 +95,8 @@ class CopyTreePSI(object):
             elif self.config.has_option('Configuration', 'xrootdRedirectorGlobal'):
                 redirector = self.config.get('Configuration', 'xrootdRedirectorGlobal')
         except:
-            print("could not get xrootd redirector, using default one:", redirector)
-            print("specify redirector in config [Directories] xrootdRedirectorGlobal=..")
+            print "could not get xrootd redirector, using default one:", redirector
+            print "specify redirector in config [Directories] xrootdRedirectorGlobal=.."
         # add base path where storage is located on fs (if sample txt files don't contain absolute path)
         if self.config.has_option('Configuration', 'inputStoragePath'):
             redirector += self.config.get('Configuration', 'inputStoragePath') + '/'
@@ -106,16 +106,16 @@ class CopyTreePSI(object):
         config = self.config
         fileLocator = self.fileLocator
 
-        print('start copytreePSI.py')
+        print 'start copytreePSI.py'
         fileNames = open(pathIN+'/'+folderName+'.txt').readlines() if not fileList else fileList
-        print('len(filenames)', len(fileNames), fileNames[0], skimmingCut)
+        print 'len(filenames)', len(fileNames), fileNames[0], skimmingCut
 
         ## search the folder containing the input files
         inputFiles = []
-        print("##### COPY TREE - BEGIN ######")
+        print "##### COPY TREE - BEGIN ######"
         whereToLaunch = config.get('Configuration','whereToLaunch')
         remove_branches = config.get('General','remove_branches').replace("[","").replace("]","").replace("'","").split(',')
-        print('remove_branches:',remove_branches,'len(remove_branches):',len(remove_branches))
+        print 'remove_branches:',remove_branches,'len(remove_branches):',len(remove_branches)
 
         redirector = self.getRedirector()
         for fileName in fileNames:
@@ -124,7 +124,7 @@ class CopyTreePSI(object):
                 inputFiles.append(redirector + fileName)
 
         if len(inputFiles) == 0 :
-            print("No .root files found in ", pathIN+'/'+folderName)
+            print "No .root files found in ", pathIN+'/'+folderName
             return
 
         ## prepare output folder
@@ -148,7 +148,7 @@ class CopyTreePSI(object):
             else:
                 inputs.append((whereToLaunch,inputFile,outputFile,skimmingCut,remove_branches))
 
-        # print('inputs',inputs)
+        # print 'inputs',inputs
         outputs = []
         multiprocess=int(config.get('Configuration','nprocesses'))
         if multiprocess>1:
@@ -161,7 +161,7 @@ class CopyTreePSI(object):
                     output = self.copySingleFileOneInput(input_)
                     outputs.append(output)
         
-        print("##### COPY TREE - END ######")
+        print "##### COPY TREE - END ######"
 
 def filelist(pathIN,folderName):
     filenames = open(pathIN+'/'+folderName+'.txt').readlines()

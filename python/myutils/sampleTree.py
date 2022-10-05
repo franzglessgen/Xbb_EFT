@@ -13,6 +13,7 @@ import array
 import resource
 import gc
 from XbbConfig import XbbConfigReader, XbbConfigTools
+import BetterConfigParser
 from sample_parser import ParseInfo
 import hashlib
 import subprocess
@@ -96,7 +97,7 @@ class SampleTree(object):
             print("\x1b[31mERROR: wrong chunk number ", self.chunkNumber, "\x1b[0m")
             raise Exception("InvalidChunkNumber")
         if self.verbose:
-            print("INFO: reading part ", self.chunkNumber, " of ", self.numParts)
+            print ("INFO: reading part ", self.chunkNumber, " of ", self.numParts)
 
         self.status = 0
         if not treeName:
@@ -246,12 +247,12 @@ class SampleTree(object):
                 # TODO: per run if possible, sum LHE weights if present
 
                 # sum the contributions from the subtrees
-                self.totalNanoTreeCounts = {key: sum(values) for key,values in list(self.nanoTreeCounts.items()) if len(values) > 0 and type(values[0]) in [int, float]}
+                self.totalNanoTreeCounts = {key: sum(values) for key,values in self.nanoTreeCounts.iteritems() if len(values) > 0 and type(values[0]) in [int, float, long]}
                 # print summary table
-                countBranches = list(self.totalNanoTreeCounts.keys())
+                countBranches = self.totalNanoTreeCounts.keys()
                 depth = None
-                for key,values in list(self.nanoTreeCounts.items()):
-                    if values and len(values)>1 and type(values[0]) in [int, float]:
+                for key,values in self.nanoTreeCounts.iteritems():
+                    if values and len(values)>1 and type(values[0]) in [int, float, long]:
                         depth = len(values)
                         break
                 print("-"*160)
@@ -271,12 +272,12 @@ class SampleTree(object):
                 #keys are different branches and values are corresponding summed values of all tree printed just above. You fill them in a new TTree 'Runs' in dictonary self.histogram with same bracnhes and their summed values.
                 self.histograms['Runs'] = ROOT.TTree('Runs', 'count histograms for nano')
                 nanoTreeCountBuffers = {}
-                for key, value in self.totalNanoTreeCounts.items():
+                for key, value in self.totalNanoTreeCounts.iteritems():
                     if type(value) == int:
                         # 64 bit signed int 
                         typeCode = 'L'
-                    #elif type(value) == long:
-                    #    typeCode = 'L'
+                    elif type(value) == long:
+                        typeCode = 'L'
                     elif type(value) == float:
                         typeCode = 'f'
                     nanoTreeCountBuffers[key] = array.array(typeCode, [value])
@@ -284,13 +285,12 @@ class SampleTree(object):
                     
                 self.histograms['Runs'].Fill()
 
-    #def __del__(self):
-    #    self.delete()
+    def __del__(self):
+        self.delete()
 
     def delete(self):
         self.callbacks = None
         # close possible left open files referencing the TChain and delete output trees
-        print(">>>>>>>>>>>> DELETE")
         try:
             if self.tree:
                 self.tree.Reset()
@@ -303,7 +303,7 @@ class SampleTree(object):
                 del outputTree['file']
         try:
             if hasattr(self, "formulas"):
-                for formulaName, formula in self.formulas.items():
+                for formulaName, formula in self.formulas.iteritems():
                     if formula:
                         del formula
                         formula = None
@@ -507,7 +507,7 @@ class SampleTree(object):
     def getSampleFileNameChunks(self):
         sampleFileNames = self.getAllSampleFileNames()
         if self.splitFilesChunkSize > 0 and len(sampleFileNames) > self.splitFilesChunkSize:
-            sampleFileNamesParts = [sampleFileNames[i:i + self.splitFilesChunkSize] for i in range(0, len(sampleFileNames), self.splitFilesChunkSize)]
+            sampleFileNamesParts = [sampleFileNames[i:i + self.splitFilesChunkSize] for i in xrange(0, len(sampleFileNames), self.splitFilesChunkSize)]
         else:
             sampleFileNamesParts = [sampleFileNames]
         self.numParts = len(sampleFileNamesParts)
@@ -609,9 +609,8 @@ class SampleTree(object):
     # implement iterator for TChain, with updating TTreeFormula objects on tree
     # switching and show performance statistics during loop
     # ------------------------------------------------------------------------------
-    #Replaced next wit __next__ for python 3
-    def __next__(self):
-        self.treeIterator.__next__()
+    def next(self):
+        self.treeIterator.next()
         self.eventsRead += 1
         if self.debug and (self.eventsRead % 1000 == 0 or self.eventsRead == 10 or self.eventsRead == 100):
             throughput = 1.0*self.eventsRead / (1.0*(time.time() - self.timeStart) + 0.001)
@@ -649,13 +648,9 @@ class SampleTree(object):
                 sys.stdout.flush()
             self.oldTreeNum = treeNum
             # update TTreeFormula's
-            for formulaName, treeFormula in self.formulas.items():
+            for formulaName, treeFormula in self.formulas.iteritems():
                 treeFormula.UpdateFormulaLeaves()
         return self.tree
-
-    #for python 3
-
-    #__next__ = next
 
     def __iter__(self):
         self.treeIterator = self.tree.__iter__()
@@ -670,7 +665,7 @@ class SampleTree(object):
             else:
                 return 0
         else:
-            existingFormulas = [x for x,y in self.formulas.items()]
+            existingFormulas = [x for x,y in self.formulas.iteritems()]
             print ("existing formulas are: ", existingFormulas)
             raise Exception("SampleTree::evaluate: formula '%s' not found!"%formulaName)
 
@@ -682,7 +677,7 @@ class SampleTree(object):
                 destinationArray[i] = self.formulas[formulaName].EvalInstance(i)
             return nData
         else:
-            existingFormulas = [x for x, y in self.formulas.items()]
+            existingFormulas = [x for x, y in self.formulas.iteritems()]
             print("existing formulas are: ", existingFormulas)
             raise Exception("SampleTree::evaluate: formula '%s' not found!" % formulaName)
 
@@ -701,7 +696,7 @@ class SampleTree(object):
     def addCutDictRecursive(self, cutDict):
         if type(cutDict) == str:
             if cutDict not in self.formulas:
-                self.addFormula(cutDict, cutDict)
+		self.addFormula(cutDict, cutDict)
         elif 'OR' in cutDict and 'AND' in cutDict:
             raise Exception("BadTreeTypeCutDict")
         elif 'OR' in cutDict:
@@ -737,7 +732,7 @@ class SampleTree(object):
     # add callback function, which MUST return a boolean. To continue processing this event, the function must return True. False means skip this event!
     def addCallback(self, category, fcn):
         if category not in self.callbacks:
-            self.callbacks[category] = []
+             self.callbacks[category] = []
         self.callbacks[category].append(fcn)
 
     # ------------------------------------------------------------------------------
@@ -886,12 +881,10 @@ class SampleTree(object):
                     cutString = cutString[0:50] + '...(%s more chars)'%(len(cutString)-50)
                 print (' > ', outputTree['fileName'], ' <== ', outputTree['name'] if 'name' in outputTree else outputTree['hash'], ' cut: ', cutString)
             print ('FORMULAS:')
-            for formulaName, formula in self.formulas.items():
+            for formulaName, formula in self.formulas.iteritems():
                 print (' > \x1b[35m', formulaName, '\x1b[0m ==> ', formula)
 
         # find common set of branches which needs to be enabled for cuts and desired variables in all of the output trees
-        print(">>>>>>>>>>>>>>>>>>>>>>> DEBUG POINT 1")
-
         listOfBranchesToKeep = []
         for outputTree in self.outputTrees:
             if 'branches' in outputTree and outputTree['branches']:
@@ -933,7 +926,7 @@ class SampleTree(object):
         
             # copy count histograms to output files
             outputTree['histograms'] = {}
-            for histogramName, histogram in self.histograms.items():
+            for histogramName, histogram in self.histograms.iteritems():
                     outputTree['histograms'][histogramName] = histogram.Clone(histogram.GetName())
                     outputTree['histograms'][histogramName].SetDirectory(outputTree['file'])
 
@@ -1055,7 +1048,7 @@ class SampleTree(object):
 
             # evaluate all formulas
             self.formulaResults = {}
-            for formulaName, formula in self.formulas.items():
+            for formulaName, formula in self.formulas.iteritems():
                 self.formulaResults[formulaName] = self.evaluate(formulaName)
 
             # evaluate cuts for all output trees
@@ -1304,23 +1297,22 @@ if __name__ == '__main__':
     str_sample = 'ZZ_TuneCP5_13TeV-pythia8'
     str_sample2 = 'WW_TuneCP5_13TeV-pythia8'
     config = XbbConfigReader.read('Zll2018')
-    print(config.get('Directories', 'vhbbpath'))
-    directory = config.get('Directories', 'scratch')
+    directory = config.get('Directories', 'sysOUT')
     #config = XbbConfigReader.read('Zll2018')
     
     path = 'xyz'
     sampleInfo = ParseInfo(config,path,config=config)
     sample = [x for x in sampleInfo if x.identifier==str_sample and x.subsample==False]
-    print(sample) 
+     
 
-    #sampleTree = SampleTree({'sample': sample[0], 'folder': directory}, config=config) 
-    #
-    #scaleXStoLumi = sampleTree.getScale(sample[0])
+    sampleTree = SampleTree({'sample': sample[0], 'folder': directory}, config=config) 
+    
+    scaleXStoLumi = sampleTree.getScale(sample[0])
 
-    #weightExpression = config.get('Weights','weightF')
-    #signalRegionSelection = config.get('Cuts', 'ZllBDT_lowpt')
+    weightExpression = config.get('Weights','weightF')
+    signalRegionSelection = config.get('Cuts', 'ZllBDT_lowpt')
  
-    #sampleTree.enableBranches(BranchList([weightExpression,signalRegionSelection]).getListOfBranches())
+    sampleTree.enableBranches(BranchList([weightExpression,signalRegionSelection]).getListOfBranches())
 
-    #sampleTree.addFormula(weightExpression)
+    sampleTree.addFormula(weightExpression)
 

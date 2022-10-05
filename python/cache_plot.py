@@ -49,7 +49,7 @@ class CachePlot(object):
 
     def printInfo(self):
         print ("REGION:".ljust(24),"CUT:")
-        for region,regionInfo in self.regionsDict.items():
+        for region,regionInfo in self.regionsDict.iteritems():
             print (" > ",region.ljust(20), regionInfo['cut'])
 
     def run(self):
@@ -80,7 +80,7 @@ class CachePlot(object):
         except:
             pass
         # plotting region cut
-        for region,regionInfo in self.regionsDict.items():
+        for region,regionInfo in self.regionsDict.iteritems():
             keepBranchesPlot.append(regionInfo['cut'])
         keepBranchesPlotFinal = BranchList(keepBranchesPlot).getListOfBranches()
         print("KEEP:", keepBranchesPlotFinal)
@@ -102,7 +102,7 @@ class CachePlot(object):
             for sample in subsamples:
 
                 # add cuts for all training regions
-                for region,regionInfo in self.regionsDict.items():
+                for region,regionInfo in self.regionsDict.iteritems():
 
                     configSection = 'Plot:%s'%region
                     

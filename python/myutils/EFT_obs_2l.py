@@ -13,7 +13,6 @@ class EFT_obs_2l(AddCollectionsModule):
     def __init__(self, branchName='EFT_obs'):
         super(EFT_obs_2l, self).__init__()
         self.branchName = branchName
-        self.NbEvents = 0
 
 
     def customInit(self, initVars):
@@ -60,9 +59,6 @@ class EFT_obs_2l(AddCollectionsModule):
         # if current entry has not been processed yet
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
-            
-            self.NbEvents+=1
-            print("Event ", self.NbEvents, " out of ", tree.GetEntries())
             self._b(self.branchName + '_Theta_e')[0] = -99997.0
             self._b(self.branchName + '_Theta_m')[0] = -99997.0
             self._b(self.branchName + '_Theta_l')[0] = -99997.0
@@ -122,8 +118,8 @@ class EFT_obs_2l(AddCollectionsModule):
 
         #basic check for consistency
         #if (isZee+isZmm != 1): print "isZee and isZmm inconsistent"
-        if (isZee == 1 and Vtype != 1): print("isZee and Vtype inconsistent")
-        if (isZmm == 1 and Vtype != 0): print("isZmm and Vtype inconsistent")
+        if (isZee == 1 and Vtype != 1): print "isZee and Vtype inconsistent"
+        if (isZmm == 1 and Vtype != 0): print "isZmm and Vtype inconsistent"
 
         Electron_pt = tree.Electron_pt
         Electron_eta = tree.Electron_eta
@@ -230,7 +226,7 @@ class EFT_obs_2l(AddCollectionsModule):
         if (((15 in LHE_pdgId) and (-16 in LHE_pdgId)) or ((-15 in LHE_pdgId) and (16 in LHE_pdgId))): LHE_isWtaun = True
 
 
-        if (LHE_isZee or LHE_isZmm):
+	if (LHE_isZee or LHE_isZmm):
             if LHE_isZee: 
                 LHE_Vtype = 1
             else:
@@ -244,7 +240,8 @@ class EFT_obs_2l(AddCollectionsModule):
         else:
             LHE_Vtype = -99
 
-        if (LHE_Vtype == 1):
+
+	if (LHE_Vtype == 1):
             try:
                     lep1.SetPtEtaPhiM(LHE_pt[LHE_pdgId.index(-11)],LHE_eta[LHE_pdgId.index(-11)],LHE_phi[LHE_pdgId.index(-11)],LHE_mass[LHE_pdgId.index(-11)])
             except:
@@ -254,6 +251,7 @@ class EFT_obs_2l(AddCollectionsModule):
                     lep2.SetPtEtaPhiM(LHE_pt[LHE_pdgId.index(11)],LHE_eta[LHE_pdgId.index(11)],LHE_phi[LHE_pdgId.index(11)],LHE_mass[LHE_pdgId.index(11)])
             except:
                     lep2.SetPtEtaPhiM(-1.0,-1.0,-1.0,-1.0)
+
 
         if (LHE_Vtype == 0):
 
@@ -267,7 +265,7 @@ class EFT_obs_2l(AddCollectionsModule):
             except:
                     lep2.SetPtEtaPhiM(-1.0,-1.0,-1.0,-1.0)
 
-        return lep1, lep2, LHE_Vtype
+	return lep1, lep2, LHE_Vtype
 
 
     
@@ -297,10 +295,10 @@ class EFT_obs_2l(AddCollectionsModule):
         LHE_phi = list(tree.LHEPart_phi)
         LHE_mass = list(tree.LHEPart_mass)
 
-        b1, b2, bb = TLorentzVector(), TLorentzVector(), TLorentzVector()
+	b1, b2, bb = TLorentzVector(), TLorentzVector(), TLorentzVector()
         bb.SetPtEtaPhiM(-1.0,-1.0,-1.0,-1.0)
 
-        try:
+	try:
             b1.SetPtEtaPhiM(LHE_pt[LHE_pdgId.index(-5)],LHE_eta[LHE_pdgId.index(-5)],LHE_phi[LHE_pdgId.index(-5)],LHE_mass[LHE_pdgId.index(-5)])
         except:
             b1.SetPtEtaPhiM(-1.0,-1.0,-1.0,-1.0)

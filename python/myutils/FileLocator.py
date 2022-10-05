@@ -100,7 +100,7 @@ class FileLocator(object):
             subfolder = inputFile.split('/')[-4]
         filename = inputFile.split('/')[-1]
         filename = filename.split('_')[0]+'_'+subfolder+'_'+filename.split('_')[1]
-        hash = hashlib.sha224(filename.encode("utf-8")).hexdigest()
+        hash = hashlib.sha224(filename).hexdigest()
         return filename.replace('.root','')+'_'+str(hash)+'.root'
 
     def getFilePath(self, basePath, sampleIdentifier, originalFileName):
@@ -121,11 +121,7 @@ class FileLocator(object):
     def isValidRootFile(self, path):
         if self.debug:
             print("DEBUG: check validity of ", path)
-        
-        try:  
-            f = ROOT.TFile.Open(path, 'read')
-        except:
-            f = False
+        f = ROOT.TFile.Open(path, 'read')
         if f:
             isValid = not (f.IsZombie() or f.GetNkeys() == 0 or f.TestBit(ROOT.TFile.kRecovered))
             try:
