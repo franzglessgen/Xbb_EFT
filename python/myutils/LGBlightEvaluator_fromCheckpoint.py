@@ -158,9 +158,15 @@ class LGBMEvaluator(AddCollectionsModule):
         #print([self.featureList.get(i) for i in range(self.nFeatures)])
         
         for i in range(self.nFeatures):
-            #print("feature", i, self.featureList.get(i))
+            print("feature", i, self.featureList.get(i))
             self.sampleTree.addFormula(self.featureList.get(i))
             self.inputVariables.append(self.featureList.get(i))
+
+        #Reorder inputVariables to match training
+         
+
+
+
 
         # create tensorflow graph
         #self.ev = TensorflowDNNEvaluator(checkpoint=self.checkpoint, scaler=self.scalerDump)
