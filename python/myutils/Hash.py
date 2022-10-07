@@ -13,7 +13,7 @@ class Hash(object):
             self.hashKey += '_split%d' % (splitFilesChunkSize)
         if inputPath:
             self.hashKey += '_from:%s'%inputPath.strip().strip('/')
-        self.hash = hashlib.sha224(self.hashKey).hexdigest()
+        self.hash = hashlib.sha224(self.hashKey.encode('utf-8')).hexdigest()
 
         # including subcut
         if subCut:
@@ -21,7 +21,7 @@ class Hash(object):
                 print ('DEBUG: hash function debug:')
                 print (' > \x1b[32mKEY:', self.hashKey, '\x1b[0m')
             self.hashKey = '%s_[%s]' % (self.hash, subCut)
-            self.hash = hashlib.sha224(self.hashKey).hexdigest()
+            self.hash = hashlib.sha224(self.hashKey.encode('utf-8')).hexdigest()
 
         # including branchnames
         if branches:
@@ -30,7 +30,7 @@ class Hash(object):
                 print (' > \x1b[32mKEY:', self.hashKey, '\x1b[0m')
             branchNames = ','.join(sorted(branches))
             self.hashKey = '%s_<%s>' % (self.hash, branchNames)
-            self.hash = hashlib.sha224(self.hashKey).hexdigest()
+            self.hash = hashlib.sha224(self.hashKey.encode('utf-8')).hexdigest()
 
         if debug:
             print ('DEBUG: hash function debug:')

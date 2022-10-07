@@ -3,13 +3,15 @@ from __future__ import print_function
 from optparse import OptionParser
 import ROOT
 ROOT.gROOT.SetBatch(True)
+import os
+import sys
 
+sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 from myutils import NewTreeCache as TreeCache
 from myutils.sampleTree import SampleTree as SampleTree
 from myutils import BetterConfigParser, ParseInfo
 from myutils.FileList import FileList
 from myutils.BranchList import BranchList
-import os,sys
 
 class CachePlot(object):
 
@@ -23,9 +25,8 @@ class CachePlot(object):
         self.samplesPath = self.config.get('Directories', 'plottingSamples')
         self.samplesInfo = ParseInfo(samples_path=self.samplesPath, config=self.config) 
         self.sampleFilesFolder = self.config.get('Directories', 'samplefiles')
-
         self.sampleNames = list(eval(self.config.get('Plot_general', 'samples')))
-	self.dataNames = list(eval(self.config.get('Plot_general', 'Data')))
+        self.dataNames = list(eval(self.config.get('Plot_general', 'Data')))
         self.samples = self.samplesInfo.get_samples(self.sampleNames + self.dataNames)
 
         self.regionsDict = {}

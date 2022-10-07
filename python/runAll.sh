@@ -266,10 +266,7 @@ if [ "$runCommand" ]; then
 
     echo "$runCommand"
     eval "$runCommand"
-    #eval "python ./dummy.py"
-    echo "you here"
 fi
-echo "you there"
 
 EXITCODE=$?
 echo "--------------------------------------------------------------------------------"
