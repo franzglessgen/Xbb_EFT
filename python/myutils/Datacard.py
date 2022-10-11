@@ -1171,7 +1171,6 @@ class Datacard(object):
 
         #if self.runEFTcomponent:
         #    sampleGroups = list(set([self.getSampleGroup(sample) + self.EFTcomponentname for sample in samples]))
-
         
 
         sampleGroups = []
@@ -1193,8 +1192,11 @@ class Datacard(object):
         if self.debug:
             print("\x1b[31mDEBUG: groups=", sampleGroups,"\x1b[0m")
 
-        for systematics in self.getSystematicsList(isData=sample.isData()):
-            systematics['histograms'] = {}
+        for sampleGroup in sampleGroups:
+            #for systematics in self.getSystematicsList(isData=sample.isData()):
+            for systematics in self.getSystematicsList(isData=(sampleGroup == 'DATA')):
+                systematics['histograms'] = {}
+
 
         for sampleGroup in sampleGroups:
             for systematics in self.getSystematicsList(isData=(sampleGroup == 'DATA')):
@@ -1202,7 +1204,6 @@ class Datacard(object):
                 #print ("->",self.sysOptions['Dict'])
                 datacardProcess = self.getProcessName(sampleGroup) 
                 datacardProcessHistogramName = self.getHistogramName(process=datacardProcess, systematics=systematics)
-
                 # add up all the sample histograms for this process and this systematic
                 histogramsInGroup = [h[systematics['systematicsName']] for k, h in self.histograms.items() if k == sampleGroup]
 
