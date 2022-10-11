@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import sys, ROOT, warnings
+sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 ROOT.gROOT.SetBatch(True)
 ROOT.v5.TFormula.SetMaxima(2000)
 #suppres the EvalInstace conversion warning bug
@@ -68,9 +69,8 @@ class CacheDatacards(object):
                     isData = (sample.type == 'DATA')
                     systematicsCuts = sorted(list(set([x['cachecut'] for x in dcMaker.getSystematicsList(isData=isData)])))
                     sampleCuts = {'AND': [sample.subcut, {'OR': systematicsCuts}]}
-                    
 
-		    if self.verbose:
+                    if self.verbose:
                         print (json.dumps(sampleCuts, sort_keys=True, indent=8, default=str))
 
                     # make list of branches to keep in root file

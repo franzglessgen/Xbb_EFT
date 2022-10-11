@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import sys, ROOT, warnings
+sys.path.append("/work/fglessge/EFT/CMSSW_10_1_0/src/Xbb/python/myutils")
 ROOT.gROOT.SetBatch(True)
 ROOT.v5.TFormula.SetMaxima(10000)
 #suppres the EvalInstace conversion warning bug

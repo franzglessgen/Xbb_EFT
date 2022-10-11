@@ -35,14 +35,18 @@ class Datacard(object):
             print("INFO: to compensate for eval cut:", self.config.get('Cuts','EvalCut'))
         self.fileLocator = fileLocator if fileLocator is not None else FileLocator(config=self.config)
         self.DCprocessSeparatorDict = {'WS':':','TH':'/'}
-        VHbbNameSpace = config.get('VHbbNameSpace', 'library')
-        returnCode = ROOT.gSystem.Load(VHbbNameSpace)
+        # load namespace, TODO
+        #VHbbNameSpace = self.config.get('VHbbNameSpace', 'library')
+        #ROOT.gSystem.Load(VHbbNameSpace)
+        #VHbbNameSpaceHeader = self.config.get('VHbbNameSpace', 'header')
+        #LineToInterpret = "#include " + "\"" + VHbbNameSpaceHeader + "\""
+        ##ROOT.gInterpreter.ProcessLine('#include "VHbbNameSpace.h"')
+        #
+        #try:
+        #    ROOT.gInterpreter.ProcessLine(LineToInterpret)
+        #except:
+        #    print("VHbbNameSpace already loaded, or something went wrong")
 
-        # 0=ok, 1=already loaded, others = error
-        if returnCode == 0:
-            print ("INFO: loaded VHbbNameSpace: %s"%VHbbNameSpace)
-        elif returnCode != 1:
-            print ("\x1b[31mERROR: loading VHbbNameSpace failed with code %d\x1b[0m"%returnCode)
 
         self.region = region
         self.anaTag = config.get("Analysis", "tag")

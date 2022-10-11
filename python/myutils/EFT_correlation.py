@@ -24,7 +24,7 @@ class EFT_correlation(AddCollectionsModule):
         self.sampleTree = initVars['sampleTree']
         
         self.nWC = int(self.config.get('WCGeneral', 'nbofWC'))
-        self.ndof = 2*self.nWC + self.nWC*(self.nWC -1)/2 + 1        
+        self.ndof = int(2*self.nWC + self.nWC*(self.nWC -1)/2 + 1)        
         
         #This hold the inverse Vandermonde matrix for computation of the interpolation
         self.VandermondePath = self.config.get('WCGeneral', 'SimWC')
@@ -39,8 +39,8 @@ class EFT_correlation(AddCollectionsModule):
             self.WCtoeval[i, i + self.nWC]	= -1
             for j in range(i + 1, self.nWC):
 		        #Set the needed WCs to 1 to get the total mixed contribution
-                self.WCtoeval[i, j - i -1 + 2*self.nWC + (self.nWC - 1)*i - i*(i -1)/2]	= 1
-                self.WCtoeval[j, j - i -1 + 2*self.nWC + (self.nWC - 1)*i - i*(i -1)/2]	= 1
+                self.WCtoeval[i, int(j - i -1 + 2*self.nWC + (self.nWC - 1)*i - i*(i -1)/2)]	= 1
+                self.WCtoeval[j, int(j - i -1 + 2*self.nWC + (self.nWC - 1)*i - i*(i -1)/2)]	= 1
 	             
     
         self.WCtoeval = self.WCtoeval.T
@@ -48,7 +48,7 @@ class EFT_correlation(AddCollectionsModule):
         #print("QUAD", self.WCtoeval[self.nWC:2*self.nWC, :])
         #print("MIXED", self.WCtoeval[2*self.nWC:2*self.nWC + 18, :])
         self.WCtoeval = self.polyfeatures.fit_transform(self.WCtoeval)
-        self.addVectorBranch(self.branchName + '_weight', length=self.ndof)
+        self.addVectorBranch(self.branchName + '_weight', length=int(self.ndof))
 
 
     def processEvent(self, tree):
@@ -61,11 +61,11 @@ class EFT_correlation(AddCollectionsModule):
             self.markProcessed(tree)
 	    
 	    #Compute the polynomial weights
-	    weights  = np.array([ tree.LHEReweightingWeight[i] for i in range(tree.nLHEReweightingWeight) ]).reshape(tree.nLHEReweightingWeight,1)
+        weights  = np.array([ tree.LHEReweightingWeight[i] for i in range(tree.nLHEReweightingWeight) ]).reshape(tree.nLHEReweightingWeight,1)
 
-	    coeff     = np.matmul(self.invVandermonde, weights).flatten()
-            
-	    EvaluatedWC = np.matmul(self.WCtoeval, coeff).flatten()
+        coeff     = np.matmul(self.invVandermonde, weights).flatten()
+    
+        EvaluatedWC = np.matmul(self.WCtoeval, coeff).flatten()
         
         self._b(self.branchName + '_weight')[0] = 1
         #SM + LIN + QUAD

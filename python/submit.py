@@ -1721,11 +1721,13 @@ if opts.task.startswith('mergeEFTcomponents'):
 
     print(pathtoshapes, signalsample)
 
-    #for i in regions:
-    #	os.system(('hadd %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(pathtoshapes)s/vhbb_TH_%(i)s/*' %vars()))
-
     for i in regions:
-        os.system(('cp %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(targetdir)s/vhbb_TH_%(i)s/' %vars()))
+    	#os.system(('hadd %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(pathtoshapes)s/vhbb_TH_%(i)s/*' %vars()))
+    	os.system(('hadd %(pathtoshapes)s/vhbb_TH_%(i)s/%(i)s_%(signalsample)s.root %(pathtoshapes)s/vhbb_TH_%(i)s/*%(signalsample)s*.root' %vars()))
+
+
+    #for i in regions:
+    #    os.system(('cp %(pathtoshapes)s/%(i)s_%(signalsample)s.root %(targetdir)s/vhbb_TH_%(i)s/' %vars()))
 
 
 
