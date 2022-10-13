@@ -833,6 +833,9 @@ class Datacard(object):
                         self.histograms[sampleHistogramName][systematics['systematicsName']].Sumw2()
 
                     # if BDT variables are plotted (signal region!) exclude samples used for training and rescale by 2
+
+                    #LOWER
+
                     if (self.anType.lower() in ['bdt','dnn'] or 'bdt' in systematics['var'].lower() or 'dnn' in systematics['var'].lower()) and not sample.isData():
                         systematics['addCut'] = self.EvalCut
                         systematics['mcRescale'] = self.defaultMcRescaleMVA
@@ -840,6 +843,9 @@ class Datacard(object):
                         if self.debug and not evalcutInfoShown:
                             print('\x1b[31mDEBUG: using 50% of sample not used in training:', self.EvalCut, '\x1b[0m')
                             evalcutInfoShown = True
+                    
+            
+            
                     else:
                         if self.debug:
                             if sample.isData():
@@ -847,6 +853,7 @@ class Datacard(object):
                             else:
                                 print('\x1b[31mDEBUG: using full sample for sample of type', sample.type, 'for', systematics['var'].lower(), "\x1b[0m")
 
+                    #HIGHER
                     # add shape cut
                     if self.config.has_option('Cuts', 'additionalShapeCut'):
                         if 'addCut' in systematics and  systematics['addCut'] is not None:
@@ -867,7 +874,8 @@ class Datacard(object):
 
                 # sample scale factor, to match to cross section
                 sampleScaleFactor = sampleTree.getScale(sample) if not sample.isData() else 1.0
-
+                
+                #HIGHER
                 # get used branches, which are either used in cut, weight or the variable itself
                 usedBranchList = BranchList()
                 for systematics in systematicsList:
@@ -932,6 +940,7 @@ class Datacard(object):
                 else:
                     print('INFO: sampleTree TChain: all files have been processed.')
 
+                sampleTree.delete()
 
             # if histogram is empty, fill it with 0 to avoid having histograms with 0 entries
             for systematics in systematicsList:
@@ -971,6 +980,7 @@ class Datacard(object):
                     self.histograms[sampleHistogramName][systematics['systematicsName']].Scale(-0.00001)
                     print("INFO: shape", systematics['systematicsName'], "was negative, forced positive")
 
+
         self.writeDatacards(samples=allSamples, dcName=usedSamplesString, chunkSize=chunkSize, chunkNumber=chunkNumber)
 
         for systematics in systematicsList:
@@ -979,6 +989,8 @@ class Datacard(object):
                 if 'addCut' in systematics:
                     print("INFO: and the additional cuts was:", systematics['addCut'])
                 break
+
+
 
     # return sample dependent number of chunks
     def getChunkSize(self, sampleIdentifier):
@@ -1408,7 +1420,7 @@ class Datacard(object):
                     rateParamRange = eval(self.config.get('Datacard', 'rateParamRange'))
                 except:
                     rateParamRange = [0, 10]
-                assert len(rateParamRange) is 2, 'rateParamRange is not 2! rateParamRange:' + len(rateParamRange)
+                assert len(rateParamRange) == 2, 'rateParamRange is not 2! rateParamRange:' + len(rateParamRange)
                 for rateParam in rateParams:
                     dictProcs = eval(self.config.get('Datacard', rateParam))
                     for dcProcess in dictProcs.keys():

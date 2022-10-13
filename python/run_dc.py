@@ -72,6 +72,7 @@ if __name__ == "__main__":
     useSampleIdentifiers = opts.sampleIdentifier.split(',') if len(opts.sampleIdentifier) > 0 else None
     print("regions:", regions)
     for region in regions:
+    #for region in ['SR_high2_Zmm_BOOST']:
         print("init...", opts.chunkNumber)
         runDC = RunDatacards(config=config, region=region, chunkNumber=int(opts.chunkNumber), useSampleIdentifiers=useSampleIdentifiers, forceRedo=opts.force, runEFTcomponent = opts.runEFTcomponent, EFTcomponent = opts.EFTcomponent, EFTcomponentname = opts.EFTcomponentname)
         print("run...", opts.chunkNumber)

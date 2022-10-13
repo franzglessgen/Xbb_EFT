@@ -1716,7 +1716,7 @@ if opts.task.startswith('mergeEFTcomponents'):
     print(regions)   
     pathtoshapes = "logs_Zll2018/" + opts.ftag + "/Limits/"
     signalsample = "WH_1j_SMEFTsim_v1"
-    targetdir = "logs_Zll2018/rundc-EFT-all/Limits/"
+    #targetdir = "logs_Zll2018/rundc-EFT-all/Limits/"
 
 
     print(pathtoshapes, signalsample)
