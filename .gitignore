@@ -4,6 +4,7 @@
 *.swp
 *.so
 *.d
+*.sw*
 /plugins
 /macros
 python/WlvHbb13TeV2016config/var_vhbbWlv.tex
