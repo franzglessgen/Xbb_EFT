@@ -49,11 +49,11 @@ class LGBMEvaluator(AddCollectionsModule):
 
         print("Name", self.checkpointname)
 
-        if self.config.has_option(self.mvaName, 'branchName'):
-            self.branchName = self.config.get(self.mvaName, 'branchName')
-        else:
-            print("\x1b[31mERROR: 'branchName' option missing for MVA config section [%s]! .../model.ckpt has to be specified to be able to restore classifier.\x1b[0m"%self.mvaName)
-            raise Exception("BranchNameError")
+        #if self.config.has_option(self.mvaName, 'branchName'):
+        #    self.branchName = self.config.get(self.mvaName, 'branchName')
+        #else:
+        #    print("\x1b[31mERROR: 'branchName' option missing for MVA config section [%s]! .../model.ckpt has to be specified to be able to restore classifier.\x1b[0m"%self.mvaName)
+        #    raise Exception("BranchNameError")
 
         if self.checkpointpath is None or self.checkpointname is None:
             print("\x1b[31mERROR: 'checkpointname' or 'checkpointpath' option missing for MVA config section [%s]! .../model.ckpt has to be specified to be able to restore classifier.\x1b[0m"%self.mvaName)
@@ -117,25 +117,42 @@ class LGBMEvaluator(AddCollectionsModule):
         # FEATURES
         self.featuresConfig = None
         self.featuresCheckpoint = None
+        self.featuresConfigElectrons = None
+        self.featuresConfigMuons = None
+        
+
         try:
             self.featuresConfig = self.config.get(self.config.get(self.mvaName, "treeVarSet"), "Nominal").strip().split(" ")
+            self.featuresConfigElectrons = self.config.get(self.config.get(self.mvaName, "treeVarSet"), "OnlyElectrons").strip().split(" ")
+            self.featuresConfigMuons = self.config.get(self.config.get(self.mvaName, "treeVarSet"), "OnlyMuons").strip().split(" ")
         except Exception as e:
             print("WARNING: could not get treeVarSet from config:", e)
        
         print("FEATURES", self.featuresConfig)
+        print("Only Electrons", self.featuresConfigElectrons)
+        print("Only Muons", self.featuresConfigMuons)
+
+
+        
+
 
  
-        #TOADD: save the list of variable names in checkpoint
-        #if 'variables' in self.info:
-        #    self.featuresCheckpoint = self.info['variables']
 
         #Add features from checkpoint
 
         self.features = self.featuresConfig 
+        self.featuresElectrons = self.featuresConfigElectrons 
+        self.featuresMuons = self.featuresConfigMuons
 
-        #self.features = [self.features[i].replace("VHbb::", "ROOT.VHbb.") for i in range(len(self.features))]  
         self.featureList = XbbMvaInputsList(self.features, config=self.config)
+        self.featureListElectrons = XbbMvaInputsList(self.featuresElectrons, config=self.config)
+        self.featureListMuons = XbbMvaInputsList(self.featuresMuons, config=self.config)
         self.nFeatures   = self.featureList.length()
+        self.nFeaturesElectrons   = self.featureListElectrons.length()
+        self.nFeaturesMuons   = self.featureListMuons.length()
+
+
+        assert self.nFeaturesElectrons == self.nFeaturesMuons, "Leptons features number do not match"
 
 
         # SIGNAL definition
@@ -149,6 +166,8 @@ class LGBMEvaluator(AddCollectionsModule):
 
         # create output branches
         self.inputVariables = []       
+        self.inputVariablesElectrons = []       
+        self.inputVariablesMuons = []       
 
  
         for name in self.checkpoints:
@@ -162,11 +181,18 @@ class LGBMEvaluator(AddCollectionsModule):
             self.sampleTree.addFormula(self.featureList.get(i))
             self.inputVariables.append(self.featureList.get(i))
 
-        #Reorder inputVariables to match training
-         
+        #Split in electrons and muons 
+
+        for i in range(self.nFeaturesElectrons):
+            print("feature electron", i, self.featureListElectrons.get(i))
+            self.sampleTree.addFormula(self.featureListElectrons.get(i))
+            self.inputVariablesElectrons.append(self.featureListElectrons.get(i))
 
 
-
+        for i in range(self.nFeaturesMuons):
+            print("feature muon", i, self.featureListMuons.get(i))
+            self.sampleTree.addFormula(self.featureListMuons.get(i))
+            self.inputVariablesMuons.append(self.featureListMuons.get(i))
 
         # create tensorflow graph
         #self.ev = TensorflowDNNEvaluator(checkpoint=self.checkpoint, scaler=self.scalerDump)
@@ -191,21 +217,28 @@ class LGBMEvaluator(AddCollectionsModule):
 
             if self.condition is None or self.sampleTree.evaluate(self.condition):
                 # fill input variables
-                inputs = np.full((1, self.nFeatures), 0.0, dtype=np.float32)
+                inputs = np.full((1, self.nFeatures + self.nFeaturesElectrons), 0.0, dtype=np.float32)
                 for i, var in enumerate(self.inputVariables):
-                        if var in self.fixInputs:
-                            inputs[0,i] = self.fixInputs[var]
-                        else:
-                            inputs[0,i] = self.sampleTree.evaluate(var)
+                    inputs[0,i] = self.sampleTree.evaluate(var)
 
-                # use TensorflowDNNEvaluator
-                
-                #Softmax probas, replace with BDT evaluation
+
+                #Choose electron or muon feature
+                for i, var in enumerate(self.inputVariablesElectrons):
+                    Vtype = inputs[0,self.nFeatures -1]
+                    #Muons
+                    if not Vtype%2:
+                        thisvar = self.inputVariablesMuons[i]                    
+                        inputs[0,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
+                    #Electrons
+                    else:
+                        thisvar = self.inputVariablesElectrons[i]                    
+                        inputs[0,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
+
+
                 
                 for i in range(len(self.checkpoints)):
                      
                     self._b(self.checkpoints[i])[0] = self.regressors[i].gbm.predict(inputs) 
-
                  
             else:
                 print("The condition is not met, check your config")
