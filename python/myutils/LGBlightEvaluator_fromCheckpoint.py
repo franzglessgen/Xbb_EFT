@@ -162,37 +162,68 @@ class LGBMEvaluator(AddCollectionsModule):
         self.signalClassIds = [self.signalIndex]
 
         # systematics
-        #self.systematics = self.config.get(self.mvaName, 'systematics').split(' ') if self.config.has_option(self.mvaName, 'systematics') else self.config.get('systematics', 'systematics').split(' ')
+        self.systematics = self.config.get(self.mvaName, 'systematics').split(' ') if self.config.has_option(self.mvaName, 'systematics') else self.config.get('systematics', 'systematics').split(' ')
 
         # create output branches
-        self.inputVariables = []       
-        self.inputVariablesElectrons = []       
-        self.inputVariablesMuons = []       
+        self.bitCollections = []
+        for name in self.checkpoints:
+            self.bitCollection = Collection(name, self.systematics, leaves=True)
+            self.addCollection(self.bitCollection)
+            self.bitCollections.append(self.bitCollection)
+
+
+
+        # create formulas for input variables
+        self.inputVariables = {}
+        self.inputVariablesElectrons = {}
+        self.inputVariablesMuons = {}
+        for syst in self.systematics:
+            systBase, UD              = XbbTools.splitSystVariation(syst, sample=self.sample)
+            self.inputVariables[syst] = [XbbTools.sanitizeExpression(self.featureList.get(i, syst=systBase, UD=UD), self.config, debug=self.debug) for i in range(self.nFeatures)]
+            self.inputVariablesElectrons[syst] = [XbbTools.sanitizeExpression(self.featureListElectrons.get(i, syst=systBase, UD=UD), self.config, debug=self.debug) for i in range(self.nFeaturesElectrons)]
+            self.inputVariablesMuons[syst] = [XbbTools.sanitizeExpression(self.featureListMuons.get(i, syst=systBase, UD=UD), self.config, debug=self.debug) for i in range(self.nFeaturesMuons)]
+            for var in self.inputVariables[syst]:
+                self.sampleTree.addFormula(var)
+            for var in self.inputVariablesElectrons[syst]:
+                self.sampleTree.addFormula(var)
+            for var in self.inputVariablesMuons[syst]:
+                self.sampleTree.addFormula(var)
+
+
+        self.Vtype_index = self.featuresConfig.index("Vtype")
+
+        print("Vtype index is", self.Vtype_index)
+        print("Number of features : ", self.nFeatures + self.nFeaturesElectrons) 
+
+
+        #self.inputVariables = []       
+        #self.inputVariablesElectrons = []       
+        #self.inputVariablesMuons = []       
 
  
-        for name in self.checkpoints:
-            self.addBranch(name)
+        #for name in self.checkpoints:
+        #    self.addBranch(name)
 
         # create formulas for input variables
         #print([self.featureList.get(i) for i in range(self.nFeatures)])
         
-        for i in range(self.nFeatures):
-            print("feature", i, self.featureList.get(i))
-            self.sampleTree.addFormula(self.featureList.get(i))
-            self.inputVariables.append(self.featureList.get(i))
+        #for i in range(self.nFeatures):
+        #    print("feature", i, self.featureList.get(i))
+        #    self.sampleTree.addFormula(self.featureList.get(i))
+        #    self.inputVariables.append(self.featureList.get(i))
 
-        #Split in electrons and muons 
+        ##Split in electrons and muons 
 
-        for i in range(self.nFeaturesElectrons):
-            print("feature electron", i, self.featureListElectrons.get(i))
-            self.sampleTree.addFormula(self.featureListElectrons.get(i))
-            self.inputVariablesElectrons.append(self.featureListElectrons.get(i))
+        #for i in range(self.nFeaturesElectrons):
+        #    print("feature electron", i, self.featureListElectrons.get(i))
+        #    self.sampleTree.addFormula(self.featureListElectrons.get(i))
+        #    self.inputVariablesElectrons.append(self.featureListElectrons.get(i))
 
 
-        for i in range(self.nFeaturesMuons):
-            print("feature muon", i, self.featureListMuons.get(i))
-            self.sampleTree.addFormula(self.featureListMuons.get(i))
-            self.inputVariablesMuons.append(self.featureListMuons.get(i))
+        #for i in range(self.nFeaturesMuons):
+        #    print("feature muon", i, self.featureListMuons.get(i))
+        #    self.sampleTree.addFormula(self.featureListMuons.get(i))
+        #    self.inputVariablesMuons.append(self.featureListMuons.get(i))
 
         # create tensorflow graph
         #self.ev = TensorflowDNNEvaluator(checkpoint=self.checkpoint, scaler=self.scalerDump)
@@ -204,41 +235,39 @@ class LGBMEvaluator(AddCollectionsModule):
 
     # called from main loop for every event
     def processEvent(self, tree):
-
+        
         if not self.hasBeenProcessed(tree):
             self.markProcessed(tree)
-           
+
             self.NbEvents+=1
             print("Event ", self.NbEvents, " out of ", tree.GetEntries())
-            #fake_features = np.ones((1,44))
-            #pred = Regressor.gbm.predict(fake_features)
-            #print(pred)
-    
-
+            
             if self.condition is None or self.sampleTree.evaluate(self.condition):
                 # fill input variables
-                inputs = np.full((1, self.nFeatures + self.nFeaturesElectrons), 0.0, dtype=np.float32)
-                for i, var in enumerate(self.inputVariables):
-                    inputs[0,i] = self.sampleTree.evaluate(var)
+                inputs = np.full((len(self.systematics), self.nFeatures + self.nFeaturesElectrons), 0.0, dtype=np.float32)
+                for j, syst in enumerate(self.systematics):
+                    for i, var in enumerate(self.inputVariables[syst]):
+                        inputs[j,i] = self.sampleTree.evaluate(var)
+                    
+                    #Choose electron or muon feature
+                    for i, var in enumerate(self.inputVariablesElectrons[syst]):
+                        Vtype = inputs[0,self.Vtype_index]
+
+                        #Muons
+                        if not Vtype%2:
+                            thisvar = self.inputVariablesMuons[syst][i]                    
+                            inputs[j,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
+                        #Electrons
+                        else:
+                            thisvar = self.inputVariablesElectrons[syst][i]                    
+                            inputs[j,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
+
+                for i,bitCollection in enumerate(self.bitCollections):
+                    for j, syst in enumerate(self.systematics):
+                        bitCollection[bitCollection.name][j] = self.regressors[i].gbm.predict(inputs[j:j+1,:], num_threads = 10) 
 
 
-                #Choose electron or muon feature
-                for i, var in enumerate(self.inputVariablesElectrons):
-                    Vtype = inputs[0,self.nFeatures -1]
-                    #Muons
-                    if not Vtype%2:
-                        thisvar = self.inputVariablesMuons[i]                    
-                        inputs[0,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
-                    #Electrons
-                    else:
-                        thisvar = self.inputVariablesElectrons[i]                    
-                        inputs[0,i + self.nFeatures] = self.sampleTree.evaluate(thisvar)
 
-
-                
-                for i in range(len(self.checkpoints)):
-                     
-                    self._b(self.checkpoints[i])[0] = self.regressors[i].gbm.predict(inputs) 
                  
             else:
                 print("The condition is not met, check your config")
